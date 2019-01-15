@@ -11,12 +11,14 @@
 $Group "gamedlls"
 {
 	"client"
+	"gameui"
 	"server"
 }
 
 $Group "game"
 {
 	"client"
+	"gameui"
 	"mathlib"
 	"raytrace"
 	"server"
@@ -35,6 +37,7 @@ $Group "everything"
 	"client"
 	"fgdlib"
 	"game_shader_dx9"
+	"gameui"
 	"glview"
 	"height2normal"
 	"mathlib"

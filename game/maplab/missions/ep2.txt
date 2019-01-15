@@ -1,0 +1,14 @@
+"mission"
+{
+	"Name"		"Episode One"
+	"Version"	"1"
+	"Author"	"Valve"
+	"Website"	"http://store.steampowered.com"
+
+	"DisplayTitle"	"H'LF-LIFE2"
+	"DisplayTitleX"	"90"
+	"DisplaySubTitle"	"=episode two="
+	"DisplaySubTitleX"	"50"
+	"Description"	"Half-Life 2: Episode One"
+	"Movie"	"media/background01"
+}

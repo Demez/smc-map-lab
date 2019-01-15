@@ -89,6 +89,7 @@
 #include "tier3/tier3.h"
 #include "serverbenchmark_base.h"
 #include "querycache.h"
+#include "core/missioninfo.h"
 
 
 #ifdef TF_DLL
@@ -742,6 +743,9 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	// init the gamestatsupload connection
 	gamestatsuploader->InitConnection();
 #endif
+	
+	if ( missioninformer )
+		missioninformer->Initialize();
 
 	return true;
 }

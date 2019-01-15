@@ -28,6 +28,11 @@ $Project "game_shader_dx9"
 	"materialsystem\stdshaders\game_shader_dx9_maplab.vpc"  [$MAPLAB]
 }
 
+$Project "gameui"
+{
+	"gameui\gameui_maplab.vpc"  [$WIN32 && $MAPLAB]
+}
+
 $Project "glview"
 {
 	"utils\glview\glview.vpc" [$WIN32]

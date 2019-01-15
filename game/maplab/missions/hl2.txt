@@ -1,0 +1,14 @@
+"mission"
+{
+	"Name"		"Half-Life 2"
+	"Version"	"1"
+	"Author"	"Valve"
+	"Website"	"http://store.steampowered.com"
+
+	"DisplayTitle"	"H'LF-LIFE2"
+	"DisplayTitleX"	"50"
+	"DisplaySubTitle"	""
+	"DisplaySubTitleX"	"50"
+	"Description"	"Half-Life 2"
+	"movie"	"media/hl2"
+}

@@ -94,8 +94,10 @@ typedef unsigned __int64 ULONGLONG;
 typedef DWORD COLORREF;
 #endif
 
+#ifndef GAMEUI_DLL
 #ifndef INVALID_HANDLE_VALUE
 #define INVALID_HANDLE_VALUE ((HANDLE)-1)
+#endif
 #endif
 
 // typedef struct {

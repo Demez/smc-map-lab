@@ -1,0 +1,261 @@
+//-----------------------------------------------------------------------------
+//	GAMEUI.VPC
+//
+//	Project Script
+//-----------------------------------------------------------------------------
+
+$macro SRCDIR		".."
+
+//$Macro GAMENAME 	"maplab"
+
+$MacroRequired "GAMENAME"
+
+$Macro OUTBINNAME	"gameui"
+$Macro OUTBINDIR	"$SRCDIR\..\game\$GAMENAME\bin"
+
+$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"	[$WIN32||$LINUX]
+
+$Configuration	"Debug"
+{
+	$General
+	{
+		$OutputDirectory			".\Debug_$GAMENAME"
+		$IntermediateDirectory		".\Debug_$GAMENAME"
+	}
+}
+
+$Configuration	"Release"
+{
+	$General
+	{
+		$OutputDirectory			".\Release_$GAMENAME"
+		$IntermediateDirectory		".\Release_$GAMENAME"
+	}
+}
+
+$Configuration
+{
+	$Compiler
+	{
+		$PreprocessorDefinitions		"$BASE;HL2_CLIENT_DLL;HL2_EPISODIC;GAMEUI_DLL"
+	}
+}
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories	"$BASE;.\;$SRCDIR\game\shared;$SRCDIR\game\client;$SRCDIR\game\client\game_controls"
+		$PreprocessorDefinitions		"$BASE;SUPPRESS_INVALID_PARAMETER_NO_INFO;_CRT_NO_VA_START_VALIDATION;NO_STRING_T;CLIENT_DLL;VECTOR;VERSION_SAFE_STEAM_API_INTERFACES;DISABLE_PROTECTED_THINGS;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" 
+		$PreprocessorDefinitions		"$BASE;GAMEUI_EXPORTS"
+		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+		$Create/UsePCHThroughFile		"cbase.h"
+		$PrecompiledHeaderFile			"$(IntDir)/gameui.pch"
+	}
+
+	$Linker
+	{
+		$IgnoreImportLibrary			"TRUE"
+		$AdditionalDependencies			"$BASE Ws2_32.lib odbc32.lib odbccp32.lib Shlwapi.lib winmm.lib" [$WIN32]
+		$IgnoreSpecificLibrary			"libc;libcd;libcmtd;msvcrt"
+	}
+}
+
+// TODO: Replace this with the UI from HL2R
+$Project "GameUI"
+{
+	$Folder	"Source Files"
+	{
+		$File	"BonusMapsDatabase.cpp"
+		$File	"BonusMapsDatabase.h"
+		$File	"BonusMapsDialog.cpp"
+		$File	"BonusMapsDialog.h"
+		$File	"CommentaryExplanationDialog.cpp"
+		$File	"CommentaryExplanationDialog.h"
+		$File	"ControllerDialog.cpp"
+		$File	"ControllerDialog.h"
+		$File	"LoadGameDialog.cpp"
+		$File	"LoadGameDialog.h"
+		$File	"NewGameDialog.cpp"
+		$File	"NewGameDialog.h"
+		$File	"SaveGameBrowserDialog.cpp"
+		$File	"SaveGameBrowserDialog.h"
+		$File	"SaveGameDialog.cpp"
+		$File	"SaveGameDialog.h"
+		$File	"TGAImagePanel.cpp"
+		$File	"TGAImagePanel.h"
+	
+		$File	"$SRCDIR\game\client\vgui_video_player.h"
+		$File	"$SRCDIR\game\client\vgui_video_player.cpp"
+
+		$File	"nb_button.h"
+		$File	"nb_button.cpp"
+		$File	"nb_header_footer.h"
+		$File	"nb_header_footer.cpp"
+
+		$File	"cbase.h"
+
+		$File	"basemodframe.h"
+		$File	"gamemodes.h"
+		$File	"optionsmousedialog.h"
+		$File	"UIGameData.h"
+		
+		$File	"vaddonassociation.h"
+		$File	"vaddons.h"
+		$File	"vattractscreen.h"
+		$File	"vaudio.h"
+		$File	"vaudiovideo.h"
+		$File	"vcustomcampaigns.h"
+		$File	"vdropdownmenu.h"
+		$File	"vflyoutmenu.h"
+		$File	"vfooterpanel.h"
+		$File	"vgenericconfirmation.h"
+		$File	"vgenericpanellist.h"
+		$File	"vgetlegacydata.h"
+		$File	"vhybridbutton.h"
+		$File	"vingamemainmenu.h"
+		$File	"vkeyboard.h"
+		$File	"vkeyboardmouse.h"
+		$File	"vloadingprogress.h"
+		$File	"vmainmenu.h"
+		$File	"vmouse.h"
+		$File	"vslidercontrol.h"
+		$File	"vtransitionscreen.h"
+		$File	"vvideo.h"
+		
+		$File	"basemodframe.cpp"
+		$File	"BaseModPanel.cpp"
+		$File	"gamemodes.cpp"
+		$File	"optionsmousedialog.cpp"
+		$File	"vaddonassociation.cpp"
+		$File	"vaddons.cpp"
+		$File	"vattractscreen.cpp"
+		$File	"vaudio.cpp"
+		$File	"vaudiovideo.cpp"
+		$File	"vcampaigns.cpp"
+		$File	"vcustomcampaigns.cpp"
+		$File	"vdropdownmenu.cpp"
+		$File	"vflyoutmenu.cpp"
+		$File	"vfooterpanel.cpp"
+		$File	"vgenericconfirmation.cpp"
+		$File	"vgenericpanellist.cpp"
+		$File	"vgetlegacydata.cpp"
+		$File	"vhybridbutton.cpp"
+		$File	"vingamemainmenu.cpp"
+		$File	"vkeyboard.cpp"
+		$File	"vkeyboardmouse.cpp"
+		$File	"vloadingprogress.cpp"
+		$File	"vmainmenu.cpp"
+		$File	"vmenubackground.cpp"
+		$File	"vmouse.cpp"
+		$File	"vslidercontrol.cpp"
+		$File	"vtransitionscreen.cpp"
+		$File	"vvideo.cpp"
+		$File	"UIGameData.cpp"
+
+		$File	"backgroundmenubutton.cpp" \
+				"basesavegamedialog.cpp" \
+				"bitmapimagepanel.cpp" \
+				"commandcheckbutton.cpp" \
+				"contentcontroldialog.cpp" \
+				"createmultiplayergamebotpage.cpp" \
+				"createmultiplayergamedialog.cpp" \
+				"createmultiplayergamegameplaypage.cpp" \
+				"createmultiplayergameserverpage.cpp" \
+				"customtabexplanationdialog.cpp" \
+				"cvarnegatecheckbutton.cpp" \
+				"cvarslider.cpp" \
+				"cvartextentry.cpp" \
+				"cvartogglecheckbutton.cpp" \
+				"gameconsole.cpp" \
+				"gameconsoledialog.cpp" \
+				"gameui_interface.cpp" \
+				"gameui_util.cpp" \
+				"keytogglecheckbutton.cpp" \
+				"labeledcommandcombobox.cpp" \
+				"loadingdialog.cpp" \
+				"loadingtippanel.cpp" \
+				"logofile.cpp" \
+				"modinfo.cpp" \
+				"mousemessageforwardingpanel.cpp" \
+				"multiplayeradvanceddialog.cpp" \
+				"optionsdialog.cpp" \
+				"optionssubaudio.cpp" \
+				"optionssubdifficulty.cpp" \
+				"optionssubgame.cpp" \
+				"optionssubkeyboard.cpp" \
+				"optionssubmouse.cpp" \
+				"optionssubmultiplayer.cpp" \
+				"optionssubportal.cpp" \
+				"optionssubvideo.cpp" \
+				"optionssubvoice.cpp" \
+				"panellistpanel.cpp" \
+				"playerlistdialog.cpp" \
+				"rungameengine.cpp" \
+				"scriptobject.cpp" \
+				"sys_utils.cpp" \
+				"textentrybox.cpp" \
+				"urlbutton.cpp" \
+				"vcontrolslistpanel.cpp" \
+				"vguisystemmoduleloader.cpp" \
+				"$SRCDIR\common\language.cpp" \
+				"$SRCDIR\public\crtmemdebug.cpp" \
+				"$SRCDIR\public\filesystem_helpers.cpp" \
+				"$SRCDIR\common\randoverride.cpp" \
+				"$SRCDIR\public\vgui_controls\vgui_controls.cpp"
+		{
+			$Configuration
+			{
+				$Compiler
+				{
+					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+				}
+			}
+		}
+		
+		// remove this soon
+		$File	"optionssubHL2CE.cpp"
+	}
+
+	$Folder	"Precompiled Header"
+	{
+		$File "stdafx.cpp"
+		{
+			$Configuration
+			{
+				$Compiler
+				{
+					$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)"
+				}
+			}
+		}
+	}
+
+	$Folder	"Public Header Files"
+	{
+		$File	"$SRCDIR\public\iachievementmgr.h"
+		$File	"$SRCDIR\public\game\client\IGameClientExports.h"
+		$File	"$SRCDIR\common\GameUI\IGameUI.h"
+		$File	"$SRCDIR\public\IGameUIFuncs.h"
+		$File	"$SRCDIR\public\tier1\interface.h"
+		$File	"$SRCDIR\common\IRunGameEngine.h"
+		$File	"$SRCDIR\common\IVGuiModule.h"
+		$File	"$SRCDIR\common\IVGuiModuleLoader.h"
+		$File	"$SRCDIR\public\savegame_version.h"
+		$File	"$SRCDIR\common\language.h"
+	}
+	
+	$Folder	"Link Libraries" [$WIN32]
+	{
+		$File	"$SRCDIR\lib\public\jpeglib.lib"
+		$File	"$SRCDIR\lib\public\bitmap.lib"
+		$File	"$SRCDIR\lib\public\mathlib.lib"
+		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"$SRCDIR\lib\public\tier3.lib"
+		$File	"$SRCDIR\lib\public\dmxloader.lib"
+		$File	"$SRCDIR\lib\public\vgui_controls.lib"
+		$File	"$SRCDIR\lib\public\matsys_controls.lib"
+		$File	"$SRCDIR\lib\public\vtf.lib"
+		$ImpLib "$SRCDIR\lib\public\steam_api"
+	}
+}

@@ -781,6 +781,8 @@ $Project
 			$File	"te_spritespray.cpp"
 			$File	"te_worlddecal.cpp"
 			$File	"$SRCDIR\game\shared\usermessages.cpp"
+			
+			$File	"$SRCDIR\game\shared\core\missioninfo.cpp"
 		}
 
 	}
