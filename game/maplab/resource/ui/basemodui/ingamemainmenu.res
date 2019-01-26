@@ -1,3 +1,5 @@
+//#base "mainmenu.res"
+
 "Resource/UI/InGameMainMenu.res"
 {
 	"InGameMainMenu"
@@ -16,29 +18,77 @@
 		"PaintBackgroundType"	"0"
 	}
 	
-	"PnlBackground"
+	"BtnCampaigns"
+	{
+		"ControlName"			"Campaigns"
+		"fieldName"				"BtnCampaigns"
+
+		"tabPosition"			"1"
+		"navUp"					"BtnQuit"		[$WIN32]
+		"navDown"				"BtnNewGame"	[$WIN32]
+
+		"xpos"					"16"
+		"ypos"					"96"
+		"wide"					"400"
+		"tall"					"256"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"tabPosition"			"0"
+		
+		"visible"				"0"
+		"enabled"				"0"
+		
+		// needed to push the game modes carousel behind the other main menu buttons
+		// that overlap into the carousel rect (which needs be oversized due to flyouts)
+		// and would not get mouse hittests
+		"zpos"					-10				[$WIN32]
+	}
+	
+	"Logo"
+	{
+		"ControlName"			"ImagePanel"
+		"fieldName"				"Logo"
+		"xpos"					"16"
+		"ypos"					"16"
+		"wide"					"160"
+		"tall"					"o.25"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"image"					"logo"
+		"scaleImage"			"1"
+		//"scaleAmount"			"0.4"
+	}
+	
+	"background"
 	{
 		"ControlName"			"Panel"
-		"fieldName"			"PnlBackground"
-		"xpos"				"0"
-		"ypos"				"105"
-		//"ypos"				"0"
-		"zpos"				"-1"
-		"wide"				"f0"
-		"tall"				"260"
-		//"wide"	 "1000"
-		//"tall"	 "480"
-		"visible"			"1"
-		"enabled"			"1"
-		"fillColor"			"0 0 0 255"
+		"fieldName"				"background"
+		"xpos"					"0"
+		"ypos"					"0"
+		"zpos"					"-100"
+		"wide"					"192"
+		"tall"					"f"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		//"image"					"ingame\menu_background"
+		//"scaleImage"			"1"
+		//"scaleAmount"			"0.4"
+		
+		"bgcolor_override"		"0 0 0 192"
 	}
 			
 	"BtnReturnToGame"
 	{
 		"ControlName"			"BaseModHybridButton"
 		"fieldName"				"BtnReturnToGame"
-		"xpos"					"100"
-		"ypos"					"148"
+		"xpos"					"16"
+		"ypos"					"192"
 		"wide"					"220"
 		"tall"					"20"
 		"autoResize"			"1"
@@ -55,34 +105,12 @@
 		"ActivationType"		"1"
 	}
 
-	"BtnSingleplayer"
-	{
-		"ControlName"			"BaseModHybridButton"
-		"fieldName"				"BtnSingleplayer"
-		"xpos"					"100"
-		"ypos"					"185" // "265" 45
-		"wide"					"220"
-		"tall"					"20"
-		"autoResize"				"1"
-		"pinCorner"				"0"
-		"visible"				"1"
-		"enabled"				"1"
-		"tabPosition"				"0"
-		"navUp"					"BtnReturnToGame"
-		"navDown"				"BtnSaveGame"
-		"labelText"				"#GameUI_GameMenu_NewGame"
-		"tooltiptext"				"#L4D360UI_MainMenu_PlaySolo_Tip"
-		"style"					"MainMenuButton"
-		"command"				"SoloPlay"	
-		"ActivationType"			"1"
-	}
-
 	"BtnSaveGame"
 	{
 		"ControlName"			"BaseModHybridButton"
 		"fieldName"				"BtnSaveGame"
-		"xpos"					"100"
-		"ypos"					"210"
+		"xpos"					"16"
+		"ypos"					"216"
 		"wide"					"220"
 		"tall"					"20"
 		"autoResize"			"1"
@@ -98,24 +126,46 @@
 		"command"				"SaveGame"
 		"ActivationType"		"1"
 	}
-
-	"BtnLoadLastGame"
+	
+	"BtnNewGame"
 	{
 		"ControlName"			"BaseModHybridButton"
-		"fieldName"				"BtnLoadLastGame"
-		"xpos"					"100"
-		"ypos"					"235"
-		"wide"					"220"
+		"fieldName"				"BtnNewGame"
+		"xpos"					"16"
+		"ypos"					"240"
+		"wide"					"180"
 		"tall"					"20"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
 		"enabled"				"1"
-		"tabPosition"			"1"
-		"navUp"					"BtnSaveGame"
-		"navDown"				"BtnLeaderboard"
+		"tabPosition"			"0"
+		"navUp"					"BtnCampaigns"
+		"navDown"				"BtnLoadGame"
+		"labelText"				"#GameUI_GameMenu_NewGame"
+		"tooltiptext"			"#L4D360UI_MainMenu_PlaySolo_Tip"
+		"style"					"MainMenuButton"
+		"command"				"SoloPlay"
+		"ActivationType"		"1"
+	}
+	
+	"BtnLoadGame"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"BtnLoadGame"
+		"xpos"					"16"
+		"ypos"					"264"
+		"wide"					"180"
+		"tall"					"20"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"navUp"					"BtnNewGame"
+		"navDown"				"BtnOptions"
 		"labelText"				"#GameUI_GameMenu_LoadGame"
-		"tooltiptext"				"#HL2CEUI_LoadGame_ToolTip"
+		"tooltiptext"			"#HL2CEUI_LoadGame_ToolTip"
 		"style"					"MainMenuButton"
 		"command"				"LoadLastSave"
 		"ActivationType"		"1"
@@ -125,40 +175,40 @@
 	{
 		"ControlName"			"BaseModHybridButton"
 		"fieldName"				"BtnOptions"
-		"xpos"					"100"
-		"ypos"					"260"
-		//"ypos"				"260"
-		"wide"					"220"
+		"xpos"					"16"
+		"ypos"					"288"
+		"wide"					"180"
 		"tall"					"20"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
 		"enabled"				"1"
 		"tabPosition"			"0"
-		"navUp"					"BtnStatsAndAchievements"
-		"navDown"				"BtnExitToMainMenu"
+		"navUp"					"BtnLoadGame"
+		"navDown"				"BtnQuit"
 		"labelText"				"#L4D360UI_MainMenu_Options"
 		"tooltiptext"			"#L4D360UI_MainMenu_Options_Tip"
 		"style"					"MainMenuButton"
 		"command"				"Options"
 		"ActivationType"		"1"
 	}
-
-	"BtnExitToMainMenu"
+	
+	"BtnQuit"
 	{
 		"ControlName"			"BaseModHybridButton"
-		"fieldName"				"BtnExitToMainMenu"
-		"xpos"					"100"
-		"ypos"					"297"
-		"wide"					"220"
+		"fieldName"				"BtnQuit"
+		"xpos"					"16"
+		"ypos"					"r32"
+		"wide"					"180"
 		"tall"					"20"
 		"autoResize"			"1"
 		"pinCorner"				"0"
-		"visible"				"1"
+		"visible"				"0" [$X360]
+		"visible"				"1" [$WIN32]
 		"enabled"				"1"
 		"tabPosition"			"0"
 		"navUp"					"BtnOptions"
-		"navDown"				"BtnReturnToGame"
+		"navDown"				"BtnCampaigns"
 		"labelText"				"#L4D360UI_InGameMainMenu_ExitToMainMenu"
 		"tooltiptext"			"#L4D360UI_InGameMainMenu_ExitToMainMenu_Tip"
 		"style"					"MainMenuButton"

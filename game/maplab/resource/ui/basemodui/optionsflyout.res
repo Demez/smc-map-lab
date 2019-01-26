@@ -4,12 +4,11 @@
 	{
 		"ControlName"		"Panel"
 		"fieldName"			"PnlBackground"
-		"xpos"				"0"
+		"xpos"				"-96"
 		"ypos"				"0"
 		"zpos"				"-1"
 		"wide"				"156"
-		"tall"				"65" [$X360]
-		"tall"				"100" [$WIN32]
+		"tall"				"100"
 		"visible"			"1"
 		"enabled"			"1"
 		"paintbackground"	"1"

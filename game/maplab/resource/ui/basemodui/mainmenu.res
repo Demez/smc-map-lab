@@ -15,40 +15,38 @@
 		"tabPosition"			"0"
 		"PaintBackgroundType"	"0"
 	}
-		
-	"SMC"
+	
+	"Logo"
 	{
 		"ControlName"			"ImagePanel"
-		"fieldName"				"SMC"
-		"xpos"					"70"
-		"ypos"					"120"
-		"wide"					"f0"
-		"tall"					"f0"
-		"autoResize"			"0"
+		"fieldName"				"Logo"
+		"xpos"					"cs-0.5"
+		"ypos"					"8"
+		"wide"					"o4"
+		"tall"					"64"
+		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
 		"enabled"				"1"
 		"tabPosition"			"0"
-		"image"					"smc_map_lab_s"
+		"image"					"logo"
 		"scaleImage"			"1"
-		"scaleAmount"			"0.4"	
+		//"scaleAmount"			"0.4"
 	}
-		
+	
 	"BtnCampaigns"
 	{
 		"ControlName"			"Campaigns"
 		"fieldName"				"BtnCampaigns"
 
 		"tabPosition"			"1"
-		"navUp"					"BtnBlogPost"			[$X360]
 		"navUp"					"BtnQuit"		[$WIN32]
-		"navDown"				"BtnChangeGamers"	[$X360]
 		"navDown"				"BtnNewGame"	[$WIN32]
 
-		"xpos"					"40"
-		"ypos"					"100"
-		"wide"					"f0"
-		"tall"					"f0"
+		"xpos"					"16"
+		"ypos"					"96"
+		"wide"					"400"
+		"tall"					"256"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"tabPosition"			"0"
@@ -122,6 +120,7 @@
 		"tooltiptext"			"#L4D360UI_MainMenu_Options_Tip"
 		"style"					"MainMenuButton"
 		"command"				"Options"
+		//"command"				"FlmOptionsFlyout"
 		"ActivationType"		"1"
 	}
 	
@@ -383,4 +382,16 @@
 		"navUp"					""
 		"navDown"				""
 	}
+	
+	// some crappy work around because this is showing on the menu, idk why
+	//"frame_close"
+	//{
+	//	"fieldName"				"frame_close"
+	//	"visible"				"0"
+	//	"wide"					"0"
+	//	"tall"					"0"
+	//	"xpos"					"-40"
+	//	"ypos"					"-40"
+	//}
+	
 }

@@ -1,4 +1,7 @@
 "Refract"
 {
- 	"$bluramount" "1"
+	//"$basetexture"	"vgui\transparent"
+	"$translucent"	"1"
+	"$alphatest"	"1"
+ 	"$bluramount" "50"
 }
