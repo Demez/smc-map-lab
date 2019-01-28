@@ -26,9 +26,10 @@ BaseClass( parent, panelName )
 	m_openCallback = 0;
 	m_SelectedTextEnabled = true;
 
-	SetConsoleStylePanel( true );
+	//SetConsoleStylePanel( true );
+	SetConsoleStylePanel( false );
 
-	//	LoadControlSettings( "Resource/UI/BaseModUI/DropDownMenu.res" );
+	LoadControlSettings( "Resource/UI/BaseModUI/DropDownMenu.res" );
 }
 
 DropDownMenu::~DropDownMenu()
@@ -279,7 +280,7 @@ void DropDownMenu::ApplySettings( KeyValues* inResourceData )
 
 	if ( m_hCurrentFlyout.Get() )
 	{
-		m_pnlBackground = m_hCurrentFlyout->FindChildByName( "PnlBackground" );
+		//m_pnlBackground = m_hCurrentFlyout->FindChildByName( "PnlBackground" );
 	}
 
 	if ( m_pButton )

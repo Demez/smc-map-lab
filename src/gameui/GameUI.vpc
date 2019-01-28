@@ -97,14 +97,13 @@ $Project "GameUI"
 
 		$File	"basemodframe.h"
 		$File	"gamemodes.h"
-		$File	"optionsmousedialog.h"
 		$File	"UIGameData.h"
 		
 		$File	"vaddonassociation.h"
 		$File	"vaddons.h"
 		$File	"vattractscreen.h"
-		$File	"vaudio.h"
-		$File	"vaudiovideo.h"
+		//$File	"vaudio.h"
+		//$File	"vaudiovideo.h"
 		$File	"vcustomcampaigns.h"
 		$File	"vdropdownmenu.h"
 		$File	"vflyoutmenu.h"
@@ -114,24 +113,23 @@ $Project "GameUI"
 		$File	"vgetlegacydata.h"
 		$File	"vhybridbutton.h"
 		$File	"vingamemainmenu.h"
-		$File	"vkeyboard.h"
-		$File	"vkeyboardmouse.h"
+		//$File	"vkeyboard.h"
+		//$File	"vkeyboardmouse.h"
 		$File	"vloadingprogress.h"
 		$File	"vmainmenu.h"
-		$File	"vmouse.h"
+		//$File	"vmouse.h"
 		$File	"vslidercontrol.h"
 		$File	"vtransitionscreen.h"
-		$File	"vvideo.h"
+		//$File	"vvideo.h"
 		
 		$File	"basemodframe.cpp"
 		$File	"BaseModPanel.cpp"
 		$File	"gamemodes.cpp"
-		$File	"optionsmousedialog.cpp"
 		$File	"vaddonassociation.cpp"
 		$File	"vaddons.cpp"
 		$File	"vattractscreen.cpp"
-		$File	"vaudio.cpp"
-		$File	"vaudiovideo.cpp"
+		//$File	"vaudio.cpp"
+		//$File	"vaudiovideo.cpp"
 		$File	"vcampaigns.cpp"
 		$File	"vcustomcampaigns.cpp"
 		$File	"vdropdownmenu.cpp"
@@ -142,15 +140,15 @@ $Project "GameUI"
 		$File	"vgetlegacydata.cpp"
 		$File	"vhybridbutton.cpp"
 		$File	"vingamemainmenu.cpp"
-		$File	"vkeyboard.cpp"
-		$File	"vkeyboardmouse.cpp"
+		//$File	"vkeyboard.cpp"
+		//$File	"vkeyboardmouse.cpp"
 		$File	"vloadingprogress.cpp"
 		$File	"vmainmenu.cpp"
 		$File	"vmenubackground.cpp"
-		$File	"vmouse.cpp"
+		//$File	"vmouse.cpp"
 		$File	"vslidercontrol.cpp"
 		$File	"vtransitionscreen.cpp"
-		$File	"vvideo.cpp"
+		//$File	"vvideo.cpp"
 		$File	"UIGameData.cpp"
 
 		$File	"backgroundmenubutton.cpp" \
@@ -179,16 +177,7 @@ $Project "GameUI"
 				"modinfo.cpp" \
 				"mousemessageforwardingpanel.cpp" \
 				"multiplayeradvanceddialog.cpp" \
-				"optionsdialog.cpp" \
-				"optionssubaudio.cpp" \
-				"optionssubdifficulty.cpp" \
-				"optionssubgame.cpp" \
-				"optionssubkeyboard.cpp" \
-				"optionssubmouse.cpp" \
-				"optionssubmultiplayer.cpp" \
-				"optionssubportal.cpp" \
-				"optionssubvideo.cpp" \
-				"optionssubvoice.cpp" \
+				
 				"panellistpanel.cpp" \
 				"playerlistdialog.cpp" \
 				"rungameengine.cpp" \
@@ -213,8 +202,83 @@ $Project "GameUI"
 			}
 		}
 		
-		// remove this soon
-		$File	"optionssubHL2CE.cpp"
+		$Folder "Settings"
+		{
+			$Folder "Headers"
+			{
+				$File	"shared\settings\vaudio.h"
+				$File	"shared\settings\vaudiovideo.h"
+				//$File	"shared\settings\vgameoptions.h"
+				$File	"shared\settings\vgameplaysettings.h"
+				//$File	"shared\settings\vgamesettings.h"
+				$File	"shared\settings\vkeyboard.h"
+				$File	"shared\settings\vkeyboardmouse.h"
+				$File	"shared\settings\vmouse.h"
+				$File	"shared\settings\voptions.h"
+				$File	"shared\settings\vvideo.h"
+			}
+			
+			$File	"shared\settings\vaudio.cpp" \
+					"shared\settings\vaudiovideo.cpp" \
+					//"shared\settings\vgameoptions.cpp" \
+					"shared\settings\vgameplaysettings.cpp" \
+					//"shared\settings\vgamesettings.cpp" \
+					"shared\settings\vkeyboard.cpp" \
+					"shared\settings\vkeyboardmouse.cpp" \
+					"shared\settings\vmouse.cpp" \
+					"shared\settings\voptions.cpp" \
+					"shared\settings\vvideo.cpp"
+			{
+				$Configuration
+				{
+					$Compiler
+					{
+						$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+					}
+				}
+			}
+		}
+		
+		$Folder "Settings_Old"
+		{
+			$Folder "Headers"
+			{
+				$File	"shared\settings_old\optionsdialog.h"
+				$File	"shared\settings_old\optionsmousedialog.h"
+				$File	"shared\settings_old\optionssubaudio.h"
+				$File	"shared\settings_old\optionssubdifficulty.h"
+				$File	"shared\settings_old\optionssubgame.h"
+				$File	"shared\settings_old\optionssubkeyboard.h"
+				$File	"shared\settings_old\optionssubmouse.h"
+				//$File	"shared\settings_old\optionssubmultiplayer.h"
+				$File	"shared\settings_old\optionssubportal.h"
+				$File	"shared\settings_old\optionssubvideo.h"
+				$File	"shared\settings_old\optionssubvoice.h"
+			}
+			
+			$File	"shared\settings_old\optionsdialog.cpp" \
+					"shared\settings_old\optionsmousedialog.cpp" \
+					"shared\settings_old\optionssubaudio.cpp" \
+					"shared\settings_old\optionssubdifficulty.cpp" \
+					"shared\settings_old\optionssubgame.cpp" \
+					"shared\settings_old\optionssubkeyboard.cpp" \
+					"shared\settings_old\optionssubmouse.cpp" \
+					//"shared\settings_old\optionssubmultiplayer.cpp" \
+					"shared\settings_old\optionssubportal.cpp" \
+					"shared\settings_old\optionssubvideo.cpp" \
+					"shared\settings_old\optionssubvoice.cpp"
+			{
+				$Configuration
+				{
+					$Compiler
+					{
+						$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+					}
+				}
+			}
+		}
+		
+		
 	}
 
 	$Folder	"Precompiled Header"
@@ -257,5 +321,10 @@ $Project "GameUI"
 		$File	"$SRCDIR\lib\public\matsys_controls.lib"
 		$File	"$SRCDIR\lib\public\vtf.lib"
 		$ImpLib "$SRCDIR\lib\public\steam_api"
+	}
+	
+	$Folder	"Game_MapLab"
+	{
+		$File	"maplab\ui_defines.h"
 	}
 }

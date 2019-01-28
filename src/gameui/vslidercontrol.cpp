@@ -43,6 +43,8 @@ BaseClass( parent, panelName )
 
 	m_bDirty = false;
 
+	SetProportional( true );
+
 	LoadControlSettings( "Resource/UI/BaseModUI/SliderControl.res" );
 }
 
@@ -244,12 +246,14 @@ void SliderControl::Reset()
 void SliderControl::ResetSliderPosAndDefaultMarkers()
 {
 	if( m_prgValue )
-	{
+	{	
+		
 		int centery = GetTall() / 2;
 
 		int xpos, ypos;
 		ypos = centery - m_prgValue->GetTall() / 2;
 		xpos = GetWide() - m_prgValue->GetWide();
+		// control this from the resource file
 		m_prgValue->SetPos( xpos, ypos );
 
 		if ( m_defaultMark )
@@ -332,11 +336,11 @@ void SliderControl::ApplySettings( KeyValues* inResourceData )
 
 	if( m_button )
 	{
-		int x, y, wide, tall;
+		/*int x, y, wide, tall;
 		int newTall = m_button->GetTall();
 		GetBounds( x, y, wide, tall );
 		// move the y up so the control stays up when we make it taller
-		SetBounds( x, y - (newTall-tall)/2, wide, newTall );
+		SetBounds( x, y - (newTall-tall)/2, wide, newTall );*/
 	}
 
 	ResetSliderPosAndDefaultMarkers();

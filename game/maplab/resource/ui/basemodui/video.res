@@ -6,8 +6,8 @@
 		"fieldName"			"Video"
 		"xpos"				"0"
 		"ypos"				"250"
-		"wide"				"f0"
-		"tall"				"f0"
+		"wide"				"400"
+		"tall"				"400"
 		"visible"			"1"
 		"enabled"			"1"
 	}

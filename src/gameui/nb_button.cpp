@@ -76,7 +76,7 @@ void CNB_Button::DrawRoundedBox( int x, int y, int wide, int tall, Color color, 
 
 	// draw the background in the areas not occupied by the corners
 	// draw it in three horizontal strips
-	surface()->DrawSetColor(color);
+	/*surface()->DrawSetColor(color);
 	surface()->DrawFilledRect(x + cornerWide, y, x + wide - cornerWide,	y + cornerTall);
 	surface()->DrawFilledRect(x, y + cornerTall, x + wide, y + tall - cornerTall);
 	surface()->DrawFilledRect(x + cornerWide, y + tall - cornerTall, x + wide - cornerWide, y + tall);
@@ -96,7 +96,7 @@ void CNB_Button::DrawRoundedBox( int x, int y, int wide, int tall, Color color, 
 		surface()->DrawSetColor(highlightCenterColor);
 		surface()->DrawFilledRectFade( x + cornerWide, y, x + wide * 0.5f, y + tall, 0, 255, true );
 		surface()->DrawFilledRectFade( x + wide * 0.5f, y, x + wide - cornerWide, y + tall, 255, 0, true );
-	}
+	}*/
 }
 
 void CNB_Button::PaintBackground()

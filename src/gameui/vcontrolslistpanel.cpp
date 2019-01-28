@@ -54,7 +54,7 @@ public:
 	virtual void ApplySchemeSettings(IScheme *pScheme)
 	{
 		Panel::ApplySchemeSettings(pScheme);
-		SetBorder(pScheme->GetBorder("DepressedButtonBorder"));
+		//SetBorder(pScheme->GetBorder("DepressedButtonBorder"));
 	}
 
 	void OnMousePressed(vgui::MouseCode code)

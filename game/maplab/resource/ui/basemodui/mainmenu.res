@@ -100,6 +100,90 @@
 		"command"				"LoadLastSave"
 		"ActivationType"		"1"
 	}
+	
+	// Options
+	"BtnVideo"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"BtnVideo"
+		"xpos"					"0"
+		"ypos"					"295"
+		"wide"					"150"
+		"tall"					"20"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"navUp"					"BtnCloud"
+		"navDown"				"BtnBrightness"
+		"tooltiptext"			"#L4D_video_tip"
+		"labelText"				"#GameUI_Video"
+		"style"					"MainMenuButton"
+		"command"				"Video"
+	}
+	"BtnBrightness"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"BtnBrightness"
+		"xpos"					"0"
+		"ypos"					"40"
+		"wide"					"150"
+		"tall"					"20"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"navUp"					"BtnVideo"
+		"navDown"				"BtnAudio"
+		"tooltiptext"			"#GameUI_AdjustGamma"
+		"disabled_tooltiptext"	"#L4D360UI_AdjustGamma_Disabled"
+		"labelText"				"#GameUI_Brightness"
+		"style"					"MainMenuButton"
+		"command"				"Brightness"
+	}
+	"BtnAudio"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"BtnAudio"
+		"xpos"					"0"
+		"ypos"					"60"
+		"wide"					"150"
+		"tall"					"20"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"navUp"					"BtnBrightness"
+		"navDown"				"BtnController"
+		"tooltiptext"			"#L4D_audio_tip"
+		"labelText"				"#GameUI_Audio"
+		"style"					"MainMenuButton"
+		"command"				"Audio"
+	}
+	"BtnMouse"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"BtnMouse"
+		"xpos"					"0"
+		"ypos"					"100"
+		"wide"					"150"
+		"tall"					"20"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"proportionalToParent"	"1"
+		"navUp"					"BtnController"
+		"navDown"				"BtnCloud"
+		"tooltiptext"				"#L4D_keyboard_tip"
+		"labelText"				"#GameUI_Mouse"
+		"style"					"MainMenuButton"
+		"command"				"Mouse"
+	}	
 
 	"BtnOptions"
 	{
@@ -124,6 +208,8 @@
 		"ActivationType"		"1"
 	}
 	
+	
+	
 	"BtnQuit"
 	{
 		"ControlName"			"BaseModHybridButton"
@@ -134,8 +220,7 @@
 		"tall"					"20"
 		"autoResize"			"1"
 		"pinCorner"				"0"
-		"visible"				"0" [$X360]
-		"visible"				"1" [$WIN32]
+		"visible"				"1"
 		"enabled"				"1"
 		"tabPosition"			"0"
 		"navUp"					"BtnOptions"

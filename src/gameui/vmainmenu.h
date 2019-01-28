@@ -48,7 +48,7 @@ protected:
 
 	void	Demo_DisableButtons( void );
 
-private:
+private:	
 	static void AcceptNewGameCallback();
 	static void AcceptSaveOverCallback();
 	static void AcceptLoadCallback();

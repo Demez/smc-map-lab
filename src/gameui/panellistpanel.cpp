@@ -284,8 +284,8 @@ void CPanelListPanel::ApplySchemeSettings(IScheme *pScheme)
 {
 	Panel::ApplySchemeSettings(pScheme);
 
-	SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
-	SetBgColor(GetSchemeColor("Label.BgColor", GetBgColor(), pScheme));
+	//SetBorder(pScheme->GetBorder("ButtonDepressedBorder"));
+	//SetBgColor(GetSchemeColor("Label.BgColor", GetBgColor(), pScheme));
 
 
 //	_labelFgColor = GetSchemeColor("WindowFgColor");

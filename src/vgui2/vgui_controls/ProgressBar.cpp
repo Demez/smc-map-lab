@@ -35,6 +35,9 @@ ProgressBar::ProgressBar(Panel *parent, const char *panelName) : Panel(parent, p
 	SetBarInset( 4 );
 	SetMargin( 0 );
 	m_iProgressDirection = PROGRESS_EAST;
+
+	// not sure if this is a good idea
+	//SetProportional( false );
 }
 
 //-----------------------------------------------------------------------------

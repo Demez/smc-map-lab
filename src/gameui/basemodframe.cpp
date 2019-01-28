@@ -12,7 +12,7 @@
 
 #include "VFooterPanel.h"
 #include "VGenericConfirmation.h"
-//#include "VFlyoutMenu.h"
+#include "VFlyoutMenu.h"
 #include "IGameUIFuncs.h"
 
 // vgui controls
@@ -27,6 +27,10 @@
 #include "fmtstr.h"
 #include "cdll_util.h"
 #include "materialsystem\itexture.h"
+
+// this is for InvalidateLayout
+// probably very stupid
+#include "..\vgui_controls\Panel.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -68,7 +72,8 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 {
 	m_TitleInsetX = 6;
 	m_TitleInsetY = 4;
-	m_bIsFullScreen = false;
+	//m_bIsFullScreen = false;
+	m_bIsFullScreen = true;
 	m_bLayoutLoaded = false;
 	m_bDelayPushModalInputFocus = false;
 
@@ -592,7 +597,7 @@ void CBaseModFrame::ApplySchemeSettings( IScheme *pScheme )
 		}
 	}
 	
-	if( !m_nBlurImage.IsValid() )
+	/*if( !m_nBlurImage.IsValid() )
 	{
 		IMaterial *pMaterial = materials->FindMaterial("vgui/blur", TEXTURE_GROUP_OTHER, false);
 		if (!IsErrorMaterial(pMaterial))
@@ -600,7 +605,7 @@ void CBaseModFrame::ApplySchemeSettings( IScheme *pScheme )
 			pMaterial->IncrementReferenceCount();
 			m_nBlurImage.Init(pMaterial);
 		}
-	}
+	}*/
 
 	m_smearColor = pScheme->GetColor( "Frame.SmearColor", Color( 0, 0, 0, 225 ) );
 
@@ -1099,7 +1104,7 @@ void CBaseModFrame::SetupAsDialogStyle()
 int CBaseModFrame::DrawSmearBackground( int x, int y, int wide, int tall, bool bIsFooter )
 {
 	//Draw blur before everything else
-	ITexture *pTexture = materials->FindTexture("_rt_FullFrameFB", TEXTURE_GROUP_RENDER_TARGET);
+	/*ITexture *pTexture = materials->FindTexture("_rt_FullFrameFB", TEXTURE_GROUP_RENDER_TARGET);
 
 	CMatRenderContextPtr pRenderContext(materials);
 
@@ -1107,7 +1112,7 @@ int CBaseModFrame::DrawSmearBackground( int x, int y, int wide, int tall, bool b
 	surface()->GetScreenSize(realwide, realtall);
 	pRenderContext->DrawScreenSpaceRectangle(m_nBlurImage, 0, 0, realwide, realtall,
 		0, 0, realwide, realtall,
-		pTexture->GetActualWidth(), pTexture->GetActualHeight());
+		pTexture->GetActualWidth(), pTexture->GetActualHeight());*/
 
 	
 	int topTall = scheme()->GetProportionalScaledValue( TOP_BORDER_HEIGHT );

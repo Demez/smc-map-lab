@@ -14,10 +14,10 @@
 #include "vgui_controls/MenuItem.h"
 #include "vgui_controls/messagedialog.h"
 #include "tier1/utllinkedlist.h"
-#include "OptionsDialog.h"
-#include "OptionsSubKeyboard.h"
-#include "OptionsSubMouse.h"
-#include "optionsmousedialog.h"
+#include "shared\settings_old\OptionsDialog.h"
+#include "shared\settings_old\OptionsSubKeyboard.h"
+#include "shared\settings_old\OptionsSubMouse.h"
+#include "shared\settings_old\optionsmousedialog.h"
 
 //#include "avi/ibik.h"
 #include "ixboxsystem.h"
@@ -37,7 +37,7 @@ enum
 };
 
 // X360TBD: Move into a separate module when finished
-class CMessageDialogHandler
+/*class CMessageDialogHandler
 {
 public:
 	CMessageDialogHandler();
@@ -53,7 +53,7 @@ private:
 	static const int MAX_MESSAGE_DIALOGS = 3;
 	vgui::DHANDLE< CMessageDialog > m_hMessageDialogs[MAX_MESSAGE_DIALOGS];
 	int							m_iDialogStackTop;
-};
+};*/
 
 // must supply some non-trivial time to let the movie startup smoothly
 // the attract screen also uses this so it doesn't pop in either
@@ -88,7 +88,7 @@ namespace BaseModUI
 		WT_LOADINGPROGRESSBKGND,
 		WT_LOADINGPROGRESS,
 		WT_MAINMENU,
-		WT_MULTIPLAYER,
+		//WT_MULTIPLAYER,
 		WT_OPTIONS,
 		WT_SEARCHINGFORLIVEGAMES,
 		WT_SIGNINDIALOG,
@@ -160,6 +160,7 @@ namespace BaseModUI
 		static CBaseModPanel* GetSingletonPtr();
 
 		void ReloadScheme();
+		//void ReloadScheme( bool layoutNow, bool reloadScheme );
 
 		CBaseModFrame* OpenWindow( const WINDOW_TYPE& wt, CBaseModFrame * caller, bool hidePrevious = true, KeyValues *pParameters = NULL );
 		CBaseModFrame* GetWindow( const WINDOW_TYPE& wt );
@@ -202,9 +203,9 @@ namespace BaseModUI
 		CBaseModFooterPanel* GetFooterPanel();
 		void SetLastActiveUserId( int userId );
 		int GetLastActiveUserId();
-		void OpenOptionsDialog( Panel *parent );
-		void OpenOptionsMouseDialog( Panel *parent );
-		void OpenKeyBindingsDialog( Panel *parent );
+		void OpenOptionsDialog( EditablePanel *parent );
+		void OpenOptionsMouseDialog( EditablePanel *parent );
+		void OpenKeyBindingsDialog( EditablePanel *parent );
 
 		MESSAGE_FUNC_CHARPTR( OnNavigateTo, "OnNavigateTo", panelName );
 
@@ -267,9 +268,11 @@ namespace BaseModUI
 		CUtlString m_backgroundMusic;
 		int m_nBackgroundMusicGUID;
 
-		int m_iProductImageID;
+		/*int m_iProductImageID;
+		int m_nProductImageX;
+		int m_nProductImageY;
 		int m_nProductImageWide;
-		int m_nProductImageTall;
+		int m_nProductImageTall;*/
 
 		char m_szFadeFilename[ MAX_PATH ];
 		IMaterial *m_pBackgroundMaterial;
@@ -281,13 +284,13 @@ namespace BaseModUI
 		IVTFTexture			*m_pBackgroundTexture;
 
 	public:
-		//2007 src GameUI port for use of HL2 panels
+		// 2007 src GameUI port for use of HL2 panels
 		vgui::AnimationController *GetOldAnimationController(void) { return m_pConsoleAnimationController; } //was GetAnimationController but that conflicts with existing ASW GameUI functions
 		void RunCloseAnimation(const char *animName);
 		void RunAnimationWithCallback(vgui::Panel *parent, const char *animName, KeyValues *msgFunc);
 		vgui::AnimationController	*m_pConsoleAnimationController;
 		void ShowMessageDialog(const uint nType, vgui::Panel *pParent = NULL);
-		CMessageDialogHandler		m_MessageDialogHandler;
+		//CMessageDialogHandler		m_MessageDialogHandler;
 		KeyValues					*m_pConsoleControlSettings;
 		KeyValues *GetConsoleControlSettings(void);
 		void FadeToBlackAndRunEngineCommand(const char *engineCommand);// fades to black then runs an engine command (usually to start a level)

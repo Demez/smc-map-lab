@@ -25,8 +25,8 @@
 #include "vaddonassociation.h"
 #include "VAddons.h"
 #include "VAttractScreen.h"
-#include "VAudio.h"
-#include "VAudioVideo.h"
+#include "shared/settings/vaudio.h"
+#include "shared/settings/vaudiovideo.h"
 //#include "VCloud.h"
 //#include "VControllerOptions.h"
 //#include "VControllerOptionsButtons.h"
@@ -46,17 +46,17 @@
 #include "VInGameMainMenu.h"
 //#include "VInGameChapterSelect.h"
 //#include "VInGameKickPlayerList.h"
-#include "VKeyboardMouse.h"
-#include "vkeyboard.h"
+#include "shared/settings/vkeyboardmouse.h"
+#include "shared/settings/vkeyboard.h"
 //#include "VVoteOptions.h"
 #include "VLoadingProgress.h"
 #include "VMainMenu.h"
 //#include "VMultiplayer.h"
-//#include "VOptions.h"
+#include "shared/settings/voptions.h"
 //#include "VSignInDialog.h"
 #include "VFooterPanel.h"
 //#include "VPasswordEntry.h"
-#include "VVideo.h"
+#include "shared/settings/vvideo.h"
 //#include "VSteamCloudConfirmation.h"
 #include "vcustomcampaigns.h"
 //#include "vdownloadcampaign.h"
@@ -94,7 +94,14 @@
 #include "BonusMapsDialog.h"
 #include "LoadGameDialog.h"
 #include "SaveGameDialog.h"
-#include "OptionsDialog.h"
+#include "shared/settings_old/optionsdialog.h"
+//#include "settings/voptionsmenu.h"
+
+// UI defines. Include if you want to implement some of them [str]
+// gotta have a better way to select this
+// idk why, but preprocessor defs arnt being added so I can't select this
+// im probably an idiot
+#include "maplab\ui_defines.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -237,20 +244,6 @@ public:
 			m_pConsoleFooter = new CFooterPanel( parent, "MainMenuFooter" );
 
 			int iFixedWidth = 245;
-
-#ifdef _X360
-			// In low def we need a smaller highlight
-			XVIDEO_MODE videoMode;
-			XGetVideoMode( &videoMode );
-			if ( !videoMode.fIsHiDef )
-			{
-				iFixedWidth = 240;
-			}
-			else
-			{
-				iFixedWidth = 350;
-			}
-#endif
 
 			SetFixedWidth( iFixedWidth );
 		}
@@ -529,7 +522,9 @@ CBaseModPanel::CBaseModPanel(): BaseClass(0, "CBaseModPanel"),
 
 	g_pVGuiLocalize->AddFile( "Resource/l4d360ui_%language%.txt");
 	g_pVGuiLocalize->AddFile( "Resource/ep2_%language%.txt");
-	g_pVGuiLocalize->AddFile( "Resource/hl2ce_%language%.txt");
+	//g_pVGuiLocalize->AddFile( "Resource/hl2ce_%language%.txt"); // get rid of this
+
+	//g_pVGuiLocalize->AddFile( "Resource/maplab_%language%.txt");
 
 	m_LevelLoading = false;
 	
@@ -572,13 +567,13 @@ CBaseModPanel::CBaseModPanel(): BaseClass(0, "CBaseModPanel"),
 	m_flLastBlurTime = 0;
 
 	m_iBackgroundImageID = -1;
-	m_iProductImageID = -1;
+	//m_iProductImageID = -1;
 
 	m_backgroundMusic = "MenuMusicSong";
 	m_nBackgroundMusicGUID = 0;
 
-	m_nProductImageWide = 0;
-	m_nProductImageTall = 0;
+	/*m_nProductImageWide = 0;
+	m_nProductImageTall = 0;*/
 	m_flMovieFadeInTime = 0.0f;
 	m_pBackgroundMaterial = NULL;
 	m_pBackgroundTexture = NULL;
@@ -615,7 +610,8 @@ CBaseModPanel::CBaseModPanel(): BaseClass(0, "CBaseModPanel"),
 //=============================================================================
 CBaseModPanel::~CBaseModPanel()
 {
-	ReleaseStartupGraphic();
+	// Game crashes on this
+	//ReleaseStartupGraphic();
 
 	if ( m_FooterPanel )
 	{
@@ -628,7 +624,7 @@ CBaseModPanel::~CBaseModPanel()
 	m_CFactoryBasePanel = 0;
 
 	surface()->DestroyTextureID( m_iBackgroundImageID );
-	surface()->DestroyTextureID( m_iProductImageID );
+	//surface()->DestroyTextureID( m_iProductImageID );
 
 	// Shutdown UI game data
 	CUIGameData::Shutdown();
@@ -650,6 +646,7 @@ CBaseModPanel* CBaseModPanel::GetSingletonPtr()
 //=============================================================================
 void CBaseModPanel::ReloadScheme()
 {
+
 }
 
 //=============================================================================
@@ -739,8 +736,8 @@ CBaseModFrame* CBaseModPanel::OpenWindow(const WINDOW_TYPE & wt, CBaseModFrame *
 			m_Frames[ wt ] = new CustomCampaigns( this, "CustomCampaigns" );
 #endif
 			break;
-/*
-		case WT_GAMEOPTIONS:
+
+/*		case WT_GAMEOPTIONS:
 			m_Frames[wt] = new GameOptions(this, "GameOptions");
 			break;
 
@@ -762,21 +759,21 @@ CBaseModFrame* CBaseModPanel::OpenWindow(const WINDOW_TYPE & wt, CBaseModFrame *
 
 		case WT_INGAMEMAINMENU:
 			m_Frames[wt] = new InGameMainMenu(this, "InGameMainMenu");
+			//m_Frames[wt] = new MainMenu(this, "MainMenu");
 			break;
 
 		case WT_KEYBOARDMOUSE:
-#if defined( _X360 )
-			// not for xbox
-			Assert( 0 );
-			break;
-#else
 			m_Frames[wt] = new VKeyboard(this, "VKeyboard");
 			break;
-#endif
+
 		case WT_MAINMENU:
 			m_Frames[wt] = new MainMenu(this, "MainMenu");
 			break;
 
+		/*case WT_OPTIONS:
+			m_Frames[wt] = new Options(this, "Options");
+			break;*/
+			
 		case WT_TRANSITIONSCREEN:
 			m_Frames[wt] = new CTransitionScreen( this, "TransitionScreen" );
 			break;
@@ -1727,12 +1724,13 @@ static void BaseUI_PositionDialog(vgui::PHandle dlg)
 	dlg->GetSize(wide, tall);
 
 	// Center it, keeping requested size
-	dlg->SetPos(x + ((ww - wide) / 2), y + ((wt - tall) / 2));
+	// ...why would you do that? just do that in the resource files
+	//dlg->SetPos(x + ((ww - wide) / 2), y + ((wt - tall) / 2));
 }
 
 
 //=============================================================================
-void CBaseModPanel::OpenOptionsDialog( Panel *parent )
+void CBaseModPanel::OpenOptionsDialog( EditablePanel *parent )
 {
 	if ( IsPC() )
 	{			
@@ -1747,7 +1745,7 @@ void CBaseModPanel::OpenOptionsDialog( Panel *parent )
 }
 
 //=============================================================================
-void CBaseModPanel::OpenOptionsMouseDialog( Panel *parent )
+void CBaseModPanel::OpenOptionsMouseDialog( EditablePanel *parent )
 {
 	if ( IsPC() )
 	{			
@@ -1762,7 +1760,7 @@ void CBaseModPanel::OpenOptionsMouseDialog( Panel *parent )
 }
 
 //=============================================================================
-void CBaseModPanel::OpenKeyBindingsDialog( Panel *parent )
+void CBaseModPanel::OpenKeyBindingsDialog( EditablePanel *parent )
 {
 	if ( IsPC() )
 	{			
@@ -1793,7 +1791,8 @@ void CBaseModPanel::ApplySchemeSettings(IScheme *pScheme)
 {
 	BaseClass::ApplySchemeSettings(pScheme);
 
-	SetBgColor(pScheme->GetColor("Blank", Color(0, 0, 0, 0)));
+	//SetBgColor(pScheme->GetColor("Blank", Color(0, 0, 0, 0)));
+	SetBgColor(pScheme->GetColor("ass", Color(64, 64, 96, 255)));
 
 	int screenWide, screenTall;
 	surface()->GetScreenSize( screenWide, screenTall );
@@ -1803,32 +1802,31 @@ void CBaseModPanel::ApplySchemeSettings(IScheme *pScheme)
 	m_iBackgroundImageID = surface()->CreateNewTextureID();
 	surface()->DrawSetTextureFile( m_iBackgroundImageID, filename, true, false );
 
-	m_iProductImageID = surface()->CreateNewTextureID();
-	surface()->DrawSetTextureFile( m_iProductImageID, "console/startup_loading", true, false );
+	/*m_iProductImageID = surface()->CreateNewTextureID();
+	//surface()->DrawSetTextureFile( m_iProductImageID, "vgui/logo", true, false );
+	surface()->DrawSetTextureFile( m_iProductImageID, "vgui/logo", true, true );
 
 	// need these to be anchored now, can't come into existence during load
 	PrecacheLoadingTipIcons();
 
 	int logoW = 384;
-	int logoH = 192;
+	int logoH = 192;*/
 
 	bool bIsWidescreen;
-#if !defined( _X360 )
+
 	float aspectRatio = (float)screenWide/(float)screenTall;
 	bIsWidescreen = aspectRatio >= 1.5999f;
-#else
-	static ConVarRef mat_xbox_iswidescreen( "mat_xbox_iswidescreen" );
-	bIsWidescreen = mat_xbox_iswidescreen.GetBool();
-#endif
-	if ( !bIsWidescreen )
+	/*if ( !bIsWidescreen )
 	{
 		// smaller in standard res
 		logoW = 320;
 		logoH = 160;
 	}
-
+	
+	m_nProductImageX = vgui::scheme()->GetProportionalScaledValue( atoi( pScheme->GetResourceString( "Logo.X" ) ) );
+	m_nProductImageY = vgui::scheme()->GetProportionalScaledValue( atoi( pScheme->GetResourceString( "Logo.Y" ) ) );
 	m_nProductImageWide = vgui::scheme()->GetProportionalScaledValue( logoW );
-	m_nProductImageTall = vgui::scheme()->GetProportionalScaledValue( logoH );
+	m_nProductImageTall = vgui::scheme()->GetProportionalScaledValue( logoH );*/
 
 	if ( aspectRatio >= 1.6f )
 	{
@@ -2052,6 +2050,35 @@ void CBaseModPanel::PaintBackground()
 					pRenderContext->MatrixMode( MATERIAL_PROJECTION );
 					pRenderContext->PopMatrix();
 				}
+				/*if ( ASWBackgroundMovie()->SetTextureMaterial() != -1 )
+				{
+					surface()->DrawSetColor( 255, 255, 255, 255 );
+					int x, y, w, h;
+					GetBounds( x, y, w, h );
+
+					// center, 16:9 aspect ratio
+					int width_at_ratio = h * (16.0f / 9.0f);
+					x = ( w * 0.5f ) - ( width_at_ratio * 0.5f );
+
+					surface()->DrawTexturedRect( x, y, x + width_at_ratio, y + h );
+
+					if ( !m_flMovieFadeInTime )
+					{
+						// do the fade a little bit after the movie starts (needs to be stable)
+						// the product overlay will fade out
+						m_flMovieFadeInTime	= Plat_FloatTime() + TRANSITION_TO_MOVIE_DELAY_TIME;
+					}
+
+					float flFadeDelta = RemapValClamped( Plat_FloatTime(), m_flMovieFadeInTime, m_flMovieFadeInTime + TRANSITION_TO_MOVIE_FADE_TIME, 1.0f, 0.0f );
+					if ( flFadeDelta > 0.0f )
+					{
+						if ( !m_pBackgroundMaterial )
+						{
+							PrepareStartupGraphic();
+						}
+						DrawStartupGraphic( flFadeDelta );
+					}
+				}*/
 			}
 		}
 	}
@@ -2540,7 +2567,7 @@ void CBaseModPanel::ShowMessageDialog(const uint nType, vgui::Panel *pOwner)
 		pOwner = this;
 	}
 
-	m_MessageDialogHandler.ShowMessageDialog(nType, pOwner);
+	//m_MessageDialogHandler.ShowMessageDialog(nType, pOwner);
 }
 
 void CBaseModPanel::SetMenuItemBlinkingState(const char *itemName, bool state)
@@ -3019,7 +3046,7 @@ void CFooterPanel::Paint( void )
 DECLARE_BUILD_FACTORY( CFooterPanel );
 
 // X360TBD: Move into a separate module when completed
-CMessageDialogHandler::CMessageDialogHandler()
+/*CMessageDialogHandler::CMessageDialogHandler()
 {
 	m_iDialogStackTop = -1;
 }
@@ -3513,7 +3540,7 @@ void CMessageDialogHandler::CloseMessageDialog( const uint nType )
 	}
 }
 
-void CMessageDialogHandler::CreateMessageDialog( const uint nType, const char *pTitle, const char *pMsg, const char *pCmdA, const char *pCmdB, vgui::Panel *pCreator, bool bShowActivity /*= false*/ )
+void CMessageDialogHandler::CreateMessageDialog( const uint nType, const char *pTitle, const char *pMsg, const char *pCmdA, const char *pCmdB, vgui::Panel *pCreator, bool bShowActivity /*= false*/ /*)
 {
 	int nStackIdx = 0;
 	if ( nType & MD_WARNING )
@@ -3600,7 +3627,7 @@ void CMessageDialogHandler::PositionDialog( vgui::PHandle dlg, int wide, int tal
 	int w, t;
 	dlg->GetSize(w, t);
 	dlg->SetPos( (wide - w) / 2, (tall - t) / 2 );
-}			
+}*/
 
 static char *g_rgValidCommands[] =
 {
@@ -3610,7 +3637,7 @@ static char *g_rgValidCommands[] =
 	"OpenLoadGameDialog",
 	"OpenSaveGameDialog",
 	"OpenCustomMapsDialog",
-	"OpenOptionsDialog",
+	//"OpenOptionsDialog",
 	"OpenBenchmarkDialog",
 	"OpenServerBrowser",
 	"OpenFriendsDialog",

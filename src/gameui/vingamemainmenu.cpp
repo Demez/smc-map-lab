@@ -49,6 +49,8 @@ BaseClass( parent, panelName, false, true )
 
 	SetLowerGarnishEnabled( true );
 
+	SetCloseButtonVisible(false);
+
 	SetFooterState();
 }
 

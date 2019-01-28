@@ -102,7 +102,8 @@ void CASW_Background_Movie::Update()
 {
 	//	if ( engine->IsConnected() && ASWGameRules() )
 	int nGameState = 0;
-	if(nGameState != m_nLastGameState) {
+	if(nGameState != m_nLastGameState)
+	{
 
 	//	const char *pFilename = NULL;
 
@@ -122,10 +123,12 @@ void CASW_Background_Movie::Update()
 		//TEMPTEMP: Keep game from crashing
 	//	pFilename = "media/l4d2_background01.bik";
 
-		if (m_szCurrentMovie) {
+		/*if (m_szCurrentMovie) {
 			SetCurrentMovie(m_szCurrentMovie);
-		}
+		}*/
+		//SetCurrentMovie( "media/BGFX_01.bik" );
 	}
+	//SetCurrentMovie( "media/BGFX_01.bik" );
 	m_nLastGameState = nGameState;
 
 	if (m_pVideoMaterial == NULL)
@@ -322,7 +325,7 @@ void CNB_Header_Footer::PaintBackground()
 {
 	BaseClass::PaintBackground();
 
-	if (ASWBackgroundMovie())
+	/*if (ASWBackgroundMovie())
 	{
 		ASWBackgroundMovie()->Update();
 
@@ -396,7 +399,7 @@ void CNB_Header_Footer::PaintBackground()
 			pRenderContext->MatrixMode(MATERIAL_PROJECTION);
 			pRenderContext->PopMatrix();
 		}
-	}
+	}*/
 }
 
 // =================
@@ -407,7 +410,7 @@ CNB_Gradient_Bar::CNB_Gradient_Bar( vgui::Panel *parent, const char *name ) : Ba
 
 void CNB_Gradient_Bar::PaintBackground()
 {
-	int wide, tall;
+	/*int wide, tall;
 	GetSize( wide, tall );
 
 	int y = 0;
@@ -418,7 +421,7 @@ void CNB_Gradient_Bar::PaintBackground()
 	// fill bar background
 	vgui::surface()->DrawSetColor( Color( 0, 0, 0, 255 * flAlpha ) );
 	vgui::surface()->DrawFilledRect( 0, y, wide, y + tall );
-
+	
 	vgui::surface()->DrawSetColor( Color( 64, 64, 64, 255 * flAlpha ) );
 
 	int nBarPosY = y + YRES( 4 );
@@ -434,5 +437,5 @@ void CNB_Gradient_Bar::PaintBackground()
 
 	nBarPosY = y + tall - YRES( 2 );
 	vgui::surface()->DrawFilledRectFade( iHalfWide, nBarPosY, wide, nBarPosY + nBarHeight, 255, 0, true );
-	vgui::surface()->DrawFilledRectFade( 0, nBarPosY, iHalfWide, nBarPosY + nBarHeight, 0, 255, true );
+	vgui::surface()->DrawFilledRectFade( 0, nBarPosY, iHalfWide, nBarPosY + nBarHeight, 0, 255, true );*/
 }

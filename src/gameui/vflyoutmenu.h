@@ -52,7 +52,7 @@ public:
 
 	void SetInitialSelection( const char *szInitialSelection );
 
-	void SetBGTall( int iTall );
+	//void SetBGTall( int iTall );
 
 	static FlyoutMenu *GetActiveMenu() { return sm_pActiveMenu; }
 	static void CloseActiveMenu( vgui::Panel *pFlyTo = NULL );

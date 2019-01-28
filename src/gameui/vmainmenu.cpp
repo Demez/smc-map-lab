@@ -49,9 +49,9 @@ using namespace BaseModUI;
 
 //=============================================================================
 static ConVar connect_lobby( "connect_lobby", "", FCVAR_HIDDEN, "Sets the lobby ID to connect to on start." );
-static ConVar ui_old_options_menu( "ui_old_options_menu", "1", FCVAR_HIDDEN, "Brings up the old tabbed options dialog from Keyboard/Mouse when set to 1." );
+static ConVar ui_old_options_menu( "ui_old_options_menu", "0", FCVAR_NONE, "Brings up the old tabbed options dialog from Keyboard/Mouse when set to 1." );
 static ConVar ui_play_online_browser( "ui_play_online_browser",
-#if defined( _DEMO ) && !defined( _X360 )
+#if defined( _DEMO )
 									 "0",
 									 FCVAR_NONE,
 #else
@@ -85,6 +85,8 @@ MainMenu::MainMenu( Panel *parent, const char *panelName ):
 	SetTitle( "", false );
 	SetMoveable( false );
 	SetSizeable( false );
+
+	SetCloseButtonVisible(false);
 
 	SetLowerGarnishEnabled( true );
 
@@ -160,7 +162,7 @@ void MainMenu::OnCommand( const char *command )
 		GenericConfirmation::Data_t data;
 
 		data.pWindowTitle = "Steamworks Error";
-		data.pMessageText = "#HL2CEUI_BuyHL2AndInstallSDK";
+		//data.pMessageText = "#HL2CEUI_BuyHL2AndInstallSDK";
 
 		data.bOkButtonEnabled = true;
 		data.pfnOkCallback = &AcceptQuitGameCallback;
@@ -235,6 +237,13 @@ void MainMenu::OnCommand( const char *command )
 		CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
 	}
 
+	else if (!Q_strcmp(command, "Open_OptionsMenu"))
+	{
+		CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
+	}
+
+	// --
+	// OPTIONS
 	else if (!Q_strcmp(command, "Audio"))
 	{
 		if ( ui_old_options_menu.GetBool() )
@@ -376,7 +385,7 @@ void MainMenu::OnCommand( const char *command )
 		GenericConfirmation::Data_t data;
 
 		data.pWindowTitle = "Steamworks Error";
-		data.pMessageText = "#HL2CEUI_BuyHL2AndInstallSDK";
+		//data.pMessageText = "#HL2CEUI_BuyHL2AndInstallSDK";
 
 		data.bOkButtonEnabled = true;
 		data.pfnOkCallback = &AcceptQuitGameCallback;
@@ -426,19 +435,15 @@ void MainMenu::OnCommand( const char *command )
 		OnCommand( "FlmExtrasFlyout_Simple" );
 		return;
 	}
+	else if ( !Q_strcmp( command, "Open_OptionsMenu" ) )
+	{
+		//CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
+		CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
+	}
 	else 
 	{
 		const char *pchCommand = command;
-		if ( !Q_strcmp(command, "FlmOptionsFlyout") )
-		{
-#ifdef _X360
-			if ( XBX_GetPrimaryUserIsGuest() )
-			{
-				pchCommand = "FlmOptionsGuestFlyout";
-			}
-#endif
-		}
-		else if ( StringHasPrefix( command, "FlmExtrasFlyout_" ) )
+		if ( StringHasPrefix( command, "FlmExtrasFlyout_" ) )
 		{
 			command = "FlmExtrasFlyoutCheck";
 		}

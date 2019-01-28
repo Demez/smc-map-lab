@@ -54,6 +54,9 @@ Scheme
 		"BrightYellow"		"242 237 0 255"
 		"DarkYellow"		    "136 133 0 255"
 		"TextYellow"        "110 110 84 255"
+		
+		// flyout colors
+		"Flyout.BgColor"	"64 64 64 128"
 	}
 
 	///////////////////// BASE SETTINGS ////////////////////////
@@ -92,9 +95,9 @@ Scheme
 		ComboBoxButton.BgColor			"Blank"
 		ComboBoxButton.DisabledBgColor	"Blank"
 
-		Frame.TitleTextInsetX			12
-		Frame.ClientInsetX				6
-		Frame.ClientInsetY				4
+		Frame.TitleTextInsetX			"12"
+		Frame.ClientInsetX				"6"
+		Frame.ClientInsetY				"32" //8
 		//Frame.BgColor					"160 160 160 128"
 		Frame.BgColor					"0 0 0 255"
 		Frame.OutOfFocusBgColor			"0 0 0 255"
@@ -237,36 +240,29 @@ Scheme
 			
 		// main or ingame menu only
 		MainMenuButton.Style						"1"
-		MainMenuButton.TextInsetY					"0"		[$WIN32]
-		MainMenuButton.TextInsetY					"1"		[$X360HIDEF]
-		MainMenuButton.TextInsetY					"0"		[$X360LODEF]
+		MainMenuButton.TextInsetX					"0"
+		MainMenuButton.TextInsetY					"0"
 		
 		// inside of a flyout menu only
 		FlyoutMenuButton.Style						"2"
 		FlyoutMenuButton.TextInsetX					"8"
-		FlyoutMenuButton.TextInsetY					"2"		[$WIN32]
-		FlyoutMenuButton.TextInsetY					"5"		[$X360]
+		FlyoutMenuButton.TextInsetY					"10" //"6"
+		FlyoutMenuButton.FillColor					"0 0 255 255"
 
 		// inside a dialog, contains a RHS value, usually causes a flyout
 		DropDownButton.Style						"3"
-		DropDownButton.TextInsetY					"0"		[$WIN32HIDEF]
-		DropDownButton.TextInsetY					"-1"	[$WIN32LODEF]
-		DropDownButton.TextInsetY					"2"		[$X360HIDEF]
-		DropDownButton.TextInsetY					"1"		[$X360LODEF]
+		DropDownButton.TextInsetX					"16" // affects both left AND right side
+		DropDownButton.TextInsetY					"8"
 
 		// centers within the focus
 		DialogButton.Style							"4"
 		DialogButton.TextInsetY						"0"		[$WIN32HIDEF]
 		DialogButton.TextInsetY						"-1"	[$WIN32LODEF]
-		DialogButton.TextInsetY						"2"		[$X360HIDEF]
-		DialogButton.TextInsetY						"1"		[$X360LODEF]
 		
 		// left aligned within the focus
 		DefaultButton.Style							"0"
 		DefaultButton.TextInsetY					"0"		[$WIN32HIDEF]
 		DefaultButton.TextInsetY					"-1"	[$WIN32LODEF]
-		DefaultButton.TextInsetY					"2"		[$X360HIDEF]
-		DefaultButton.TextInsetY					"1"		[$X360LODEF]
 		
 		// left aligned within the focus
 		RedButton.Style								"5"
@@ -284,9 +280,7 @@ Scheme
 		
 		// specialized button, only appears in game mode carousel
 		GameModeButton.Style						"9"
-		GameModeButton.TextInsetY					"0"		[$WIN32]
-		GameModeButton.TextInsetY					"1"		[$X360HIDEF]
-		GameModeButton.TextInsetY					"0"		[$X360LODEF]
+		GameModeButton.TextInsetY					"0"
 		
 		// main or ingame menu only
 		MainMenuSmallButton.Style					"10"
@@ -296,7 +290,7 @@ Scheme
 		AlienSwarmMenuButtonSmall.Style					"12"
 		AlienSwarmDefault.Style									"13"
 
-		MediumButton.Style						"8"
+		MediumButton.Style						"8"		
 	}
 
 	//

@@ -8,7 +8,7 @@
 		"ypos"							"0"
 		"zpos"							"0"
 		"wide"							"350"
-		"tall"							"30"
+		"tall"							"64" //"30"
 		"autoResize"					"1"
 		"pinCorner"						"0"
 		"visible"						"0"
@@ -39,6 +39,7 @@
 		"tabPosition"					"0"
 		"proportionalToParent"			"1"
 		"labelText"						"#L4D360UI_Chapter_TrainTunnel"
-		"textAlignment"					"east"
+		//"textAlignment"					"east"
+		"textAlignment"					"center"
 	}	
 }

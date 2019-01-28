@@ -43,8 +43,8 @@ FlyoutMenu::FlyoutMenu( vgui::Panel *parent, const char* panelName )
 {
 	SetProportional( true );
 
-	m_offsetX = 0;
-	m_offsetY = 0;
+	//m_offsetX = 0;
+	//m_offsetY = 0;
 	m_navFrom = NULL;
 	m_lastChildNotified = NULL;
 	m_listener = NULL;
@@ -69,13 +69,13 @@ FlyoutMenu::~FlyoutMenu()
 
 void FlyoutMenu::PaintBackground()
 {
-	vgui::IScheme *pScheme = vgui::scheme()->GetIScheme( GetScheme() );
-	Color borderColor = pScheme->GetColor( "HybridButton.BorderColor", Color( 0, 0, 0, 255 ) );
+	//vgui::IScheme *pScheme = vgui::scheme()->GetIScheme( GetScheme() );
+	//Color borderColor = pScheme->GetColor( "HybridButton.BorderColor", Color( 0, 0, 0, 255 ) );
 
 	int wide, tall;
 	GetSize( wide, tall );
 
-	int iHalfWide = wide/2;
+	//int iHalfWide = wide/2;
 	int iFourthWide = wide/4;
 
 	int fadePoint = 220;
@@ -84,27 +84,28 @@ void FlyoutMenu::PaintBackground()
 		// wide at open is hack that pulls the flyout back
 		// but this generally then overlaps text underneath the flyout
 		// so push the opaque region closer to far right edge to obscure overlap
-		iFourthWide = 0.70f * iHalfWide;
+		//iFourthWide = 0.70f * iHalfWide;
+		iFourthWide = 100;
 		fadePoint = 245;
 	}
 
-	surface()->DrawSetColor( Color( 0, 0, 0, 255 ) );
-	surface()->DrawFilledRect( 0, 0, iHalfWide, tall );
-	surface()->DrawFilledRectFade( iHalfWide, 0, iHalfWide + iFourthWide, tall, 255, fadePoint, true );
-	surface()->DrawFilledRectFade( iHalfWide + iFourthWide, 0, wide, tall, fadePoint, 0, true );
+	//surface()->DrawSetColor( Color( 0, 0, 0, 255 ) );
+	//surface()->DrawFilledRect( 0, 0, iHalfWide, tall );
+	//surface()->DrawFilledRectFade( iHalfWide, 0, iHalfWide + iFourthWide, tall, 255, fadePoint, true );
+	//surface()->DrawFilledRectFade( iHalfWide + iFourthWide, 0, wide, tall, fadePoint, 0, true );
 
 	// draw border lines
-	surface()->DrawSetColor( borderColor );
-	surface()->DrawFilledRectFade( 0, 0, wide, 2, 255, 0, true );
-	surface()->DrawFilledRectFade( 0, tall-2, wide, tall, 255, 0, true );
+	//surface()->DrawSetColor( borderColor );
+	//surface()->DrawFilledRectFade( 0, 0, wide, 2, 255, 0, true );
+	//surface()->DrawFilledRectFade( 0, tall-2, wide, tall, 255, 0, true );
 
 	if ( m_bExpandUp )
 	{
-		surface()->DrawFilledRect( 0, 0, 2, tall-m_FromOriginalTall+2 );
+		//surface()->DrawFilledRect( 0, 0, 2, tall-m_FromOriginalTall+2 );
 	}
 	else
 	{
-		surface()->DrawFilledRect( 0, m_FromOriginalTall-2, 2, tall );
+		//surface()->DrawFilledRect( 0, m_FromOriginalTall-2, 2, tall );
 	}
 }
 
@@ -121,14 +122,14 @@ void FlyoutMenu::SetInitialSelection( const char *szInitialSelection )
 	}
 }
 
-void FlyoutMenu::SetBGTall( int iTall )
+/*void FlyoutMenu::SetBGTall( int iTall )
 {
 	Panel *bgPanel = FindChildByName( "PnlBackground" );
 	if ( bgPanel )
 	{
 		bgPanel->SetTall( vgui::scheme()->GetProportionalScaledValue( iTall ) );
 	}
-}
+}*/
 
 void FlyoutMenu::OpenMenu( vgui::Panel * flyFrom, vgui::Panel* initialSelection, bool reloadRes )
 {
@@ -282,9 +283,9 @@ void FlyoutMenu::ApplySettings( KeyValues* inResourceData )
 	}
 
 	// cannot support arbitrary offsets with new look
-	//
-	m_offsetX = 0;
-	m_offsetY = 0;
+	// well screw that
+	//m_offsetX = 0;
+	//m_offsetY = 0;
 
 	const char* initFocus = inResourceData->GetString( "InitialFocus", NULL );
 
@@ -311,8 +312,9 @@ void FlyoutMenu::ApplySchemeSettings( vgui::IScheme* pScheme )
 		vgui::Panel* bgPanel = FindChildByName( "PnlBackground" );
 		if ( bgPanel )
 		{
-//			bgPanel->SetBgColor( pScheme->GetColor( "Flyout.BgColor" , Color( 0, 0, 0, 255 ) ) );
-//			bgPanel->SetBorder( pScheme->GetBorder( "FlyoutBorder" ) );
+			//bgPanel->SetBgColor( pScheme->GetColor( "Flyout.BgColor" , Color( 0, 0, 0, 255 ) ) );
+			bgPanel->SetBgColor( pScheme->GetColor( "Flyout.BgColor" , Color( 64, 64, 64, 128 ) ) );
+			bgPanel->SetBorder( pScheme->GetBorder( "FlyoutBorder" ) );
 
 			// just use the PnlBackground to set size, not needed for anything else
 			int wide, tall;
@@ -339,12 +341,8 @@ void FlyoutMenu::ApplySchemeSettings( vgui::IScheme* pScheme )
 					}
 				}
 			}
-
-			bgPanel->SetVisible( false );
 		}
 	}
-
-	SetPaintBackgroundEnabled( true );
 }
 
 // Load the control settings 

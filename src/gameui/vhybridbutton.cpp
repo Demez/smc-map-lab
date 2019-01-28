@@ -91,7 +91,8 @@ BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *
 {
 	SetPaintBorderEnabled( false );
 	SetPaintBackgroundEnabled( false );
-	SetContentAlignment( a_northwest );
+	//SetContentAlignment( a_northwest );
+	SetContentAlignment( a_center );
 	SetClosed();
 	SetButtonActivationType( ACTIVATE_ONRELEASED );
 	SetConsoleStylePanel( true );
@@ -110,13 +111,13 @@ BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *
 	m_hSelectionBlurFont = 0;
 
 	m_originalTall = 0;
-	m_textInsetX = 0;
-	m_textInsetY = 0;
+	//m_textInsetX = 0;
+	//m_textInsetY = 0;
 
 	m_iSelectedArrow = -1;
 	m_iUnselectedArrow = -1;
 
-	m_nWideAtOpen = 0;
+	//m_nWideAtOpen = 0;
 }
 
 BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *panelName, const wchar_t *text, Panel *pActionSignalTarget, const char *pCmd )
@@ -124,7 +125,8 @@ BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *
 {
 	SetPaintBorderEnabled( false );
 	SetPaintBackgroundEnabled( false );
-	SetContentAlignment( a_northwest );
+	//SetContentAlignment( a_northwest );
+	SetContentAlignment( a_center );
 	SetClosed();
 	SetButtonActivationType( ACTIVATE_ONRELEASED );
 
@@ -141,8 +143,8 @@ BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *
 	m_hSelectionBlurFont = 0;
 
 	m_originalTall = 0;
-	m_textInsetX = 0;
-	m_textInsetY = 0;
+	//m_textInsetX = 0;
+	//m_textInsetY = 0;
 
 	m_iSelectedArrow = -1;
 	m_iUnselectedArrow = -1;
@@ -434,11 +436,11 @@ void BaseModHybridButton::PaintButtonEx()
 	textTall = clamp( textTall, 0, tall - m_textInsetX * 2 );
 
 	int textInsetX = m_textInsetX;
-	if ( m_nStyle == BUTTON_DIALOG )
+	/*if ( m_nStyle == BUTTON_DIALOG )
 	{
 		// dialog buttons are centered
 		textInsetX = ( wide - textWide ) / 2;
-	}
+	}*/
 
 	if ( FlyoutMenu::GetActiveMenu() && FlyoutMenu::GetActiveMenu()->GetNavFrom() != this )
 	{
@@ -447,55 +449,53 @@ void BaseModHybridButton::PaintButtonEx()
 
 	if ( bDrawCursor )
 	{
+		// This is drawn when you hover over the button of a drop down
+		// TODO: move into a resource file
 		// draw backing rectangle
-		if ( curState == Open )
+		/*if ( curState == Open )
 		{
 			surface()->DrawSetColor( Color( 0, 0, 0, 255 ) );
-			surface()->DrawFilledRectFade( x, y, x+wide, y+tall, 0, 255, true );
-		}
+			surface()->DrawFilledRect( 0, 0, wide, tall );
+		}*/
 
 		// draw blotch
 		surface()->DrawSetColor( blotchColor );
-		if ( m_nStyle == BUTTON_DIALOG )
+		/*if ( m_nStyle == BUTTON_DIALOG )
 		{
-			int blotchWide = textWide;
-			int blotchX = x + textInsetX;
-			surface()->DrawFilledRectFade( blotchX, y, blotchX + 0.50f * blotchWide, y+tall, 0, 150, true );
-			surface()->DrawFilledRectFade( blotchX + 0.50f * blotchWide, y, blotchX + blotchWide, y+tall, 150, 0, true );
+			surface()->DrawFilledRect( 0, 0, wide, tall );
 		}
 		else
 		{
-			int blotchWide = textWide + vgui::scheme()->GetProportionalScaledValueEx( GetScheme(), 40 );
-			int blotchX = x + textInsetX;
-			surface()->DrawFilledRectFade( blotchX, y, blotchX + 0.25f * blotchWide, y+tall, 0, 150, true );
-			surface()->DrawFilledRectFade( blotchX + 0.25f * blotchWide, y, blotchX + blotchWide, y+tall, 150, 0, true );
-		}
+			surface()->DrawFilledRect( 0, 0, wide, tall );
+		}*/
+
+		surface()->DrawFilledRect( 0, 0, wide, tall );
 
 		// draw border lines
-		surface()->DrawSetColor( borderColor );
+		//surface()->DrawSetColor( borderColor );
 		if ( curState == Open )
 		{
 			FlyoutMenu *pActiveFlyout = FlyoutMenu::GetActiveMenu();
 			BaseModHybridButton *button = dynamic_cast< BaseModHybridButton* >( pActiveFlyout ? pActiveFlyout->GetNavFrom() : NULL );
 			if ( pActiveFlyout && pActiveFlyout->GetOriginalTall() == 0 && button && button == this )
 			{
-				surface()->DrawFilledRectFade( x, y, x + wide, y+2, 255, 0, true );
+				//surface()->DrawFilledRectFade( x, y, x + wide, y+2, 255, 0, true );
 			}
 			else
 			{
 				// the border lines end at the beginning of the flyout
 				// the flyout will draw to complete the look
-				surface()->DrawFilledRectFade( x, y, x + wide, y+2, 0, 255, true );
-				surface()->DrawFilledRectFade( x, y+tall-2, x + wide, y+tall, 0, 255, true );
+				//surface()->DrawFilledRectFade( x, y, x + wide, y+2, 0, 255, true );
+				//surface()->DrawFilledRectFade( x, y+tall-2, x + wide, y+tall, 0, 255, true );
 			}
 		}
 		else
 		{
 			// top and bottom border lines
-			surface()->DrawFilledRectFade( x, y, x + 0.5f * wide, y+2, 0, 255, true );
-			surface()->DrawFilledRectFade( x + 0.5f * wide, y, x + wide, y+2, 255, 0, true );
-			surface()->DrawFilledRectFade( x, y+tall-2, x + 0.5f * wide, y+tall, 0, 255, true );
-			surface()->DrawFilledRectFade( x + 0.5f * wide, y+tall-2, x + wide, y+tall, 255, 0, true );
+			//surface()->DrawFilledRectFade( x, y, x + 0.5f * wide, y+2, 0, 255, true );
+			//surface()->DrawFilledRectFade( x + 0.5f * wide, y, x + wide, y+2, 255, 0, true );
+			//surface()->DrawFilledRectFade( x, y+tall-2, x + 0.5f * wide, y+tall, 0, 255, true );
+			//surface()->DrawFilledRectFade( x + 0.5f * wide, y+tall-2, x + wide, y+tall, 255, 0, true );
 		}
 	}
 
@@ -542,7 +542,9 @@ void BaseModHybridButton::PaintButtonEx()
 			availableWidth -= m_iSelectedArrowSize * 2;
 		}
 
+		// controls the text on a drop down menu, and everywhere else?
 		vgui::surface()->DrawSetTextFont( m_hTextFont );
+		//vgui::surface()->DrawSetTextPos( x + textInsetX, y + m_textInsetY  );
 		vgui::surface()->DrawSetTextPos( x + textInsetX, y + m_textInsetY  );
 		vgui::surface()->DrawSetTextColor( col );
 

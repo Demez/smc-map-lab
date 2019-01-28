@@ -610,7 +610,7 @@ void GenericPanelList::ApplySchemeSettings( IScheme *pScheme )
 		bgColor = GetSchemeColor( "GenericPanelList.BgColor", pScheme );
 	}
 
-	SetBorder( pScheme->GetBorder( "GenericPanelListBorder" ) );
+	//SetBorder( pScheme->GetBorder( "GenericPanelListBorder" ) );
 	SetBgColor( bgColor );
 
 	m_LblDownArrow->SetFont( pScheme->GetFont( "GameUIButtons" ) );

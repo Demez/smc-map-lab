@@ -160,7 +160,7 @@ namespace BaseModUI {
 
 		int m_nTopBorderImageId;
 		int m_nBottomBorderImageId;
-		CMaterialReference m_nBlurImage;
+		//CMaterialReference m_nBlurImage;
 		Color m_smearColor;
 
 	protected:

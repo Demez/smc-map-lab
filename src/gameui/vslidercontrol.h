@@ -34,6 +34,7 @@ namespace BaseModUI
 		void SetStepSize( float stepSize );
 		void SetMin( float min );
 		void SetMax( float max );
+		//void SetWidth( int width );
 
 		int GetTextureId();
 
@@ -88,6 +89,8 @@ namespace BaseModUI
 		float m_stepSize;
 		CGameUIConVarRef* m_conVarRef;
 		CGameUIConVarRef* m_conVarDefaultRef;
+
+		//int m_width;
 
 		bool m_bDirty;
 	};

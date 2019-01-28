@@ -10,14 +10,14 @@
 #pragma once
 #endif
 
-#include "OptionsDialog.h"
+#include "shared/settings_old/OptionsDialog.h"
 
 class CControllerDialog : public COptionsDialog
 {
 	DECLARE_CLASS_SIMPLE( CControllerDialog, COptionsDialog );
 
 public:
-	CControllerDialog(vgui::Panel *parent);
+	CControllerDialog(vgui::EditablePanel *parent);
 
 	virtual void		ApplySchemeSettings( vgui::IScheme *pScheme );
 
