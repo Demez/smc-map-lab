@@ -6,14 +6,14 @@
 		"fieldName"				"MainMenu"
 		"xpos"					"0"
 		"ypos"					"0"
-		"wide"					"f0"
+		"wide"					"192"
+		//"wide"					"f0"
 		"tall"					"f0"
 		"autoResize"			"0"
 		"pinCorner"				"0"
 		"visible"				"1"
 		"enabled"				"1"
 		"tabPosition"			"0"
-		"PaintBackgroundType"	"0"
 	}
 	
 	"Logo"
@@ -21,9 +21,11 @@
 		"ControlName"			"ImagePanel"
 		"fieldName"				"Logo"
 		"xpos"					"cs-0.5"
-		"ypos"					"8"
+		//"xpos"					"32"
+		"ypos"					"16"
+		// 4:1 ratio, so wide is o4, tall is o0.25
 		"wide"					"o4"
-		"tall"					"64"
+		"tall"					"40"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -31,40 +33,94 @@
 		"tabPosition"			"0"
 		"image"					"logo"
 		"scaleImage"			"1"
-		//"scaleAmount"			"0.4"
+		"proportionalToParent"	"1"
 	}
 	
-	"BtnCampaigns"
+	"background"
 	{
-		"ControlName"			"Campaigns"
-		"fieldName"				"BtnCampaigns"
-
-		"tabPosition"			"1"
-		"navUp"					"BtnQuit"		[$WIN32]
-		"navDown"				"BtnNewGame"	[$WIN32]
-
-		"xpos"					"16"
-		"ypos"					"96"
-		"wide"					"400"
-		"tall"					"256"
+		"ControlName"			"Panel"
+		"fieldName"				"background"
+		"xpos"					"0"
+		"ypos"					"0"
+		"zpos"					"-100"
+		"wide"					"192"
+		"tall"					"f"
 		"autoResize"			"1"
 		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
 		"tabPosition"			"0"
+		//"image"					"ingame\menu_background"
+		//"scaleImage"			"1"
+		//"scaleAmount"			"0.4"
 		
-		// needed to push the game modes carousel behind the other main menu buttons
-		// that overlap into the carousel rect (which needs be oversized due to flyouts)
-		// and would not get mouse hittests
-		"zpos"					-10				[$WIN32]
+		"bgcolor_override"		"0 0 0 192"
 	}
-		
+	
+	// only shows in game, hard coded by the fieldName BtnReturnToGame
+	"BtnReturnToGame"
+	{
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
+		"fieldName"				"BtnReturnToGame"
+		"xpos"					"0"
+		"ypos"					"s2.25"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"1"
+		"navUp"					"BtnExitToMainMenu"
+		"navDown"				"BtnSingleplayer"
+		"labelText"				"#L4D360UI_InGameMainMenu_ReturnToGame"
+		"tooltiptext"			"#L4D360UI_InGameMainMenu_ReturnToGame_Tip"
+		//"style"					"MainMenuButton"
+		"command"				"ReturnToGame"
+		"ActivationType"		"1"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
+	}
+	
+	// only shows in game, hard coded by the fieldName BtnSaveGame
+	"BtnSaveGame"
+	{
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
+		"fieldName"				"BtnSaveGame"
+		"xpos"					"0"
+		"ypos"					"s3.25"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"navUp"					"BtnSingleplayer"
+		"navDown"				"BtnLoadLastGame"
+		"labelText"				"#GameUI_GameMenu_SaveGame"
+		"tooltiptext"				"#HL2CEUI_SaveGame_ToolTip"
+		//"style"					"MainMenuButton"
+		"command"				"SaveGame"
+		"ActivationType"		"1"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
+	}
+	
 	"BtnNewGame"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnNewGame"
-		"xpos"					"100"
-		"ypos"					"255"
-		"wide"					"180"
-		"tall"					"20"
+		"xpos"					"0"
+		"ypos"					"s4.25"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -74,19 +130,23 @@
 		"navDown"				"BtnLoadGame"
 		"labelText"				"#GameUI_GameMenu_NewGame"
 		"tooltiptext"			"#L4D360UI_MainMenu_PlaySolo_Tip"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"SoloPlay"
 		"ActivationType"		"1"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}
 	
 	"BtnLoadGame"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnLoadGame"
-		"xpos"					"100"
-		"ypos"					"275"
-		"wide"					"180"
-		"tall"					"20"
+		"xpos"					"0"
+		"ypos"					"s5.25"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -96,20 +156,24 @@
 		"navDown"				"BtnOptions"
 		"labelText"				"#GameUI_GameMenu_LoadGame"
 		"tooltiptext"			"#HL2CEUI_LoadGame_ToolTip"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"LoadLastSave"
 		"ActivationType"		"1"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}
 	
 	// Options
 	"BtnVideo"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnVideo"
 		"xpos"					"0"
-		"ypos"					"295"
-		"wide"					"150"
-		"tall"					"20"
+		"ypos"					"rs6"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -119,17 +183,21 @@
 		"navDown"				"BtnBrightness"
 		"tooltiptext"			"#L4D_video_tip"
 		"labelText"				"#GameUI_Video"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"Video"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}
 	"BtnBrightness"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnBrightness"
 		"xpos"					"0"
-		"ypos"					"40"
-		"wide"					"150"
-		"tall"					"20"
+		"ypos"					"rs5"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -140,17 +208,21 @@
 		"tooltiptext"			"#GameUI_AdjustGamma"
 		"disabled_tooltiptext"	"#L4D360UI_AdjustGamma_Disabled"
 		"labelText"				"#GameUI_Brightness"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"Brightness"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}
 	"BtnAudio"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnAudio"
 		"xpos"					"0"
-		"ypos"					"60"
-		"wide"					"150"
-		"tall"					"20"
+		"ypos"					"rs4"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -160,17 +232,21 @@
 		"navDown"				"BtnController"
 		"tooltiptext"			"#L4D_audio_tip"
 		"labelText"				"#GameUI_Audio"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"Audio"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}
 	"BtnMouse"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnMouse"
 		"xpos"					"0"
-		"ypos"					"100"
-		"wide"					"150"
-		"tall"					"20"
+		"ypos"					"rs3"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -181,18 +257,22 @@
 		"navDown"				"BtnCloud"
 		"tooltiptext"				"#L4D_keyboard_tip"
 		"labelText"				"#GameUI_Mouse"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"Mouse"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}	
 
-	"BtnOptions"
+	"BtnOptions_Old"
 	{
-		"ControlName"			"BaseModHybridButton"
-		"fieldName"				"BtnOptions"
-		"xpos"					"100"
-		"ypos"					"295"
-		"wide"					"180"
-		"tall"					"20"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
+		"fieldName"				"BtnOptions_Old"
+		"xpos"					"0"
+		"ypos"					"rs4"
+		"wide"					"f0"
+		"tall"					"16"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -200,24 +280,55 @@
 		"tabPosition"			"0"
 		"navUp"					"BtnLoadGame"
 		"navDown"				"BtnQuit"
-		"labelText"				"#L4D360UI_MainMenu_Options"
+		//"labelText"				"#L4D360UI_MainMenu_Options"
+		"labelText"				"Old Options Dialog (Temp)"
 		"tooltiptext"			"#L4D360UI_MainMenu_Options_Tip"
-		"style"					"MainMenuButton"
-		"command"				"Options"
+		//"style"					"MainMenuButton"
+		"command"				"Options_Old"
 		//"command"				"FlmOptionsFlyout"
 		"ActivationType"		"1"
+		"textAlignment"			"center"
+		"font"					"DefaultMedium"
 	}
 	
-	
+	// only shows in game, hard coded by the fieldName BtnDisconnect
+	"BtnDisconnect"
+	{
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
+		"fieldName"				"BtnDisconnect"
+		"xpos"					"0"
+		"ypos"					"rs1"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"0" [$X360]
+		"visible"				"1" [$WIN32]
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"navUp"					"BtnOptions"
+		"navDown"				"BtnCampaigns"
+		"labelText"				"#L4D360UI_InGameMainMenu_ExitToMainMenu"
+		"tooltiptext"			"#L4D360UI_InGameMainMenu_ExitToMainMenu_Tip"
+		//"style"					"MainMenuButton"
+		"command"				"ExitToMainMenu"
+		"ActivationType"		"1"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
+	}
 	
 	"BtnQuit"
 	{
-		"ControlName"			"BaseModHybridButton"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
 		"fieldName"				"BtnQuit"
-		"xpos"					"100"
-		"ypos"					"355"
-		"wide"					"180"
-		"tall"					"20"
+		"xpos"					"0"
+		"ypos"					"rs1"
+		"wide"					"f0"
+		"tall"					"32"
+		"proportionalToParent"	"1"
 		"autoResize"			"1"
 		"pinCorner"				"0"
 		"visible"				"1"
@@ -227,165 +338,11 @@
 		"navDown"				"BtnCampaigns"
 		"labelText"				"#L4D360UI_MainMenu_Quit"
 		"tooltiptext"			"#L4D360UI_MainMenu_Quit_Tip"
-		"style"					"MainMenuButton"
+		//"style"					"MainMenuButton"
 		"command"				"QuitGame"
 		"ActivationType"		"1"
-	}
-				
-	"FlmCampaignFlyout"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmCampaignFlyout"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/CampaignFlyout.res"
-	}
-
-	"FlmRealismFlyout"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmRealismFlyout"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/RealismFlyout.res"
-	}
-	
-	"FlmSurvivalFlyout"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmSurvivalFlyout"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/SurvivalFlyout.res"
-	}
-
-	"FlmScavengeFlyout"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmScavengeFlyout"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/ScavengeFlyout.res"
-	}
-
-	"FlmVersusFlyout"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmVersusFlyout"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/VersusFlyout.res"
-	}
-
-	"FlmRealismVersusFlyout"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmRealismVersusFlyout"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/RealismVersusFlyout.res"
-	}
-	
-	"FlmMutationCategories"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmMutationCategories"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/MutationCategoriesFlyout.res"
-	}
-
-	"FlmMutationSolo"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmMutationSolo"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/MutationSoloFlyout.res"
-	}
-
-	"FlmMutationCoop"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmMutationCoop"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/MutationCoopFlyout.res"
-	}
-
-	"FlmMutationVersus"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmMutationVersus"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/MutationVersusFlyout.res"
-	}
-
-	"FlmChallengeFlyout1"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmChallengeFlyout1"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/mainmenu_flyout_challenge1.res"
-	}
-
-	"FlmChallengeFlyout4"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmChallengeFlyout4"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/mainmenu_flyout_challenge4.res"
-	}
-
-	"FlmChallengeFlyout8"
-	{
-		"ControlName"			"FlyoutMenu"
-		"fieldName"				"FlmChallengeFlyout8"
-		"visible"				"0"
-		"wide"					"0"
-		"tall"					"0"
-		"zpos"					"3"
-		"InitialFocus"			"BtnQuickMatch"
-		"ResourceFile"			"resource/UI/L4D360UI/mainmenu_flyout_challenge8.res"
+		"textAlignment"			"center"
+		"font"					"DefaultExtraLarge"
 	}
 		
 	"FlmOptionsFlyout"
@@ -436,47 +393,28 @@
 		"InitialFocus"			"BtnCommunity"
 		"ResourceFile"			"resource/UI/L4D360UI/ExtrasFlyoutLive.res"
 	}
-			
-	"PnlQuickJoin"
+	
+	"BtnMenuReload"
 	{
-		"ControlName"			"QuickJoinPanel"
-		"fieldName"				"PnlQuickJoin"
-		"ResourceFile"			"resource/UI/L4D360UI/QuickJoin.res"
-		"visible"				"0"
-		"wide"					"500"	[$X360]
-		"wide"					"240"	[$WIN32]
-		"tall"					"300"
-		"xpos"					"r260"	[$X360]
-		"xpos"					"80"	[$WIN32]
-		"ypos"					"r120"	[$X360]
-		"ypos"					"r75"	[$WIN32]
-		"navUp"					"BtnQuit"
-		"navDown"				"BtnGameModes"
+		//"ControlName"			"BaseModHybridButton"
+		"ControlName"			"Button"
+		"fieldName"				"BtnMenuReload"
+		"xpos"					"0"
+		"ypos"					"0"
+		"wide"					"56"
+		"tall"					"16"
+		"proportionalToParent"	"1"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"1"
+		"navUp"					"BtnExitToMainMenu"
+		"navDown"				"BtnSingleplayer"
+		"labelText"				"Menu Reload"
+		//"style"					"MainMenuButton"
+		"command"				"menu_reload"
+		"ActivationType"		"1"
+		"textAlignment"			"center"
 	}
-	
-	"PnlQuickJoinGroups"	[$WIN32]
-	{
-		"ControlName"			"QuickJoinGroupsPanel"
-		"fieldName"				"PnlQuickJoinGroups"
-		"ResourceFile"			"resource/UI/L4D360UI/QuickJoinGroups.res"
-		"visible"				"0"
-		"wide"					"500"
-		"tall"					"300"
-		"xpos"					"c0"
-		"ypos"					"r75"
-		"navUp"					""
-		"navDown"				""
-	}
-	
-	// some crappy work around because this is showing on the menu, idk why
-	//"frame_close"
-	//{
-	//	"fieldName"				"frame_close"
-	//	"visible"				"0"
-	//	"wide"					"0"
-	//	"tall"					"0"
-	//	"xpos"					"-40"
-	//	"ypos"					"-40"
-	//}
-	
 }

@@ -52,6 +52,9 @@ BaseClass( parent, panelName, false, true )
 	SetCloseButtonVisible(false);
 
 	SetFooterState();
+
+	// test
+	GameUI().AllowEngineHideGameUI();
 }
 
 //=============================================================================
@@ -140,13 +143,14 @@ void InGameMainMenu::OnCommand( const char *command )
 	{
 		// audio options dialog, PC only
 		m_ActiveControl->NavigateFrom( );
-		CBaseModPanel::GetSingleton().OpenWindow(WT_AUDIO, this, true );
+		//CBaseModPanel::GetSingleton().OpenWindow(WT_AUDIO, this, true );
+		CBaseModPanel::GetSingleton().OpenWindow(WT_AUDIO, this, false );
 	}
 	else if (!Q_strcmp(command, "Video"))
 	{
 		// video options dialog, PC only
 		m_ActiveControl->NavigateFrom( );
-		CBaseModPanel::GetSingleton().OpenWindow(WT_VIDEO, this, true );
+		CBaseModPanel::GetSingleton().OpenWindow(WT_VIDEO, this, false );
 	}
 	else if (!Q_strcmp(command, "Brightness"))
 	{
@@ -158,7 +162,7 @@ void InGameMainMenu::OnCommand( const char *command )
 	{
 		// standalone keyboard/mouse dialog, PC only
 		m_ActiveControl->NavigateFrom( );
-		CBaseModPanel::GetSingleton().OpenWindow(WT_KEYBOARDMOUSE, this, true );
+		CBaseModPanel::GetSingleton().OpenWindow(WT_KEYBOARDMOUSE, this, false );
 	}
 	else if (!Q_strcmp(command, "Mouse"))
 	{
@@ -490,11 +494,11 @@ void InGameMainMenu::PaintBackground()
 //=============================================================================
 void InGameMainMenu::SetFooterState()
 {
-	CBaseModFooterPanel *footer = BaseModUI::CBaseModPanel::GetSingleton().GetFooterPanel();
+	/*CBaseModFooterPanel *footer = BaseModUI::CBaseModPanel::GetSingleton().GetFooterPanel();
 	if ( footer )
 	{
 		footer->SetButtons( FB_ABUTTON | FB_BBUTTON, FF_AB_ONLY, false );
 		footer->SetButtonText( FB_ABUTTON, "#L4D360UI_Select" );
 		footer->SetButtonText( FB_BBUTTON, "#L4D360UI_Done" );
-	}
+	}*/
 }

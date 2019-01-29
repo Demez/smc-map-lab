@@ -86,22 +86,25 @@ MainMenu::MainMenu( Panel *parent, const char *panelName ):
 	SetMoveable( false );
 	SetSizeable( false );
 
-	SetCloseButtonVisible(false);
-
 	SetLowerGarnishEnabled( true );
 
+	// ?
 	AddFrameListener( this );
 
 	m_iQuickJoinHelpText = MMQJHT_NONE;
 
 	SetDeleteSelfOnClose( true );
+
+	SetCloseButtonVisible( false );
+
+	// what is this
+	SetConsoleStylePanel( true );
 }
 
 //=============================================================================
 MainMenu::~MainMenu()
 {
 	RemoveFrameListener( this );
-
 }
 
 const char *GetRandomQuitString()
@@ -149,6 +152,69 @@ const char *GetRandomQuitString()
 	}
 
 	return string;
+}
+
+//=============================================================================
+static void LeaveGameOkCallback()
+{
+	COM_TimestampedLog( "Exit Game" );
+
+	MainMenu* self = 
+		static_cast< MainMenu* >( CBaseModPanel::GetSingleton().GetWindow( WT_MAINMENU ) );
+
+	if ( self )
+	{
+		self->Close();
+	}
+
+	engine->ExecuteClientCmd( "gameui_hide" );
+
+	// On PC people can be playing via console bypassing matchmaking
+	// and required session settings, so to leave game duplicate
+	// session closure with an extra "disconnect" command.
+	engine->ExecuteClientCmd( "disconnect" );
+
+	//Turn off commentary.
+	engine->ExecuteClientCmd( "commentary 0" );
+
+	engine->ExecuteClientCmd( "gameui_activate" );
+
+	CBaseModPanel::GetSingleton().CloseAllWindows();
+	CBaseModPanel::GetSingleton().OpenFrontScreen();
+}
+
+static void LoadGameCallback()
+{
+	MainMenu* self = 
+		static_cast< MainMenu* >( CBaseModPanel::GetSingleton().GetWindow( WT_MAINMENU ) );
+
+	if ( self )
+	{
+		self->Close();
+	}
+
+	engine->ExecuteClientCmd( "reload" );
+	engine->ExecuteClientCmd( "gameui_hide" );
+
+	CBaseModPanel::GetSingleton().CloseAllWindows();
+	CBaseModPanel::GetSingleton().OnGameUIHidden();
+}
+
+static void SavedGameCallback()
+{
+	MainMenu* self = 
+		static_cast< MainMenu* >( CBaseModPanel::GetSingleton().GetWindow( WT_MAINMENU ) );
+
+	if ( self )
+	{
+		self->Close();
+	}
+
+	engine->ClientCmd( "autosave\n" );
+	engine->ExecuteClientCmd( "gameui_hide" );
+
+	CBaseModPanel::GetSingleton().CloseAllWindows();
+	CBaseModPanel::GetSingleton().OnGameUIHidden();
 }
 
 //=============================================================================
@@ -232,14 +298,18 @@ void MainMenu::OnCommand( const char *command )
 	
 	*/
 
-	else if (!Q_strcmp(command, "Options"))
+	else if ( ( !Q_strcmp( command, "ReturnToGame" ) ) && engine->IsConnected() )
+	{
+		engine->ClientCmd("gameui_hide");
+	}
+	else if (!Q_strcmp(command, "Options_Old"))
 	{
 		CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
 	}
-
-	else if (!Q_strcmp(command, "Open_OptionsMenu"))
+	// some hacky reload by just re-opening the menu
+	else if (!Q_strcmp(command, "menu_reload"))
 	{
-		CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
+		CBaseModPanel::GetSingleton().OpenWindow(WT_MAINMENU, this, true );
 	}
 
 	// --
@@ -257,7 +327,7 @@ void MainMenu::OnCommand( const char *command )
 			{
 				m_ActiveControl->NavigateFrom( );
 			}
-			CBaseModPanel::GetSingleton().OpenWindow(WT_AUDIO, this, true );
+			CBaseModPanel::GetSingleton().OpenWindow(WT_AUDIO, this, false );
 		}
 	}
 	else if (!Q_strcmp(command, "Video"))
@@ -273,7 +343,7 @@ void MainMenu::OnCommand( const char *command )
 			{
 				m_ActiveControl->NavigateFrom( );
 			}
-			CBaseModPanel::GetSingleton().OpenWindow(WT_VIDEO, this, true );
+			CBaseModPanel::GetSingleton().OpenWindow(WT_VIDEO, this, false );
 		}
 	}
 	else if (!Q_strcmp(command, "Brightness"))
@@ -302,7 +372,7 @@ void MainMenu::OnCommand( const char *command )
 			{
 				m_ActiveControl->NavigateFrom( );
 			}
-			CBaseModPanel::GetSingleton().OpenWindow(WT_KEYBOARDMOUSE, this, true );
+			CBaseModPanel::GetSingleton().OpenWindow(WT_KEYBOARDMOUSE, this, false );
 		}
 	}
 	else if (!Q_strcmp(command, "Mouse"))
@@ -315,6 +385,24 @@ void MainMenu::OnCommand( const char *command )
 		CBaseModPanel::GetSingleton().OpenKeyBindingsDialog( this );
 	}
 	
+	//else if (!Q_strcmp(command, "SaveGame"))
+	else if ( ( !Q_strcmp( command, "SaveGame" ) ) && engine->IsConnected() )
+	{
+
+		CBaseModPanel::GetSingleton().OnOpenSaveGameDialog();
+		/*GenericConfirmation* confirmation = 
+			static_cast< GenericConfirmation* >( CBaseModPanel::GetSingleton().OpenWindow( WT_GENERICCONFIRMATION, this, true ) );
+
+		GenericConfirmation::Data_t data;
+
+		data.pWindowTitle = "#GameUI_ConfirmOverwriteSaveGame_Title";
+		data.pMessageText = "#GameUI_ConfirmOverwriteSaveGame_Info";
+		data.bOkButtonEnabled = true;
+		data.pfnOkCallback = &SavedGameCallback;
+		data.bCancelButtonEnabled = true;
+
+		confirmation->SetUsageData(data);*/
+	}
 	else if (!Q_strcmp(command, "LoadLastSave"))
 	{
 		CBaseModPanel::GetSingleton().OnOpenLoadGameDialog();
@@ -348,6 +436,22 @@ void MainMenu::OnCommand( const char *command )
 	else if (!Q_strcmp(command, "Credits"))
 	{
 		
+	}
+
+	else if ( ( !Q_strcmp( command, "ExitToMainMenu" ) ) && engine->IsConnected() )
+	{
+		GenericConfirmation* confirmation = 
+			static_cast< GenericConfirmation* >( CBaseModPanel::GetSingleton().OpenWindow( WT_GENERICCONFIRMATION, this, true ) );
+
+		GenericConfirmation::Data_t data;
+
+		data.pWindowTitle = "#L4D360UI_LeaveMultiplayerConf";
+		data.pMessageText = "#L4D360UI_LeaveMultiplayerConfMsg";
+		data.bOkButtonEnabled = true;
+		data.pfnOkCallback = &LeaveGameOkCallback;
+		data.bCancelButtonEnabled = true;
+
+		confirmation->SetUsageData(data);
 	}
 
 	else if (!Q_strcmp(command, "QuitGame"))
@@ -417,8 +521,9 @@ void MainMenu::OnCommand( const char *command )
 	}
 	else if( !Q_strcmp( command, "Addons" ) )
 	{
-		CBaseModPanel::GetSingleton().OpenWindow( WT_ADDONS, this, true );
+		CBaseModPanel::GetSingleton().OpenWindow( WT_ADDONS, this, false );
 	}
+	// what is this
 	else if( !Q_strcmp( command, "MyUGC" ) )
 	{
 		CBaseModPanel::GetSingleton().OpenWindow( WT_MYUGC, this, true );
@@ -434,11 +539,6 @@ void MainMenu::OnCommand( const char *command )
 	{
 		OnCommand( "FlmExtrasFlyout_Simple" );
 		return;
-	}
-	else if ( !Q_strcmp( command, "Open_OptionsMenu" ) )
-	{
-		//CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
-		CBaseModPanel::GetSingleton().OpenOptionsDialog( this );
 	}
 	else 
 	{
@@ -603,12 +703,24 @@ void MainMenu::OnThink()
 		bool bContinueableGame = CheckSaveFile(); //first_time_play.GetBool();
 
 		SetControlEnabled( "BtnContinueGame", bContinueableGame );
+
+		// --------------------------------------
+		// only show these buttons when in game
+		SetControlVisible("BtnReturnToGame", engine->IsConnected());
+		SetControlVisible("BtnSaveGame", engine->IsConnected());
+		SetControlVisible("BtnDisconnect", engine->IsConnected());
+
+		// only show this button in the menu
+		SetControlVisible("BtnQuit", !engine->IsConnected());
+		// --------------------------------------
 	}
 }
 
 //=============================================================================
 void MainMenu::OnOpen()
 {
+	LoadControlSettings( "Resource/UI/BaseModUI/MainMenu.res" );
+
 	if ( IsPC() && connect_lobby.GetString()[0] )
 	{
 		// if we were launched with "+connect_lobby <lobbyid>" on the command line, join that lobby immediately
@@ -713,77 +825,14 @@ void MainMenu::ApplySchemeSettings( IScheme *pScheme )
 	}
 	*/
 #endif
-
+	
 	LoadControlSettings( pSettings );
 
 	BaseModHybridButton *button = dynamic_cast< BaseModHybridButton* >( FindChildByName( "BtnPlaySolo" ) );
 	if ( button )
 	{
-#ifdef _X360
-		button->SetText( ( XBX_GetNumGameUsers() > 1 ) ? ( "#L4D360UI_MainMenu_PlaySplitscreen" ) : ( "#L4D360UI_MainMenu_PlaySolo" ) );
-		button->SetHelpText( ( XBX_GetNumGameUsers() > 1 ) ? ( "#L4D360UI_MainMenu_OfflineCoOp_Tip" ) : ( "#L4D360UI_MainMenu_PlaySolo_Tip" ) );
-#endif
 	}
 
-#ifdef _X360
-	if ( !XBX_GetPrimaryUserIsGuest() )
-	{
-		wchar_t wszListText[ 128 ];
-		wchar_t wszPlayerName[ 128 ];
-
-		IPlayer *player1 = NULL;
-		if ( XBX_GetNumGameUsers() > 0 )
-		{
-			player1 = g_pMatchFramework->GetMatchSystem()->GetPlayerManager()->GetLocalPlayer( XBX_GetUserId( 0 ) );
-		}
-
-		IPlayer *player2 = NULL;
-		if ( XBX_GetNumGameUsers() > 1 )
-		{
-			player2 = g_pMatchFramework->GetMatchSystem()->GetPlayerManager()->GetLocalPlayer( XBX_GetUserId( 1 ) );
-		}
-
-		if ( player1 )
-		{
-			Label *pLblPlayer1GamerTag = dynamic_cast< Label* >( FindChildByName( "LblPlayer1GamerTag" ) );
-			if ( pLblPlayer1GamerTag )
-			{
-				g_pVGuiLocalize->ConvertANSIToUnicode( player1->GetName(), wszPlayerName, sizeof( wszPlayerName ) );
-				g_pVGuiLocalize->ConstructString( wszListText, sizeof( wszListText ), g_pVGuiLocalize->Find( "#L4D360UI_MainMenu_LocalProfilePlayer1" ), 1, wszPlayerName );
-
-				pLblPlayer1GamerTag->SetVisible( true );
-				pLblPlayer1GamerTag->SetText( wszListText );
-			}
-		}
-
-		if ( player2 )
-		{
-			Label *pLblPlayer2GamerTag = dynamic_cast< Label* >( FindChildByName( "LblPlayer2GamerTag" ) );
-			if ( pLblPlayer2GamerTag )
-			{
-				g_pVGuiLocalize->ConvertANSIToUnicode( player2->GetName(), wszPlayerName, sizeof( wszPlayerName ) );
-				g_pVGuiLocalize->ConstructString( wszListText, sizeof( wszListText ), g_pVGuiLocalize->Find( "#L4D360UI_MainMenu_LocalProfilePlayer2" ), 1, wszPlayerName );
-
-				pLblPlayer2GamerTag->SetVisible( true );
-				pLblPlayer2GamerTag->SetText( wszListText );
-
-				// in split screen, have player2 gamer tag instead of enable, and disable
-				SetControlVisible( "LblPlayer2DisableIcon", true );
-				SetControlVisible( "LblPlayer2Disable", true );
-				SetControlVisible( "LblPlayer2Enable", false );
-			}
-		}
-		else
-		{
-			SetControlVisible( "LblPlayer2DisableIcon", false );
-			SetControlVisible( "LblPlayer2Disable", false );
-
-			// not in split screen, no player2 gamertag, instead have enable
-			SetControlVisible( "LblPlayer2GamerTag", false );
-			SetControlVisible( "LblPlayer2Enable", true );
-		}
-	}
-#endif
 
 	if ( IsPC() )
 	{

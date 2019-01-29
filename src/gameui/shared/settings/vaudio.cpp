@@ -6,7 +6,7 @@
 
 #include "cbase.h"
 #include "VAudio.h"
-#include "VFooterPanel.h"
+//#include "VFooterPanel.h"
 #include "VDropDownMenu.h"
 #include "VSliderControl.h"
 #include "VHybridButton.h"
@@ -44,10 +44,10 @@ extern ConVar ui_gameui_modal;
 Audio::Audio(Panel *parent, const char *panelName):
 BaseClass(parent, panelName)
 {
-	if ( ui_gameui_modal.GetBool() )
+	/*if ( ui_gameui_modal.GetBool() )
 	{
 		GameUI().PreventEngineHideGameUI();
-	}
+	}*/
 
 #if !defined( NO_VOICE )
 	m_pVoiceTweak = engine->GetVoiceTweakAPI();
@@ -96,6 +96,9 @@ BaseClass(parent, panelName)
 	m_nCurrentAudioLanguage = k_Lang_None;
 
 	m_nNumAudioLanguages = 0;
+
+	// use escape key to show or hide? might keep this, idk
+	GameUI().AllowEngineHideGameUI();
 }
 
 //=============================================================================
@@ -105,7 +108,7 @@ Audio::~Audio()
 
 	EndTestMicrophone();
 
-	UpdateFooter( false );
+	//UpdateFooter( false );
 
 	if ( m_pchUpdatedAudioLanguage[ 0 ] != '\0' )
 	{
@@ -249,7 +252,7 @@ void Audio::Activate()
 
 		// Get the spoken language and store it for comparison purposes
 		m_nCurrentAudioLanguage = PchLanguageToELanguage( szCurrentLanguage );
-
+		
 		// Set up the base string for each button command
 		char szCurrentButton[ 32 ];
 		Q_strncpy( szCurrentButton, VIDEO_LANGUAGE_COMMAND_PREFIX, sizeof( szCurrentButton ) );
@@ -420,7 +423,7 @@ void Audio::Activate()
 		}
 	}
 
-	UpdateFooter( true );
+	//UpdateFooter( true );
 
 	/*if ( m_sldGameVolume )
 	{
@@ -584,8 +587,6 @@ void Audio::PerformLayout()
 	BaseClass::PerformLayout();
 
 	//SetBounds( 0, 0, ScreenWidth(), ScreenHeight() );
-
-	//LoadControlSettings("resource/ui/settings/audio.res");
 }
 
 void Audio::OnKeyCodePressed(KeyCode code)
@@ -911,7 +912,8 @@ void Audio::OnNotifyChildFocus( vgui::Panel* child )
 {
 }
 
-void Audio::UpdateFooter( bool bEnableCloud )
+// re-add this maybe?
+/*void Audio::UpdateFooter( bool bEnableCloud )
 {
 	if ( !BaseModUI::CBaseModPanel::GetSingletonPtr() )
 		return;
@@ -925,11 +927,11 @@ void Audio::UpdateFooter( bool bEnableCloud )
 
 		footer->SetShowCloud( bEnableCloud );
 	}
-}
+}*/
 
 void Audio::OnFlyoutMenuClose( vgui::Panel* flyTo )
 {
-	UpdateFooter( true );
+	//UpdateFooter( true );
 }
 
 void Audio::OnFlyoutMenuCancelled()

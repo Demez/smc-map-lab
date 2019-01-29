@@ -102,33 +102,12 @@ void CASW_Background_Movie::Update()
 {
 	//	if ( engine->IsConnected() && ASWGameRules() )
 	int nGameState = 0;
+
+	// if you can, move this to a resource file or something
 	if(nGameState != m_nLastGameState)
 	{
-
-	//	const char *pFilename = NULL;
-
-		#ifdef false //GAMEIU_MULTI_MOVIES
-		int nChosenMovie = RandomInt(0, 3);
-		switch(nChosenMovie) {
-			case 0: pFilename = "media/background01.bik"; break;
-			case 1: pFilename = "media/background01.bik"; break;
-			default:
-			case 2: pFilename = "media/background01.bik"; break;
-			case 3: pFilename = "media/background01.bik"; break;
-		}
-		#else
-	//	pFilename = "media/background01";
-		#endif
-
-		//TEMPTEMP: Keep game from crashing
-	//	pFilename = "media/l4d2_background01.bik";
-
-		/*if (m_szCurrentMovie) {
-			SetCurrentMovie(m_szCurrentMovie);
-		}*/
-		//SetCurrentMovie( "media/BGFX_01.bik" );
+		SetCurrentMovie( "media/bg_01.bik" );
 	}
-	//SetCurrentMovie( "media/BGFX_01.bik" );
 	m_nLastGameState = nGameState;
 
 	if (m_pVideoMaterial == NULL)

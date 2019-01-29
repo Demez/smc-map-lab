@@ -1,0 +1,963 @@
+"Resource/UI/Video.res"
+{
+	"Video"
+	{
+		"ControlName"		"Frame"
+		"fieldName"			"Video"
+		"xpos"				"192"
+		"ypos"				"0"
+		"wide"				"f192"
+		"tall"				"f0"
+		"visible"			"1"
+		"enabled"			"1"
+	}
+	
+	"Title"
+	{
+		"fieldName"				"Title"
+		"xpos"					"0"
+		"ypos"					"0"
+		"wide"					"240"
+		"tall"					"24"
+		"zpos"					"5"
+		"font"					"DefaultExtraLarge"
+		"textAlignment"			"west"
+		"textinsetx"				"38"
+		"textinsety"				"1"
+		"ControlName"				"Label"
+		"labelText"				"#GameUI_Video"
+		"fgcolor_override"		"224 224 224 255"
+	}
+	
+	"MainBackground"
+	{
+		//"ControlName"			"L4DMenuBackground"
+		"ControlName"			"Panel"
+		"fieldName"				"MainBackground"
+		"xpos"					"0"
+		//"ypos"					"24"
+		"ypos"					"0"
+		"zpos"					"-10"
+		"wide"					"f0"
+		//"tall"					"f64" // f - titlebackground - button background
+		"tall"					"f0" // f - titlebackground - button background
+		"autoResize"			"0"
+		"pinCorner"				"0"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"			"0"
+		"bgcolor_override"		"0 0 0 224"
+		"proportionaltoparent"		"1"
+	}
+	
+	"DrpAspectRatio"
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpAspectRatio"
+		"xpos"				"0"
+		"ypos"				"s1" // 48
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"Btn3rdPartyCredits"
+		"navDown"			"DrpResolution"
+		"proportionaltoparent"		"1"
+		"font"						"DefaultMedium"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_AspectRatio"
+			"tooltiptext"					"#GameUI_VideoOptions_AspectRatio_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmAspectRatio"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+			"font"						"DefaultMedium"
+		}
+	}
+	
+	//flyouts		
+	"FlmAspectRatio"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmAspectRatio"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownAspectRatio.res"
+		"OnlyActiveUser"		"1"
+	}
+	
+	"DrpResolution"
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpResolution"
+		"xpos"				"0"
+		"ypos"				"s2"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpAspectRatio"
+		"navDown"			"DrpDisplayMode"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Resolution"
+			"tooltiptext"					"#GameUI_VideoOptions_Resolution_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmResolution"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmResolution"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmResolution"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownResolution.res"
+		"OnlyActiveUser"		"1"
+	}
+	
+	"DrpDisplayMode"
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpDisplayMode"
+		"xpos"				"0"
+		"ypos"				"s3"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpResolution"
+		"navDown"			"DrpLockMouse"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_DisplayMode"
+			"tooltiptext"					"#GameUI_VideoOptions_DisplayMode_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmDisplayMode"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmDisplayMode"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmDisplayMode"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownDisplayMode.res"
+		"OnlyActiveUser"		"1"
+	}
+	
+	"DrpModelDetail"
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpModelDetail"
+		"xpos"				"0"
+		"ypos"				"s4"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpCPUDetail"
+		"navDown"			"DrpPagedPoolMem"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"	
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Model_Detail"
+			"tooltiptext"					"#GameUI_VideoOptions_Model_Detail_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmModelDetail"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmModelDetail"
+	{
+		"ControlName"				"FlyoutMenu"
+		"fieldName"				"FlmModelDetail"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownModelDetail.res"
+		"OnlyActiveUser"			"1"
+	}
+	
+	"DrpTextureDetail" // ------------------------------------------------------------------
+	{
+		"ControlName"				"DropDownMenu"
+		"fieldName"				"DrpTextureDetail"
+		"xpos"					"0"
+		"ypos"					"s5"
+		"zpos"					"3"
+		"wide"					"f0"
+		"tall"					"24"
+		"visible"				"1"
+		"enabled"				"1"
+		"usetitlesafe"			"0"
+		"tabPosition"				"0"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"				"260"	
+			"tall"						"24"
+			"autoResize"				"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"				"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Texture_Detail"
+			"tooltiptext"					"#GameUI_VideoOptions_Texture_Detail_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmTextureDetail"
+			"ActivationType"			"1"
+			"OnlyActiveUser"			"1"
+			"proportionaltoparent"		"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmTextureDetail"
+	{
+		"ControlName"				"FlyoutMenu"
+		"fieldName"				"FlmTextureDetail"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/ui/settings/dropdown/DropDownTextureDetail.res"
+		"OnlyActiveUser"			"1"
+	} // -----------------------------------------------------------------------------------
+	
+	"DrpWaterDetail" // ----------------------------------------------------------------------
+	{
+		"ControlName"				"DropDownMenu"
+		"fieldName"				"DrpWaterDetail"
+		"xpos"					"0"
+		"ypos"					"s6"
+		"zpos"					"3"
+		"wide"					"f0"
+		"tall"					"24"
+		"visible"				"1"
+		"enabled"				"1"
+		"usetitlesafe"			"0"
+		"tabPosition"				"0"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"				"260"	
+			"tall"						"24"
+			"autoResize"				"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"				"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Water_Detail"
+			"tooltiptext"					"#GameUI_VideoOptions_Water_Detail_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmWaterDetail"
+			"ActivationType"			"1"
+			"OnlyActiveUser"			"1"
+			"proportionaltoparent"		"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmWaterDetail"
+	{
+		"ControlName"				"FlyoutMenu"
+		"fieldName"				"FlmWaterDetail"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/ui/settings/dropdown/DropDownWaterDetail.res"
+		"OnlyActiveUser"			"1"
+	} // -----------------------------------------------------------------------------------
+	
+	"DrpShaderDetail" // ---------------------------------------------------------------------
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpShaderDetail"
+		"xpos"				"0"
+		"ypos"				"s9"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpQueuedMode"
+		"navDown"			"DrpCPUDetail"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"	
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Shader_Detail"
+			"tooltiptext"					"#GameUI_VideoOptions_Shader_Detail_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmShaderDetail"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmShaderDetail"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmShaderDetail"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownShaderDetail.res"
+		"OnlyActiveUser"		"1"
+	} // -----------------------------------------------------------------------------------
+	
+	"DrpShadowDetail" // ---------------------------------------------------------------------
+	{
+		"ControlName"				"DropDownMenu"
+		"fieldName"				"DrpShadowDetail"
+		"xpos"					"0"
+		"ypos"					"s10"
+		"zpos"					"3"
+		"wide"					"f0"
+		"tall"					"24"
+		"visible"				"1"
+		"enabled"				"1"
+		"usetitlesafe"			"0"
+		"tabPosition"				"0"
+		"navUp"					"DrpQueuedMode"
+		"navDown"				"DrpCPUDetail"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"	
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Shadow_Detail"
+			"tooltiptext"					"#GameUI_VideoOptions_Shadow_Detail_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmShadowDetail"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmShadowDetail"
+	{
+		"ControlName"				"FlyoutMenu"
+		"fieldName"				"FlmShaderDetail"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/ui/dropdown/dropdown_shadowdetail.res"
+		"OnlyActiveUser"			"1"
+	} // -----------------------------------------------------------------------------------
+	
+	"DrpAntialias"
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpAntialias"
+		"xpos"				"0"
+		"ypos"				"s7"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"BtnAdvanced"
+		"navDown"			"DrpFiltering"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Antialiasing"
+			"tooltiptext"					"#GameUI_VideoOptions_Antialiasing_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmAntialias"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+		"proportionaltoparent"				"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmAntialias"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmAntialias"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownAntialias.res"
+		"OnlyActiveUser"		"1"
+	}
+	
+	"DrpFiltering"
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpFiltering"
+		"xpos"				"0"
+		"ypos"				"s8"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpAntialias"
+		"navDown"			"DrpVSync"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Filtering_Mode"
+			"tooltiptext"					"#GameUI_VideoOptions_Filtering_Mode_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmFiltering"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmFiltering"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmFiltering"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownFiltering.res"
+		"OnlyActiveUser"		"1"
+	}
+	
+	"DrpHDRLevel" // ---------------------------------------------------------------------
+	{
+		"ControlName"				"DropDownMenu"
+		"fieldName"				"DrpHDRLevel"
+		"xpos"					"0"
+		"ypos"					"s12"
+		"zpos"					"3"
+		"wide"					"f0"
+		"tall"					"24"
+		"visible"				"1"
+		"enabled"				"1"
+		"usetitlesafe"			"0"
+		"tabPosition"				"0"
+		"navUp"					"DrpQueuedMode"
+		"navDown"				"DrpCPUDetail"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"	
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_HDR_Level"
+			"tooltiptext"					"#GameUI_VideoOptions_HDR_Level_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmHDRLevel"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmHDRLevel"
+	{
+		"ControlName"				"FlyoutMenu"
+		"fieldName"				"FlmHDRLevel"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/ui/settings/dropdown/dropdown_hdrlevel.res"
+		"OnlyActiveUser"		"1"
+	} // -----------------------------------------------------------------------------------
+	
+	"DrpColorCorrection" // ------------------------------------------------------------------
+	{
+		"ControlName"			"DropDownMenu"
+		"fieldName"			"DrpColorCorrection"
+		"xpos"				"0"
+		"ypos"				"s11"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"			"0"
+		"navUp"				"DrpQueuedMode"
+		"navDown"			"DrpCPUDetail"
+		"proportionaltoparent"	"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"					"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"					"260"	
+			"tall"						"24"
+			"autoResize"					"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"					"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_VideoOptions_Color_Correction"
+			"tooltiptext"					"#GameUI_VideoOptions_Color_Correction_Tip"
+			"style"						"DropDownButton"
+			"command"					"FlmColorCorrection"
+			"ActivationType"				"1"
+			"OnlyActiveUser"				"1"
+			"proportionaltoparent"			"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmColorCorrection"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmShaderDetail"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/ui/settings/dropdown/dropdown_colorcorrection.res"
+		"OnlyActiveUser"		"1"
+	} // -----------------------------------------------------------------------------------
+	
+	// Turn these into toggle buttons
+	"DrpVSync" // ---------------------------------------------------------------------------
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpVSync"
+		"xpos"				"0"
+		"ypos"				"s13"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpFiltering"
+		"navDown"			"DrpQueuedMode"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"				"260"
+			"tall"						"24"
+			"autoResize"				"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"				"1"
+			"AllCaps"					"1"
+			"labelText"					"#GameUI_Wait_For_VSync"
+			"tooltiptext"				"#L4D_vertical_sync_tip"
+			"style"						"DropDownButton"
+			"command"					"FlmVSync"
+			"ActivationType"			"1"
+			"OnlyActiveUser"			"1"
+			"proportionaltoparent"		"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmVSync"
+	{
+		"ControlName"				"FlyoutMenu"
+		"fieldName"				"FlmVSync"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOff"
+		"ResourceFile"			"resource/UI/basemodui/DropDownVSync.res"
+		"OnlyActiveUser"			"1"
+	} // -----------------------------------------------------------------------------------
+	
+	"DrpQueuedMode" // ----------------------------------------------------------------------
+	{
+		"ControlName"		"DropDownMenu"
+		"fieldName"			"DrpQueuedMode"
+		"xpos"				"0"
+		"ypos"				"s14"
+		"zpos"				"3"
+		"wide"				"f0"
+		"tall"				"24"
+		"visible"			"1"
+		"enabled"			"1"
+		"usetitlesafe"		"0"
+		"tabPosition"		"0"
+		"navUp"				"DrpVSync"
+		"navDown"			"DrpShaderDetail"
+		"proportionaltoparent"		"1"
+				
+		//button and label
+		"BtnDropButton"
+		{
+			"ControlName"				"BaseModHybridButton"
+			"fieldName"					"BtnDropButton"
+			"xpos"						"0"
+			"ypos"						"0"
+			"zpos"						"0"
+			"wide"						"f0"
+			"wideatopen"				"260"	
+			"tall"						"24"
+			"autoResize"				"1"
+			"pinCorner"					"0"
+			"visible"					"1"
+			"enabled"					"1"
+			"tabPosition"				"1"
+			"AllCaps"					"1"
+			"labelText"					"#L4D360UI_VideoOptions_Queued_Mode"
+			"tooltiptext"				"#L4D360UI_VideoOptions_Queued_Mode_Tooltip"
+			"style"						"DropDownButton"
+			"command"					"FlmQueuedMode"
+			"ActivationType"			"1"
+			"OnlyActiveUser"			"1"
+			"proportionaltoparent"		"1"
+		}
+	}
+	
+	//flyouts		
+	"FlmQueuedMode"
+	{
+		"ControlName"			"FlyoutMenu"
+		"fieldName"				"FlmQueuedMode"
+		"visible"				"0"
+		"wide"					"0"
+		"tall"					"0"
+		"zpos"					"4"
+		"InitialFocus"			"BtnOn"
+		"ResourceFile"			"resource/UI/basemodui/DropDownQueuedMode.res"
+		"OnlyActiveUser"		"1"
+	} // -----------------------------------------------------------------------------------
+	
+// =================================================================================================================
+	
+	"BtnUseRecommended"
+	{	
+		// if you change this, you can't select shit
+		"ControlName"				"BaseModHybridButton"
+		"fieldName"				"BtnUseRecommended"
+		"xpos"					"0"
+		"ypos"					"rs2"
+		"zpos"					"0"
+		"wide"					"280"
+		"tall"					"24"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"0"
+		"enabled"				"0"
+		"tabPosition"			"0"
+		"wrap"					"1"
+		"navUp"					"DrpPagedPoolMem"
+		"navDown"				"BtnCancel"
+		"AllCaps"				"1"
+		"labelText"				"#L4D360UI_UseRecommended"
+		"tooltiptext"			"#L4D360UI_UseRecommended_Tooltip"
+		"style"					"DefaultButton"
+		"command"				"UseRecommended"
+		EnabledTextInsetX		"2"
+		DisabledTextInsetX		"2"
+		FocusTextInsetX			"2"
+		OpenTextInsetX			"2"
+		"proportionaltoparent"		"1"
+	}
+	
+	"Btn3rdPartyCredits"
+	{
+		"ControlName"			"BaseModHybridButton"
+		"fieldName"				"Btn3rdPartyCredits"
+		"xpos"					"c-140"
+		"ypos"					"380"
+		"zpos"					"0"
+		"wide"					"280"
+		"tall"					"24"
+		"autoResize"			"1"
+		"pinCorner"				"0"
+		"visible"				"0"
+		"enabled"				"0"
+		"tabPosition"			"0"
+		"wrap"					"1"
+		"navUp"					"BtnDone"
+		"navDown"				"DrpAspectRatio"
+		"AllCaps"				"1"
+		"labelText"				"#GameUI_ThirdPartyVideo_Title"
+		"tooltiptext"			"#GameUI_ThirdPartyTechCredits"
+		"style"					"DialogButton"
+		"command"				"3rdPartyCredits"
+		EnabledTextInsetX		"2"
+		DisabledTextInsetX		"2"
+		FocusTextInsetX			"2"
+		OpenTextInsetX			"2"
+	}
+	
+	"BtnDone"
+	{
+		"ControlName"				"CNB_Button"
+		"fieldName"				"BtnDone"
+		"xpos"					"0"
+		"ypos"					"rs1"
+		"wide"					"128"
+		"tall"					"24"
+		"zpos"					"1"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"				"0"
+		"labelText"				"#GameUI_Done"
+		"command"				"Back"
+		"textAlignment"			"center"
+		"font"					"DefaultMedium"
+		"fgcolor_override"		"113 142 181 255"
+		"proportionaltoparent"		"1"
+	}
+	
+	"BtnCancel"
+	{
+		"ControlName"			"CNB_Button"
+		"fieldName"				"BtnCancel"
+		"xpos"					"rs1"
+		"ypos"					"rs1"
+		"wide"					"128"
+		"tall"					"24"
+		"zpos"					"1"
+		"visible"				"1"
+		"enabled"				"1"
+		"tabPosition"				"0"
+		"labelText"				"#GameUI_Cancel"
+		"command"				"Cancel"
+		"textAlignment"			"center"
+		"font"					"DefaultMedium"
+		"fgcolor_override"		"113 142 181 255"
+		"proportionaltoparent"		"1"
+	}
+}

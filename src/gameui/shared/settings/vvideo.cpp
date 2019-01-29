@@ -50,7 +50,7 @@ void SetFlyoutButtonText( const char *pchCommand, FlyoutMenu *pFlyout, const cha
 	}
 }
 
-void AcceptPagedPoolMemWarningCallback()
+/*void AcceptPagedPoolMemWarningCallback()
 {
 	Video *self = static_cast<Video*>( CBaseModPanel::GetSingleton().GetWindow( WT_VIDEO ) );
 	if( self )
@@ -73,7 +73,7 @@ void PagedPoolMemOpenned( DropDownMenu *pDropDownMenu, FlyoutMenu *pFlyoutMenu )
 	data.pfnOkCallback = AcceptPagedPoolMemWarningCallback;
 
 	confirmation->SetUsageData(data);
-}
+}*/
 
 
 //=============================================================================
@@ -87,9 +87,10 @@ BaseClass(parent, panelName)
 	SetDeleteSelfOnClose(true);
 
 	SetProportional( true );
+	SetSizeable( true );
 
-	SetUpperGarnishEnabled(true);
-	SetLowerGarnishEnabled(true);
+	//SetUpperGarnishEnabled(true);
+	//SetLowerGarnishEnabled(true);
 
 	m_drpAspectRatio = NULL;
 	m_drpResolution = NULL;
@@ -100,7 +101,7 @@ BaseClass(parent, panelName)
 	m_btnAdvanced = NULL;
 
 	m_drpModelDetail = NULL;
-	m_drpPagedPoolMem = NULL;
+	//m_drpPagedPoolMem = NULL;
 	m_drpAntialias = NULL;
 	m_drpFiltering = NULL;
 	m_drpVSync = NULL;
@@ -114,12 +115,12 @@ BaseClass(parent, panelName)
 
 	m_btn3rdPartyCredits = NULL;
 
-	m_pHeaderFooter = new CNB_Header_Footer( this, "HeaderFooter" );
+	/*m_pHeaderFooter = new CNB_Header_Footer( this, "HeaderFooter" );
 	m_pHeaderFooter->SetTitle( "" );
 	m_pHeaderFooter->SetHeaderEnabled( false );
 	m_pHeaderFooter->SetFooterEnabled( true );
 	m_pHeaderFooter->SetGradientBarEnabled( true );
-	m_pHeaderFooter->SetGradientBarPos( 100, 310 );
+	m_pHeaderFooter->SetGradientBarPos( 100, 310 );*/
 
 	//CGameUIConVarRef mat_grain_scale_override( "mat_grain_scale_override" );
 	//m_flFilmGrainInitialValue = mat_grain_scale_override.GetFloat();
@@ -137,17 +138,17 @@ void Video::PerformLayout()
 {
 	BaseClass::PerformLayout();
 
-	SetBounds( 0, 0, ScreenWidth(), ScreenHeight() );
+	//SetBounds( 0, 0, ScreenWidth(), ScreenHeight() );
 }
 
-void Video::OpenPagedPoolMem( void )
+/*void Video::OpenPagedPoolMem( void )
 {
 	if ( m_drpPagedPoolMem )
 	{
 		m_drpPagedPoolMem->SetOpenCallback( NULL );
 		m_drpPagedPoolMem->OnCommand( "FlmPagedPoolMem" );
 	}
-}
+}*/
 
 //=============================================================================
 void Video::SetupActivateData( void )
@@ -157,7 +158,7 @@ void Video::SetupActivateData( void )
 	m_iResolutionHeight = config.m_VideoMode.m_Height;
 	m_iAspectRatio = GetScreenAspectMode( m_iResolutionWidth, m_iResolutionHeight );
 	m_bWindowed = config.Windowed();
-	m_bNoBorder = false;// config.NoWindowBorder();
+	//m_bNoBorder = false;// config.NoWindowBorder();
 
 	/*CGameUIConVarRef gpu_mem_level( "gpu_mem_level" );
 	m_iModelTextureDetail = clamp( gpu_mem_level.GetInt(), 0, 2);
@@ -207,15 +208,18 @@ bool Video::SetupRecommendedActivateData( void )
 	}
 	*/
 
-	//m_iResolutionWidth = pConfigKeys->GetInt( "setting.defaultres", 640 );
-	m_iResolutionWidth = pConfigKeys->GetInt( "setting.defaultres", 1280 );
-	//m_iResolutionHeight = pConfigKeys->GetInt( "setting.defaultresheight", 480 );
-	m_iResolutionHeight = pConfigKeys->GetInt( "setting.defaultresheight", 720 );
+	m_iResolutionWidth = pConfigKeys->GetInt( "setting.defaultres", 640 );
+	m_iResolutionHeight = pConfigKeys->GetInt( "setting.defaultresheight", 480 );
 	m_iAspectRatio = GetScreenAspectMode( m_iResolutionWidth, m_iResolutionHeight );
 	m_bWindowed = !pConfigKeys->GetBool( "setting.fullscreen", true );
-	m_bNoBorder = pConfigKeys->GetBool( "setting.nowindowborder", false );
+	//m_bNoBorder = pConfigKeys->GetBool( "setting.nowindowborder", false );
 	//m_iModelTextureDetail = clamp( pConfigKeys->GetInt( "setting.gpu_mem_level", 0 ), 0, 2 );
 	//m_iPagedPoolMem = clamp( pConfigKeys->GetInt( "setting.mem_level", 0 ), 0, 2 );
+
+	// can go from 0 - 5 actually, add support in this menu for this later
+	m_iModelDetail = clamp( pConfigKeys->GetInt( "setting.r_rootlod", 0 ), 0, 2 );
+	m_iTextureDetail = clamp( pConfigKeys->GetInt( "setting.mat_picmip", 0 ), -1, 4 );
+
 	m_nAASamples = pConfigKeys->GetInt( "setting.mat_antialias", 0 );
 	m_nAAQuality = pConfigKeys->GetInt( "setting.mat_aaquality", 0 );
 	m_iFiltering = pConfigKeys->GetInt( "setting.mat_forceaniso", 1 );
@@ -283,14 +287,14 @@ void Video::Activate( bool bRecommendedSettings )
 	{
 		if ( m_bWindowed )
 		{
-			if ( m_bNoBorder )
+			/*if ( m_bNoBorder )
 			{
 				m_drpDisplayMode->SetCurrentSelection( "#L4D360UI_VideoOptions_Windowed_NoBorder" );
 			}
 			else
-			{
+			{*/
 				m_drpDisplayMode->SetCurrentSelection( "#GameUI_Windowed" );
-			}
+			//}
 		}
 		else
 		{
@@ -313,7 +317,7 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}
 
-	if ( m_drpLockMouse )
+	/*if ( m_drpLockMouse )
 	{
 		if ( m_bLockMouse )
 		{
@@ -342,11 +346,12 @@ void Video::Activate( bool bRecommendedSettings )
 			m_sldFilmGrain->SetCurrentValue( m_flFilmGrain );
 			m_sldFilmGrain->ResetSliderPosAndDefaultMarkers();
 		}
-	}
+	}*/
 
 	if ( m_drpModelDetail )
 	{
-		switch ( m_iModelTextureDetail )
+		//switch ( m_iModelTextureDetail )
+		switch ( m_iModelDetail )
 		{
 		case 0:
 			m_drpModelDetail->SetCurrentSelection( "ModelDetailLow" );
@@ -366,7 +371,7 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}
 
-	if ( m_drpPagedPoolMem )
+	/*if ( m_drpPagedPoolMem )
 	{
 		switch ( m_iPagedPoolMem )
 		{
@@ -388,7 +393,7 @@ void Video::Activate( bool bRecommendedSettings )
 		{
 			pFlyout->SetListener( this );
 		}
-	}
+	}*/
 
 	if ( m_drpAntialias )
 	{
@@ -554,14 +559,7 @@ void Video::Activate( bool bRecommendedSettings )
 	{
 		if ( m_bVSync )
 		{
-			if ( m_bTripleBuffered )
-			{
-				m_drpVSync->SetCurrentSelection( "VSyncTripleBuffered" );
-			}
-			else
-			{
-				m_drpVSync->SetCurrentSelection( "VSyncEnabled" );
-			}
+			m_drpVSync->SetCurrentSelection( "VSyncEnabled" );
 		}
 		else
 		{
@@ -601,7 +599,7 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}
 
-	if ( m_drpShaderDetail )
+	/*if ( m_drpShaderDetail )
 	{
 		switch ( m_iGPUDetail )
 		{
@@ -646,7 +644,7 @@ void Video::Activate( bool bRecommendedSettings )
 		{
 			pFlyout->SetListener( this );
 		}
-	}
+	}*/
 
 	UpdateFooter();
 	
@@ -686,7 +684,7 @@ void Video::OnThink()
 		needsActivate = true;
 	}
 
-	if ( !m_drpLockMouse )
+	/*if ( !m_drpLockMouse )
 	{
 		m_drpLockMouse = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpLockMouse" ) );
 		needsActivate = true;
@@ -707,7 +705,7 @@ void Video::OnThink()
 	{
 		m_btnAdvanced = dynamic_cast< BaseModHybridButton* >( FindChildByName( "BtnAdvanced" ) );
 		needsActivate = true;
-	}
+	}*/
 
 	if( !m_drpModelDetail )
 	{
@@ -715,11 +713,11 @@ void Video::OnThink()
 		needsActivate = true;
 	}
 
-	if( !m_drpPagedPoolMem )
+	/*if( !m_drpPagedPoolMem )
 	{
 		m_drpPagedPoolMem = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpPagedPoolMem" ) );
 		needsActivate = true;
-	}
+	}*/
 
 	if( !m_drpAntialias )
 	{
@@ -745,7 +743,7 @@ void Video::OnThink()
 		needsActivate = true;
 	}
 
-	if( !m_drpShaderDetail )
+	/*if( !m_drpShaderDetail )
 	{
 		m_drpShaderDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpShaderDetail" ) );
 		needsActivate = true;
@@ -755,7 +753,7 @@ void Video::OnThink()
 	{
 		m_drpCPUDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpCPUDetail" ) );
 		needsActivate = true;
-	}
+	}*/
 
 	if( !m_btnUseRecommended )
 	{
@@ -843,25 +841,25 @@ void Video::OnCommand(const char *command)
 	else if ( !Q_strcmp( command, "#GameUI_Windowed" ) )
 	{
 		m_bWindowed = true;
-		m_bNoBorder = false;
+		//m_bNoBorder = false;
 		m_bDirtyValues = true;
 		PrepareResolutionList();
 	}
-	else if ( !Q_strcmp( command, "#L4D360UI_VideoOptions_Windowed_NoBorder" ) )
+	/*else if ( !Q_strcmp( command, "#L4D360UI_VideoOptions_Windowed_NoBorder" ) )
 	{
 		m_bWindowed = true;
 		m_bNoBorder = true;
 		m_bDirtyValues = true;
 		PrepareResolutionList();
-	}
+	}*/
 	else if ( !Q_strcmp( command, "#GameUI_Fullscreen" ) )
 	{
 		m_bWindowed = false;
-		m_bNoBorder = false;
+		//m_bNoBorder = false;
 		m_bDirtyValues = true;
 		PrepareResolutionList();
 	}
-	else if ( !Q_strcmp( command, "LockMouseEnabled" ) )
+	/*else if ( !Q_strcmp( command, "LockMouseEnabled" ) )
 	{
 		m_bLockMouse = true;
 		m_bDirtyValues = true;
@@ -870,8 +868,8 @@ void Video::OnCommand(const char *command)
 	{
 		m_bLockMouse = false;
 		m_bDirtyValues = true;
-	}
-	else if ( !Q_strcmp( command, "ShowAdvanced" ) )
+	}*/
+	/*else if ( !Q_strcmp( command, "ShowAdvanced" ) )
 	{
 		SetControlVisible( "BtnAdvanced", false );
 		SetControlVisible( "DrpModelDetail", true );
@@ -910,23 +908,24 @@ void Video::OnCommand(const char *command)
 		}
 
 		FlyoutMenu::CloseActiveMenu();
-	}
+	}*/
 	else if ( !Q_strcmp( command, "ModelDetailHigh" ) )
 	{
-		m_iModelTextureDetail = 2;
+		//m_iModelTextureDetail = 2;
+		m_iModelDetail = 0;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "ModelDetailMedium" ) )
 	{
-		m_iModelTextureDetail = 1;
+		m_iModelDetail = 1;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "ModelDetailLow" ) )
 	{
-		m_iModelTextureDetail = 0;
+		m_iModelDetail = 2;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "PagedPoolMemHigh" ) )
+	/*else if ( !Q_strcmp( command, "PagedPoolMemHigh" ) )
 	{
 		m_iPagedPoolMem = 2;
 		m_bDirtyValues = true;
@@ -940,7 +939,7 @@ void Video::OnCommand(const char *command)
 	{
 		m_iPagedPoolMem = 0;
 		m_bDirtyValues = true;
-	}
+	}*/
 	else if ( StringHasPrefix( command, VIDEO_ANTIALIAS_COMMAND_PREFIX ) )
 	{
 		int iCommandNumberPosition = Q_strlen( VIDEO_ANTIALIAS_COMMAND_PREFIX );
@@ -977,22 +976,14 @@ void Video::OnCommand(const char *command)
 		m_iFiltering = 16;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "VSyncTripleBuffered" ) )
-	{
-		m_bVSync = true;
-		m_bTripleBuffered = true;
-		m_bDirtyValues = true;
-	}
 	else if ( !Q_strcmp( command, "VSyncEnabled" ) )
 	{
 		m_bVSync = true;
-		m_bTripleBuffered = false;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "VSyncDisabled" ) )
 	{
 		m_bVSync = false;
-		m_bTripleBuffered = false;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "QueuedModeEnabled" ) )
@@ -1005,7 +996,7 @@ void Video::OnCommand(const char *command)
 		m_iQueuedMode = 0;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "ShaderDetailVeryHigh" ) )
+	/*else if ( !Q_strcmp( command, "ShaderDetailVeryHigh" ) )
 	{
 		m_iGPUDetail = 3;
 		m_bDirtyValues = true;
@@ -1039,7 +1030,7 @@ void Video::OnCommand(const char *command)
 	{
 		m_iCPUDetail = 0;
 		m_bDirtyValues = true;
-	}
+	}*/
 	else if( Q_stricmp( "UseRecommended", command ) == 0 )
 	{
 		FlyoutMenu::CloseActiveMenu();
@@ -1377,7 +1368,8 @@ void Video::ApplyChanges()
 	{
 		// set mode
 		char szCmd[ 256 ];
-		Q_snprintf( szCmd, sizeof( szCmd ), "mat_setvideomode %i %i %i %i\n", m_iResolutionWidth, m_iResolutionHeight, m_bWindowed ? 1 : 0, m_bNoBorder ? 1 : 0 );
+		//Q_snprintf( szCmd, sizeof( szCmd ), "mat_setvideomode %i %i %i %i\n", m_iResolutionWidth, m_iResolutionHeight, m_bWindowed ? 1 : 0, m_bNoBorder ? 1 : 0 );
+		Q_snprintf( szCmd, sizeof( szCmd ), "mat_setvideomode %i %i %i \n", m_iResolutionWidth, m_iResolutionHeight, m_bWindowed ? 1 : 0 );
 		engine->ClientCmd_Unrestricted( szCmd );
 	}
 
@@ -1417,10 +1409,10 @@ void Video::OnFlyoutMenuClose( vgui::Panel* flyTo )
 {
 	UpdateFooter();
 
-	if ( m_drpPagedPoolMem )
+	/*if ( m_drpPagedPoolMem )
 	{
 		m_drpPagedPoolMem->SetOpenCallback( PagedPoolMemOpenned );
-	}
+	}*/
 }
 
 void Video::OnFlyoutMenuCancelled()
@@ -1449,8 +1441,10 @@ void Video::ApplySchemeSettings( vgui::IScheme *pScheme )
 	SetPaintBackgroundEnabled( true );
 	SetupAsDialogStyle();
 
+	LoadControlSettings("resource/ui/settings/video.res");
+
 	// Collapse the buttons under the advance options button
-	int iAdvancedPos = 0;
+	/*int iAdvancedPos = 0;
 
 	if ( m_btnAdvanced )
 	{
@@ -1486,5 +1480,5 @@ void Video::ApplySchemeSettings( vgui::IScheme *pScheme )
 		m_btnDone->SetPos( iXPos, iNextButtonPos );
 
 		iNextButtonPos += iButtonSpacing;
-	}
+	}*/
 }

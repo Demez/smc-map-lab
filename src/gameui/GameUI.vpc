@@ -277,8 +277,6 @@ $Project "GameUI"
 				}
 			}
 		}
-		
-		
 	}
 
 	$Folder	"Precompiled Header"

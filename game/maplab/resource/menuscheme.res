@@ -76,12 +76,15 @@ Scheme
 		Border.White					"White"
 
 		Button.TextColor				"CustomGray"
-		Button.BgColor					"Gray"
+		Button.BgColor					"0 0 0 0" //"Gray"
 		Button.ArmedTextColor			"White"
-		Button.ArmedBgColor				"Blank"
+		Button.ArmedBgColor				"0 0 0 128" //"Blank"
 		Button.DepressedTextColor		"White"
-		Button.DepressedBgColor			"Blank"
+		Button.DepressedBgColor			"0 0 255 255" //"Blank"
 		Button.FocusBorderColor			"Black"
+		Button.BlinkColor				"255 155 0 255" // what is this?
+		//Button.TextInsetX				"32"
+		Button.TextAlignment			"center"
 		
 		CheckButton.TextColor			"170 170 170 255"
 		CheckButton.SelectedTextColor	"White"
@@ -232,9 +235,12 @@ Scheme
 	//////////////////////// HYBRID BUTTON STYLES /////////////////////////////
 	//
 	// Custom styles for use with L4D360HybridButtons
+	// Try not to use this, as there is SO much hard coding in it
 
 		HybridButton.BorderColor					"Orange"
-		HybridButton.BlotchColor					"DarkBlueTrans"
+		// im only using this for a flyout button, idk why it uses this when it should be using a DropDownButton color
+		HybridButton.BlotchColor					"64 64 64 128" //"DarkBlueTrans"
+		HybridButton.BGColor						"0 0 0 0"
 
 		// These bypass all of CA's horrific style.  Look/Feel is code based
 			
@@ -242,17 +248,19 @@ Scheme
 		MainMenuButton.Style						"1"
 		MainMenuButton.TextInsetX					"0"
 		MainMenuButton.TextInsetY					"0"
+		MainMenuButton.TextColor					"135 170 193 255"
 		
 		// inside of a flyout menu only
 		FlyoutMenuButton.Style						"2"
-		FlyoutMenuButton.TextInsetX					"8"
+		FlyoutMenuButton.TextInsetX					"12"
 		FlyoutMenuButton.TextInsetY					"10" //"6"
 		FlyoutMenuButton.FillColor					"0 0 255 255"
 
 		// inside a dialog, contains a RHS value, usually causes a flyout
 		DropDownButton.Style						"3"
 		DropDownButton.TextInsetX					"16" // affects both left AND right side
-		DropDownButton.TextInsetY					"8"
+		DropDownButton.TextInsetY					"4"
+		DropDownButton.BlotchColor					"64 64 64 128"
 
 		// centers within the focus
 		DialogButton.Style							"4"

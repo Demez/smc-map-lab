@@ -265,7 +265,8 @@ void SliderControl::ResetSliderPosAndDefaultMarkers()
 				fInterp = 1.0f - fInterp;
 			}
 
-			m_defaultMark->SetPos( xpos + ( m_prgValue->GetWide() - m_defaultMark->GetWide() ) * fInterp, ypos - 3 );
+			//m_defaultMark->SetPos( xpos + ( m_prgValue->GetWide() - m_defaultMark->GetWide() ) * fInterp, ypos - 3 );
+			m_defaultMark->SetPos( xpos + ( m_prgValue->GetWide() - m_defaultMark->GetWide() ) * fInterp, ypos - (GetTall() / 2) );
 			m_defaultMark->SetBgColor( m_unfocusColor );
 			m_defaultMark->SetVisible( IsEnabled() );
 		}

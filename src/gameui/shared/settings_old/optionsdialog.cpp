@@ -66,7 +66,7 @@ COptionsDialog::COptionsDialog(vgui::EditablePanel *parent, OptionsDialogTabStyl
 		AddPage(new COptionsSubMouse(this), "#GameUI_Mouse");
 
 		m_pOptionsSubAudio = new COptionsSubAudio(this);
-		AddPage(m_pOptionsSubAudio, "#GameUI_Audio");
+		//AddPage(m_pOptionsSubAudio, "#GameUI_Audio");
 		m_pOptionsSubVideo = new COptionsSubVideo(this);
 		AddPage(m_pOptionsSubVideo, "#GameUI_Video");
 

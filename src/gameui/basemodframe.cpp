@@ -1104,6 +1104,7 @@ void CBaseModFrame::SetupAsDialogStyle()
 int CBaseModFrame::DrawSmearBackground( int x, int y, int wide, int tall, bool bIsFooter )
 {
 	//Draw blur before everything else
+	// was commented out
 	/*ITexture *pTexture = materials->FindTexture("_rt_FullFrameFB", TEXTURE_GROUP_RENDER_TARGET);
 
 	CMatRenderContextPtr pRenderContext(materials);

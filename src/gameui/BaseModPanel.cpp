@@ -1224,13 +1224,15 @@ void CBaseModPanel::OnGameUIActivated()
 	}
 	else if ( engine->IsConnected() && !m_LevelLoading )
 	{
-		CBaseModFrame *pInGameMainMenu = m_Frames[ WT_INGAMEMAINMENU ].Get();
+		//CBaseModFrame *pInGameMainMenu = m_Frames[ WT_INGAMEMAINMENU ].Get();
+		CBaseModFrame *pInGameMainMenu = m_Frames[ WT_MAINMENU ].Get();
 
 		if ( !pInGameMainMenu || !pInGameMainMenu->IsAutoDeleteSet() )
 		{
 			// Prevent in game menu from opening if it already exists!
 			// It might be hiding behind a modal window that needs to keep focus
-			OpenWindow( WT_INGAMEMAINMENU, 0 );
+			//OpenWindow( WT_INGAMEMAINMENU, 0 );
+			OpenWindow( WT_MAINMENU, 0 );
 		}
 	}
 }

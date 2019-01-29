@@ -344,6 +344,7 @@ void BaseModHybridButton::PaintButtonEx()
 	vgui::IScheme *pScheme = vgui::scheme()->GetIScheme( GetScheme() );
 	Color blotchColor = pScheme->GetColor( "HybridButton.BlotchColor", Color( 0, 0, 0, 255 ) );
 	Color borderColor = pScheme->GetColor( "HybridButton.BorderColor", Color( 0, 0, 0, 255 ) );
+	Color bgColor = pScheme->GetColor( "HybridButton.BGColor", Color( 0, 0, 0, 0 ) );
 
 	int x, y;
 	int wide, tall;
@@ -382,7 +383,8 @@ void BaseModHybridButton::PaintButtonEx()
 			}
 			else if ( m_nStyle == BUTTON_ALIENSWARMMENUBUTTON || m_nStyle == BUTTON_ALIENSWARMMENUBUTTONSMALL )
 			{
-				col.SetColor( 135, 170, 193, 255 );
+				//col.SetColor( 135, 170, 193, 255 );
+				pScheme->GetColor( "MainMenuButton.TextColor", Color( 135, 170, 193, 255 ) );
 			}
 			else
 			{
@@ -459,7 +461,8 @@ void BaseModHybridButton::PaintButtonEx()
 		}*/
 
 		// draw blotch
-		surface()->DrawSetColor( blotchColor );
+		//surface()->DrawSetColor( blotchColor );
+		surface()->DrawSetColor( pScheme->GetColor( "DropDownButton.BlotchColor", Color( 32, 32, 32, 128 ) ) );
 		/*if ( m_nStyle == BUTTON_DIALOG )
 		{
 			surface()->DrawFilledRect( 0, 0, wide, tall );

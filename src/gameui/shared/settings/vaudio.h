@@ -64,7 +64,7 @@ protected:
 private:
 	void		StartTestMicrophone();
 	void		EndTestMicrophone();
-	void		UpdateFooter( bool bEnableCloud );
+	//void		UpdateFooter( bool bEnableCloud );
 
 	void OpenThirdPartySoundCreditsDialog();
 
