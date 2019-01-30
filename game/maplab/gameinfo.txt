@@ -2,7 +2,7 @@
 {
 	game 		"Map Labs"
 	title 		"Map Labs"
-	title2		"mp-dev branch"
+	title2 		"master branch"
 	supportsvr	0
 
 	type		singleplayer_only
