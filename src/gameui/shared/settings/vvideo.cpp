@@ -80,10 +80,6 @@ void PagedPoolMemOpenned( DropDownMenu *pDropDownMenu, FlyoutMenu *pFlyoutMenu )
 Video::Video(Panel *parent, const char *panelName):
 BaseClass(parent, panelName)
 {
-	if ( ui_gameui_modal.GetBool() )
-	{
-		GameUI().PreventEngineHideGameUI();
-	}
 	SetDeleteSelfOnClose(true);
 
 	SetProportional( true );
@@ -95,25 +91,30 @@ BaseClass(parent, panelName)
 	m_drpAspectRatio = NULL;
 	m_drpResolution = NULL;
 	m_drpDisplayMode = NULL;
-	m_drpLockMouse = NULL;
-	m_sldFilmGrain = NULL;
+	//m_drpLockMouse = NULL;
+	//m_sldFilmGrain = NULL;
 
-	m_btnAdvanced = NULL;
+	//m_btnAdvanced = NULL;
 
 	m_drpModelDetail = NULL;
-	//m_drpPagedPoolMem = NULL;
+	m_drpLOD = NULL;
+	m_drpTextureDetail = NULL;
+	m_drpWaterDetail = NULL;
 	m_drpAntialias = NULL;
 	m_drpFiltering = NULL;
 	m_drpVSync = NULL;
 	m_drpQueuedMode = NULL;
 	m_drpShaderDetail = NULL;
-	m_drpCPUDetail = NULL;
+	m_drpShadowDetail = NULL;
+	m_drpDXLevel = NULL;
+	m_drpHDRLevel = NULL;
+
 
 	m_btnUseRecommended = NULL;
 	m_btnCancel = NULL;
 	m_btnDone = NULL;
 
-	m_btn3rdPartyCredits = NULL;
+	//m_btn3rdPartyCredits = NULL;
 
 	/*m_pHeaderFooter = new CNB_Header_Footer( this, "HeaderFooter" );
 	m_pHeaderFooter->SetTitle( "" );
@@ -126,6 +127,9 @@ BaseClass(parent, panelName)
 	//m_flFilmGrainInitialValue = mat_grain_scale_override.GetFloat();
 
 	m_bDirtyValues = false;
+
+	// can use esc key when in menu
+	GameUI().AllowEngineHideGameUI();
 }
 
 //=============================================================================
@@ -166,6 +170,46 @@ void Video::SetupActivateData( void )
 	CGameUIConVarRef mem_level( "mem_level" );
 	m_iPagedPoolMem = clamp( mem_level.GetInt(), 0, 2);*/
 
+	CGameUIConVarRef r_rootlod( "r_rootlod" );
+	m_iModelDetail =  clamp( r_rootlod.GetInt(), 0, 2);
+	CGameUIConVarRef r_lod( "r_lod" );
+	m_iLOD = clamp( r_lod.GetInt(), -1, 0);
+
+	CGameUIConVarRef mat_picmip( "mat_picmip" );
+	m_iTextureDetail = clamp( mat_picmip.GetInt(), -1, 4);
+
+	CGameUIConVarRef r_waterforceexpensive( "r_waterforceexpensive" );
+	CGameUIConVarRef r_waterforcereflectentities( "r_waterforcereflectentities" );
+
+	if ( r_waterforcereflectentities.GetBool() && r_waterforcereflectentities.GetBool() )
+	{
+		m_iWaterDetail = 2;
+	}
+	else if ( r_waterforceexpensive.GetBool() )
+	{
+		m_iWaterDetail = 1;
+	}
+	else
+	{
+		m_iWaterDetail = 0;
+	}
+	
+	CGameUIConVarRef r_shadowrendertotexture( "r_shadowrendertotexture" );
+	CGameUIConVarRef r_flashlightdepthtexture( "r_flashlightdepthtexture" );
+
+	if ( r_shadowrendertotexture.GetBool() && r_flashlightdepthtexture.GetBool() )
+	{
+		m_iShadowDetail = 2;
+	}
+	else if ( r_shadowrendertotexture.GetBool() )
+	{
+		m_iShadowDetail = 1;
+	}
+	else
+	{
+		m_iShadowDetail = 0;
+	}
+	
 	CGameUIConVarRef mat_antialias( "mat_antialias" );
 	CGameUIConVarRef mat_aaquality( "mat_aaquality" );
 	m_nAASamples = mat_antialias.GetInt();
@@ -183,14 +227,11 @@ void Video::SetupActivateData( void )
 	CGameUIConVarRef mat_queue_mode( "mat_queue_mode" );
 	m_iQueuedMode = mat_queue_mode.GetInt();
 
-	/*CGameUIConVarRef gpu_level( "gpu_level" );
-	m_iGPUDetail = clamp( gpu_level.GetInt(), 0, 3 );
+	CGameUIConVarRef mat_dxlevel( "mat_dxlevel" );
+	m_iDXLevel = mat_dxlevel.GetInt();
 
-	CGameUIConVarRef cpu_level( "cpu_level" );
-	m_iCPUDetail = clamp( cpu_level.GetInt(), 0, 2 );
-
-	CGameUIConVarRef in_lock_mouse_to_window( "in_lock_mouse_to_window" );
-	m_bLockMouse = in_lock_mouse_to_window.GetBool();*/
+	CGameUIConVarRef mat_hdr_level( "mat_hdr_level" );
+	m_iHDRLevel = mat_hdr_level.GetInt();
 }
 
 //=============================================================================
@@ -208,17 +249,38 @@ bool Video::SetupRecommendedActivateData( void )
 	}
 	*/
 
-	m_iResolutionWidth = pConfigKeys->GetInt( "setting.defaultres", 640 );
-	m_iResolutionHeight = pConfigKeys->GetInt( "setting.defaultresheight", 480 );
+	//m_iResolutionWidth = pConfigKeys->GetInt( "setting.defaultres", 640 );
+	//m_iResolutionHeight = pConfigKeys->GetInt( "setting.defaultresheight", 480 );
+	m_iResolutionWidth = pConfigKeys->GetInt( "setting.defaultres", 1280 );
+	m_iResolutionHeight = pConfigKeys->GetInt( "setting.defaultresheight", 720 );
 	m_iAspectRatio = GetScreenAspectMode( m_iResolutionWidth, m_iResolutionHeight );
 	m_bWindowed = !pConfigKeys->GetBool( "setting.fullscreen", true );
 	//m_bNoBorder = pConfigKeys->GetBool( "setting.nowindowborder", false );
 	//m_iModelTextureDetail = clamp( pConfigKeys->GetInt( "setting.gpu_mem_level", 0 ), 0, 2 );
 	//m_iPagedPoolMem = clamp( pConfigKeys->GetInt( "setting.mem_level", 0 ), 0, 2 );
 
-	// can go from 0 - 5 actually, add support in this menu for this later
+	// can go from 0 - 5 actually, might add support in this menu for this later
 	m_iModelDetail = clamp( pConfigKeys->GetInt( "setting.r_rootlod", 0 ), 0, 2 );
+	m_iLOD = clamp( pConfigKeys->GetInt( "setting.m_iLOD", -1 ), -1, 0 );
 	m_iTextureDetail = clamp( pConfigKeys->GetInt( "setting.mat_picmip", 0 ), -1, 4 );
+
+	if ( pConfigKeys->GetBool( "setting.r_waterforcereflectentities", 1 ) )
+	{
+		if ( pConfigKeys->GetBool( "setting.r_waterforcereflectentities", 1 ) )
+		{
+			m_iWaterDetail = 2;
+		}
+		m_iWaterDetail = 1;
+	}
+
+	if ( pConfigKeys->GetBool( "setting.r_flashlightdepthtexture", 1 ) )
+	{
+		if ( pConfigKeys->GetBool( "setting.r_shadowrendertotexture", 1 ) )
+		{
+			m_iShadowDetail = 2;
+		}
+		m_iShadowDetail = 1;
+	}
 
 	m_nAASamples = pConfigKeys->GetInt( "setting.mat_antialias", 0 );
 	m_nAAQuality = pConfigKeys->GetInt( "setting.mat_aaquality", 0 );
@@ -229,7 +291,8 @@ bool Video::SetupRecommendedActivateData( void )
 	//m_iCPUDetail = pConfigKeys->GetInt( "setting.cpu_level", 0 );
 	//m_flFilmGrain = pConfigKeys->GetFloat( "setting.mat_grain_scale_override", 1.0f );
 	m_iQueuedMode = pConfigKeys->GetInt( "setting.mat_queue_mode", -1 );
-	//m_bLockMouse = pConfigKeys->GetBool( "setting.in_lock_mouse_to_window", true );
+	m_iDXLevel = pConfigKeys->GetInt( "setting.mat_dxlevel", 95 );
+	m_iHDRLevel = pConfigKeys->GetInt( "setting.mat_hdr_level", 2 );
 
 	pConfigKeys->deleteThis();
 
@@ -250,15 +313,15 @@ void Video::Activate( bool bRecommendedSettings )
 {
 	BaseClass::Activate();
 
-	if ( !bRecommendedSettings )
-	{
+	//if ( !bRecommendedSettings )
+	//{
 		SetupActivateData();
-	}
-	else
+	//}
+	/*else
 	{
 		if ( !SetupRecommendedActivateData() )
 			return;
-	}
+	}*/
 
 	if ( m_drpAspectRatio )
 	{
@@ -354,13 +417,13 @@ void Video::Activate( bool bRecommendedSettings )
 		switch ( m_iModelDetail )
 		{
 		case 0:
-			m_drpModelDetail->SetCurrentSelection( "ModelDetailLow" );
+			m_drpModelDetail->SetCurrentSelection( "ModelDetailHigh" );
 			break;
 		case 1:
 			m_drpModelDetail->SetCurrentSelection( "ModelDetailMedium" );
 			break;
 		case 2:
-			m_drpModelDetail->SetCurrentSelection( "ModelDetailHigh" );
+			m_drpModelDetail->SetCurrentSelection( "ModelDetailLow" );
 			break;
 		}
 
@@ -371,29 +434,99 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}
 
-	/*if ( m_drpPagedPoolMem )
+	if ( m_drpLOD )
 	{
-		switch ( m_iPagedPoolMem )
+		switch ( m_iLOD )
 		{
+		case -1:
+			m_drpLOD->SetCurrentSelection( "LODEnabled" );
+			break;
 		case 0:
-			m_drpPagedPoolMem->SetCurrentSelection( "PagedPoolMemLow" );
-			break;
-		case 1:
-			m_drpPagedPoolMem->SetCurrentSelection( "PagedPoolMemMedium" );
-			break;
-		case 2:
-			m_drpPagedPoolMem->SetCurrentSelection( "PagedPoolMemHigh" );
+			m_drpLOD->SetCurrentSelection( "LODDisabled" );
 			break;
 		}
-		
-		m_drpPagedPoolMem->SetOpenCallback( PagedPoolMemOpenned );
 
-		FlyoutMenu *pFlyout = m_drpPagedPoolMem->GetCurrentFlyout();
+		FlyoutMenu *pFlyout = m_drpLOD->GetCurrentFlyout();
 		if ( pFlyout )
 		{
 			pFlyout->SetListener( this );
 		}
-	}*/
+	}
+	
+	if ( m_drpTextureDetail )
+	{
+		switch ( m_iTextureDetail )
+		{
+		case -1:
+			m_drpTextureDetail->SetCurrentSelection( "TextureDetailVeryHigh" );
+			break;
+		case 0:
+			m_drpTextureDetail->SetCurrentSelection( "TextureDetailHigh" );
+			break;
+		case 1:
+			m_drpTextureDetail->SetCurrentSelection( "TextureDetailMedium" );
+			break;
+		case 2:
+			m_drpTextureDetail->SetCurrentSelection( "TextureDetailLow" );
+			break;
+		case 3:
+			m_drpTextureDetail->SetCurrentSelection( "TextureDetailVeryLow" );
+			break;
+		case 4:
+			m_drpTextureDetail->SetCurrentSelection( "TextureDetailLowest" );
+			break;
+		}
+
+		FlyoutMenu *pFlyout = m_drpTextureDetail->GetCurrentFlyout();
+		if ( pFlyout )
+		{
+			pFlyout->SetListener( this );
+		}
+	}
+
+	if ( m_drpWaterDetail )
+	{
+		switch ( m_iWaterDetail )
+		{
+		case 0:
+			m_drpWaterDetail->SetCurrentSelection( "WaterDetailLow" );
+			break;
+		case 1:
+			m_drpWaterDetail->SetCurrentSelection( "WaterDetailMedium" );
+			break;
+		case 2:
+			m_drpWaterDetail->SetCurrentSelection( "WaterDetailHigh" );
+			break;
+		}
+
+		FlyoutMenu *pFlyout = m_drpWaterDetail->GetCurrentFlyout();
+		if ( pFlyout )
+		{
+			pFlyout->SetListener( this );
+		}
+	}
+
+	if ( m_drpShadowDetail )
+	{
+		switch ( m_iShadowDetail )
+		{
+		case 0:
+			m_drpShadowDetail->SetCurrentSelection( "ShadowDetailLow" );
+			break;
+		case 1:
+			m_drpShadowDetail->SetCurrentSelection( "ShadowDetailMedium" );
+			break;
+		case 2:
+			m_drpShadowDetail->SetCurrentSelection( "ShadowDetailHigh" );
+			break;
+		}
+
+		FlyoutMenu *pFlyout = m_drpShadowDetail->GetCurrentFlyout();
+		if ( pFlyout )
+		{
+			pFlyout->SetListener( this );
+		}
+	}
 
 	if ( m_drpAntialias )
 	{
@@ -578,13 +711,17 @@ void Video::Activate( bool bRecommendedSettings )
 		// Only allow the options on multi-processor machines.
 		if ( GetCPUInformation()->m_nPhysicalProcessors >= 2 )
 		{
-			if ( m_iQueuedMode != 0 )
+			if ( m_iQueuedMode == 2 )
 			{
-				m_drpQueuedMode->SetCurrentSelection( "QueuedModeEnabled" );
+				m_drpQueuedMode->SetCurrentSelection( "QueuedModeMulti" );
+			}
+			else if ( m_iQueuedMode == 0 )
+			{
+				m_drpQueuedMode->SetCurrentSelection( "QueuedModeDefault" );
 			}
 			else
 			{
-				m_drpQueuedMode->SetCurrentSelection( "QueuedModeDisabled" );
+				m_drpQueuedMode->SetCurrentSelection( "QueuedModeSingle" );
 			}
 
 			FlyoutMenu *pFlyout = m_drpQueuedMode->GetCurrentFlyout();
@@ -599,9 +736,9 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}
 
-	/*if ( m_drpShaderDetail )
+	if ( m_drpShaderDetail )
 	{
-		switch ( m_iGPUDetail )
+		switch ( m_iShaderDetail )
 		{
 		case 0:
 			m_drpShaderDetail->SetCurrentSelection( "ShaderDetailLow" );
@@ -624,7 +761,7 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}
 
-	if ( m_drpCPUDetail )
+	/*if ( m_drpCPUDetail )
 	{
 		switch ( m_iCPUDetail )
 		{
@@ -646,20 +783,72 @@ void Video::Activate( bool bRecommendedSettings )
 		}
 	}*/
 
-	UpdateFooter();
-	
-	if ( !bRecommendedSettings )
+	if ( m_drpDXLevel )
 	{
-		if ( m_drpAspectRatio )
+		switch ( m_iDXLevel )
+		{
+		case 98: // remove?
+			m_drpDXLevel->SetCurrentSelection( "dxlevel98" );
+			break;
+		case 95:
+			m_drpDXLevel->SetCurrentSelection( "dxlevel95" );
+			break;
+		case 90:
+			m_drpDXLevel->SetCurrentSelection( "dxlevel90" );
+			break;
+		case 81:
+			m_drpDXLevel->SetCurrentSelection( "dxlevel81" );
+			break;
+		case 80:
+			m_drpDXLevel->SetCurrentSelection( "dxlevel80" );
+			break;
+		}
+
+		FlyoutMenu *pFlyout = m_drpDXLevel->GetCurrentFlyout();
+		if ( pFlyout )
+		{
+			pFlyout->SetListener( this );
+		}
+	}
+
+	if ( m_drpHDRLevel )
+	{
+		switch ( m_iHDRLevel )
+		{
+		case 0: // remove?
+			m_drpHDRLevel->SetCurrentSelection( "HDRLevel0" );
+			break;
+		case 1:
+			m_drpHDRLevel->SetCurrentSelection( "HDRLevel1" );
+			break;
+		case 2:
+			m_drpHDRLevel->SetCurrentSelection( "HDRLevel2" );
+			break;
+		}
+
+		FlyoutMenu *pFlyout = m_drpHDRLevel->GetCurrentFlyout();
+		if ( pFlyout )
+		{
+			pFlyout->SetListener( this );
+		}
+	}
+
+
+	//UpdateFooter();
+	
+	//if ( !bRecommendedSettings )
+	//{
+		/*if ( m_drpAspectRatio )
 		{
 			if ( m_ActiveControl )
 				m_ActiveControl->NavigateFrom( );
 			m_drpAspectRatio->NavigateTo();
 			m_ActiveControl = m_drpAspectRatio;
-		}
-	}
+		}*/
+	//}
 }
 
+// should be changed just to have any dropdownmenu activate
 void Video::OnThink()
 {
 	BaseClass::OnThink();
@@ -713,6 +902,30 @@ void Video::OnThink()
 		needsActivate = true;
 	}
 
+	if( !m_drpLOD )
+	{
+		m_drpLOD = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpLOD" ) );
+		needsActivate = true;
+	}
+
+	if( !m_drpTextureDetail )
+	{
+		m_drpTextureDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpTextureDetail" ) );
+		needsActivate = true;
+	}
+
+	if( !m_drpWaterDetail )
+	{
+		m_drpWaterDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpWaterDetail" ) );
+		needsActivate = true;
+	}
+
+	if( !m_drpShadowDetail )
+	{
+		m_drpShadowDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpShadowDetail" ) );
+		needsActivate = true;
+	}
+
 	/*if( !m_drpPagedPoolMem )
 	{
 		m_drpPagedPoolMem = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpPagedPoolMem" ) );
@@ -743,17 +956,29 @@ void Video::OnThink()
 		needsActivate = true;
 	}
 
-	/*if( !m_drpShaderDetail )
+	if( !m_drpShaderDetail )
 	{
 		m_drpShaderDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpShaderDetail" ) );
 		needsActivate = true;
 	}
 
-	if( !m_drpCPUDetail )
+	/*if( !m_drpCPUDetail )
 	{
 		m_drpCPUDetail = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpCPUDetail" ) );
 		needsActivate = true;
 	}*/
+
+	if( !m_drpDXLevel )
+	{
+		m_drpDXLevel = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpDXLevel" ) );
+		needsActivate = true;
+	}
+
+	if( !m_drpHDRLevel )
+	{
+		m_drpHDRLevel = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpHDRLevel" ) );
+		needsActivate = true;
+	}
 
 	if( !m_btnUseRecommended )
 	{
@@ -909,6 +1134,7 @@ void Video::OnCommand(const char *command)
 
 		FlyoutMenu::CloseActiveMenu();
 	}*/
+
 	else if ( !Q_strcmp( command, "ModelDetailHigh" ) )
 	{
 		//m_iModelTextureDetail = 2;
@@ -925,6 +1151,81 @@ void Video::OnCommand(const char *command)
 		m_iModelDetail = 2;
 		m_bDirtyValues = true;
 	}
+
+	else if ( !Q_strcmp( command, "LODEnabled" ) )
+	{
+		m_iLOD = -1;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "LODDisabled" ) )
+	{
+		m_iLOD = 0;
+		m_bDirtyValues = true;
+	}
+
+	else if ( !Q_strcmp( command, "TextureDetailVeryHigh" ) )
+	{
+		m_iTextureDetail = -1;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "TextureDetailHigh" ) )
+	{
+		m_iTextureDetail = 0;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "TextureDetailMedium" ) )
+	{
+		m_iTextureDetail = 1;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "TextureDetailLow" ) )
+	{
+		m_iTextureDetail = 2;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "TextureDetailVeryLow" ) )
+	{
+		m_iTextureDetail = 3;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "TextureDetailLowest" ) )
+	{
+		m_iTextureDetail = 4;
+		m_bDirtyValues = true;
+	}
+
+	else if ( !Q_strcmp( command, "WaterDetailHigh" ) )
+	{
+		m_iWaterDetail = 2;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "WaterDetailMedium" ) )
+	{
+		m_iWaterDetail = 1;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "WaterDetailLow" ) )
+	{
+		m_iWaterDetail = 0;
+		m_bDirtyValues = true;
+	}
+
+	else if ( !Q_strcmp( command, "ShadowDetailHigh" ) )
+	{
+		m_iShadowDetail = 2;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "ShadowDetailMedium" ) )
+	{
+		m_iShadowDetail = 1;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "ShadowDetailLow" ) )
+	{
+		m_iShadowDetail = 0;
+		m_bDirtyValues = true;
+	}
+
 	/*else if ( !Q_strcmp( command, "PagedPoolMemHigh" ) )
 	{
 		m_iPagedPoolMem = 2;
@@ -946,6 +1247,7 @@ void Video::OnCommand(const char *command)
 		m_iAntiAlias = clamp( command[ iCommandNumberPosition ] - '0', 0, m_nNumAAModes - 1 );
 		m_bDirtyValues = true;
 	}
+
 	else if ( !Q_strcmp( command, "#GameUI_Bilinear" ) )
 	{
 		m_iFiltering = 0;
@@ -976,47 +1278,54 @@ void Video::OnCommand(const char *command)
 		m_iFiltering = 16;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "VSyncEnabled" ) )
+
+	else if ( Q_strcmp( "VSyncEnabled", command ) == 0 )
 	{
 		m_bVSync = true;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "VSyncDisabled" ) )
+	else if ( Q_strcmp( "VSyncDisabled", command ) == 0 )
 	{
 		m_bVSync = false;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "QueuedModeEnabled" ) )
+
+	else if ( !Q_strcmp( command, "QueuedModeMulti" ) )
+	{
+		m_iQueuedMode = 2;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "QueuedModeDefault" ) )
 	{
 		m_iQueuedMode = -1;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "QueuedModeDisabled" ) )
+	else if ( !Q_strcmp( command, "QueuedModeSingle" ) )
 	{
 		m_iQueuedMode = 0;
 		m_bDirtyValues = true;
 	}
-	/*else if ( !Q_strcmp( command, "ShaderDetailVeryHigh" ) )
+	else if ( !Q_strcmp( command, "ShaderDetailVeryHigh" ) )
 	{
-		m_iGPUDetail = 3;
+		m_iShaderDetail = 3;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "ShaderDetailHigh" ) )
 	{
-		m_iGPUDetail = 2;
+		m_iShaderDetail = 2;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "ShaderDetailMedium" ) )
 	{
-		m_iGPUDetail = 1;
+		m_iShaderDetail = 1;
 		m_bDirtyValues = true;
 	}
 	else if ( !Q_strcmp( command, "ShaderDetailLow" ) )
 	{
-		m_iGPUDetail = 0;
+		m_iShaderDetail = 0;
 		m_bDirtyValues = true;
 	}
-	else if ( !Q_strcmp( command, "CPUDetailHigh" ) )
+	/*else if ( !Q_strcmp( command, "CPUDetailHigh" ) )
 	{
 		m_iCPUDetail = 2;
 		m_bDirtyValues = true;
@@ -1031,6 +1340,55 @@ void Video::OnCommand(const char *command)
 		m_iCPUDetail = 0;
 		m_bDirtyValues = true;
 	}*/
+
+	else if ( !Q_strcmp( command, "dxlevel98" ) )
+	{
+		m_iDXLevel = 98;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "dxlevel95" ) )
+	{
+		m_iDXLevel = 95;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "dxlevel90" ) )
+	{
+		m_iDXLevel = 90;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "dxlevel81" ) )
+	{
+		m_iDXLevel = 81;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "dxlevel80" ) )
+	{
+		m_iDXLevel = 80;
+		m_bDirtyValues = true;
+	}
+
+	// float hdr,
+	/*else if ( !Q_strcmp( command, "HDRLevel3" ) )
+	{
+		m_iHDRLevel = 3;
+		m_bDirtyValues = true;
+	}*/
+	else if ( !Q_strcmp( command, "HDRLevel2" ) )
+	{
+		m_iHDRLevel = 2;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "HDRLevel1" ) )
+	{
+		m_iHDRLevel = 2;
+		m_bDirtyValues = true;
+	}
+	else if ( !Q_strcmp( command, "HDRLevel0" ) )
+	{
+		m_iHDRLevel = 2;
+		m_bDirtyValues = true;
+	}
+
 	else if( Q_stricmp( "UseRecommended", command ) == 0 )
 	{
 		FlyoutMenu::CloseActiveMenu();
@@ -1039,7 +1397,15 @@ void Video::OnCommand(const char *command)
 	else if( Q_stricmp( "Cancel", command ) == 0 )
 	{
 		m_bDirtyValues = false;
-		OnKeyCodePressed( ButtonCodeToJoystickButtonCode( KEY_XBUTTON_B, CBaseModPanel::GetSingleton().GetLastActiveUserId() ) );
+		//OnKeyCodePressed( ButtonCodeToJoystickButtonCode( KEY_XBUTTON_B, CBaseModPanel::GetSingleton().GetLastActiveUserId() ) );
+		//FlyoutMenu::CloseActiveMenu();
+		Close(); // closes the panel
+	}
+	else if( Q_stricmp( "Apply", command ) == 0 )
+	{
+		//OnKeyCodePressed( ButtonCodeToJoystickButtonCode( KEY_XBUTTON_B, CBaseModPanel::GetSingleton().GetLastActiveUserId() ) );
+		FlyoutMenu::CloseActiveMenu();
+		ApplyChanges();
 	}
 	else if( Q_stricmp( "Back", command ) == 0 )
 	{
@@ -1333,6 +1699,57 @@ void Video::ApplyChanges()
 	CGameUIConVarRef mem_level( "mem_level" );
 	mem_level.SetValue( m_iPagedPoolMem );*/
 
+	CGameUIConVarRef r_rootlod( "r_rootlod" );
+	r_rootlod.SetValue( m_iModelDetail );
+	CGameUIConVarRef r_lod( "r_lod" );
+	r_lod.SetValue( m_iLOD );
+
+	CGameUIConVarRef mat_picmip( "mat_picmip" );
+	mat_picmip.SetValue( m_iTextureDetail );
+
+	CGameUIConVarRef r_waterforceexpensive( "r_waterforceexpensive" );
+	CGameUIConVarRef r_waterforcereflectentities( "r_waterforcereflectentities" );
+
+	if ( m_iWaterDetail == 0 )
+	{
+		r_waterforcereflectentities.SetValue( 0 );
+		r_waterforceexpensive.SetValue( 0 );
+	}
+
+	if ( m_iWaterDetail == 1 )
+	{
+		r_waterforcereflectentities.SetValue( 0 );
+		r_waterforceexpensive.SetValue( 1 );
+	}
+
+	if ( m_iWaterDetail == 2 )
+	{
+		r_waterforcereflectentities.SetValue( 1 );
+		r_waterforceexpensive.SetValue( 1 );
+	}
+
+
+	CGameUIConVarRef r_shadowrendertotexture( "r_shadowrendertotexture" );
+	CGameUIConVarRef r_flashlightdepthtexture( "r_flashlightdepthtexture" );
+
+	if ( m_iShadowDetail == 0 )
+	{
+		r_shadowrendertotexture.SetValue( 0 );
+		r_flashlightdepthtexture.SetValue( 0 );
+	}
+
+	if ( m_iShadowDetail == 1 )
+	{
+		r_shadowrendertotexture.SetValue( 1 );
+		r_flashlightdepthtexture.SetValue( 0 );
+	}
+
+	if ( m_iShadowDetail == 2 )
+	{
+		r_shadowrendertotexture.SetValue( 1 );
+		r_flashlightdepthtexture.SetValue( 1 );
+	}
+
 	CGameUIConVarRef mat_antialias( "mat_antialias" );
 	CGameUIConVarRef mat_aaquality( "mat_aaquality" );
 	mat_antialias.SetValue( m_nAAModes[ m_iAntiAlias ].m_nNumSamples );
@@ -1350,14 +1767,14 @@ void Video::ApplyChanges()
 	CGameUIConVarRef mat_queue_mode( "mat_queue_mode" );
 	mat_queue_mode.SetValue( m_iQueuedMode );
 
-	/*CGameUIConVarRef cpu_level( "cpu_level" );
-	cpu_level.SetValue( m_iCPUDetail );
+	//CGameUIConVarRef cpu_level( "cpu_level" );
+	//cpu_level.SetValue( m_iCPUDetail );
 
 	CGameUIConVarRef gpu_level( "gpu_level" );
-	gpu_level.SetValue( m_iGPUDetail );
+	gpu_level.SetValue( m_iShaderDetail );
 
-	CGameUIConVarRef in_lock_mouse_to_window( "in_lock_mouse_to_window" );
-	in_lock_mouse_to_window.SetValue( m_bLockMouse );*/
+	//CGameUIConVarRef in_lock_mouse_to_window( "in_lock_mouse_to_window" );
+	//in_lock_mouse_to_window.SetValue( m_bLockMouse );*/
 
 	// Make sure there is a resolution change
 	const MaterialSystem_Config_t &config = materials->GetCurrentConfigForVideoCard();
@@ -1372,6 +1789,12 @@ void Video::ApplyChanges()
 		Q_snprintf( szCmd, sizeof( szCmd ), "mat_setvideomode %i %i %i \n", m_iResolutionWidth, m_iResolutionHeight, m_bWindowed ? 1 : 0 );
 		engine->ClientCmd_Unrestricted( szCmd );
 	}
+
+	CGameUIConVarRef mat_dxlevel( "mat_dxlevel" );
+	mat_dxlevel.SetValue( m_iDXLevel );
+
+	CGameUIConVarRef mat_hdr_level( "mat_hdr_level" );
+	mat_hdr_level.SetValue( m_iHDRLevel );
 
 	// apply changes
 	engine->ClientCmd_Unrestricted( "mat_savechanges\n" );

@@ -36,7 +36,8 @@ public:
 	FlyoutMenu( vgui::Panel *parent, const char* panelName );
 	~FlyoutMenu();
 
-	void OpenMenu( vgui::Panel* flyFrom , vgui::Panel* initialSelection = NULL, bool reloadRes = false );
+	//void OpenMenu( vgui::Panel* flyFrom , vgui::Panel* initialSelection = NULL, bool reloadRes = false );
+	void OpenMenu( vgui::Panel* flyFrom , vgui::Panel* initialSelection = NULL, bool reloadRes = true );
 	void CloseMenu( vgui::Panel* flyTo );
 
 	void SetListener( FlyoutMenuListener *listener );

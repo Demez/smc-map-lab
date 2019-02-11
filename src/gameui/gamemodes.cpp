@@ -206,9 +206,7 @@ void GameModes::ApplySettings( KeyValues *pInResourceData )
 
 	const char *pNavUp = pInResourceData->GetString( "navUp", "" );
 	const char *pNavDown = pInResourceData->GetString( "navDown", "" );
-
-	//int wideAtOpen = pInResourceData->GetInt( "wideatopen", 0 );
-	int wideAtOpen = vgui::scheme()->GetProportionalScaledValue( pInResourceData->GetInt( "wideatopen", 0 ) );
+	int wideAtOpen = pInResourceData->GetInt( "wideatopen", 0 );
 
 	// need to reset due to video mode change, alt+tab, etc
 	m_GameModeInfos.Purge();

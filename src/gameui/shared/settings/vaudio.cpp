@@ -97,7 +97,7 @@ BaseClass(parent, panelName)
 
 	m_nNumAudioLanguages = 0;
 
-	// use escape key to show or hide? might keep this, idk
+	// can use esc key when in menu
 	GameUI().AllowEngineHideGameUI();
 }
 
@@ -139,7 +139,7 @@ void Audio::Activate()
 	if ( m_drpSpeakerConfiguration )
 	{
 		CGameUIConVarRef snd_surround_speakers("Snd_Surround_Speakers");
-
+		// forced? oh well
 		switch ( snd_surround_speakers.GetInt() )
 		{
 		case 2:
@@ -210,17 +210,17 @@ void Audio::Activate()
 
 		if ( !closecaption.GetBool() )
 		{
-			m_drpCaptioning->SetCurrentSelection( "#L4D360UI_AudioOptions_CaptionOff" );
+			m_drpCaptioning->SetCurrentSelection( "#GameUI_AudioOptions_CaptionOff" );
 		}
 		else
 		{
 			if ( cc_subtitles.GetBool() )
 			{
-				m_drpCaptioning->SetCurrentSelection( "#L4D360UI_AudioOptions_CaptionSubtitles" );
+				m_drpCaptioning->SetCurrentSelection( "#GameUI_AudioOptions_CaptionSubtitles" );
 			}
 			else
 			{
-				m_drpCaptioning->SetCurrentSelection( "#L4D360UI_AudioOptions_CaptionOn" );
+				m_drpCaptioning->SetCurrentSelection( "#GameUI_AudioOptions_CaptionOn" );
 			}
 		}
 
@@ -330,11 +330,11 @@ void Audio::Activate()
 		{
 			if ( bVoiceEnabled )
 			{
-				m_drpVoiceCommunication->SetCurrentSelection( "#L4D360UI_Enabled" );
+				m_drpVoiceCommunication->SetCurrentSelection( "#GameUI_Enabled" );
 			}
 			else
 			{
-				m_drpVoiceCommunication->SetCurrentSelection( "#L4D360UI_Disabled" );
+				m_drpVoiceCommunication->SetCurrentSelection( "#GameUI_Disabled" );
 			}
 
 			FlyoutMenu *pFlyout = m_drpVoiceCommunication->GetCurrentFlyout();
@@ -391,11 +391,11 @@ void Audio::Activate()
 
 			if ( fMicBoost != 0.0f )
 			{
-				m_drpBoostMicrophoneGain->SetCurrentSelection( "#L4D360UI_Enabled" );
+				m_drpBoostMicrophoneGain->SetCurrentSelection( "#GameUI_Enabled" );
 			}
 			else
 			{
-				m_drpBoostMicrophoneGain->SetCurrentSelection( "#L4D360UI_Disabled" );
+				m_drpBoostMicrophoneGain->SetCurrentSelection( "#GameUI_Disabled" );
 			}
 
 			m_drpBoostMicrophoneGain->SetEnabled( bVoiceEnabled );
@@ -727,21 +727,21 @@ void Audio::OnCommand(const char *command)
 		CGameUIConVarRef dsp_enhance_stereo( "dsp_enhance_stereo" );
 		dsp_enhance_stereo.SetValue( 0 );
 	}
-	else if( Q_stricmp( "#L4D360UI_AudioOptions_CaptionOff", command ) == 0 )
+	else if( Q_stricmp( "#GameUI_AudioOptions_CaptionOff", command ) == 0 )
 	{
 		CGameUIConVarRef closecaption("closecaption");
 		CGameUIConVarRef cc_subtitles("cc_subtitles");
 		closecaption.SetValue( 0 );
 		cc_subtitles.SetValue( 0 );
 	}
-	else if( Q_stricmp( "#L4D360UI_AudioOptions_CaptionSubtitles", command ) == 0 )
+	else if( Q_stricmp( "#GameUI_AudioOptions_CaptionSubtitles", command ) == 0 )
 	{
 		CGameUIConVarRef closecaption("closecaption");
 		CGameUIConVarRef cc_subtitles("cc_subtitles");
 		closecaption.SetValue( 1 );
 		cc_subtitles.SetValue( 1 );
 	}
-	else if( Q_stricmp( "#L4D360UI_AudioOptions_CaptionOn", command ) == 0 )
+	else if( Q_stricmp( "#GameUI_AudioOptions_CaptionOn", command ) == 0 )
 	{
 		CGameUIConVarRef closecaption("closecaption");
 		CGameUIConVarRef cc_subtitles("cc_subtitles");
@@ -855,7 +855,7 @@ void Audio::OnCommand(const char *command)
 			}
 		}
 
-		CBaseModPanel::GetSingleton().OpenWindow( WT_JUKEBOX, this, true );
+		CBaseModPanel::GetSingleton().OpenWindow( WT_JUKEBOX, this, false );
 	}
 	else if( Q_stricmp( "Back", command ) == 0 )
 	{
@@ -875,15 +875,15 @@ void Audio::OnCommand(const char *command)
 		OpenThirdPartySoundCreditsDialog();
 		FlyoutMenu::CloseActiveMenu();
 	}
-	else if (Q_stricmp(command, "engine "))
+	/*else if (Q_stricmp(command, "engine "))
 	{
 		const char *engineCMD = strstr(command, "engine ") + strlen("engine ");
-		if (strlen(engineCMD) > 0)
+		if (strlen(engineCMD) > 0) // crashes here sometimes, idk why
 		{
 			//engine->ClientCmd_Unrestricted(command);
 			engine->ClientCmd_Unrestricted( const_cast<char *> (engineCMD));
 		}
-	}
+	}*/
 	else
 	{
 		BaseClass::OnCommand( command );

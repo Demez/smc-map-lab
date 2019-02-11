@@ -44,7 +44,8 @@ BaseTooltip::BaseTooltip(Panel *parent, const char *text)
 	_isDirty = false;
 	_enabled = true;
 
-	_tooltipDelay = 500; // default delay for opening tooltips
+	//_tooltipDelay = 500; // default delay for opening tooltips
+	_tooltipDelay = 250; // default delay for opening tooltips
 	_delay = 0;
 }
 
@@ -248,6 +249,9 @@ TextTooltip::TextTooltip(Panel *parent, const char *text) : BaseTooltip( parent,
 	s_TooltipWindow->SetEditable(false);
 	s_TooltipWindow->SetMultiline(true);
 	s_TooltipWindow->SetVisible(false);
+
+
+	s_TooltipWindow->SetProportional(true);
 }
 
 

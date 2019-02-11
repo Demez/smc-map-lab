@@ -75,7 +75,7 @@ void FlyoutMenu::PaintBackground()
 	int wide, tall;
 	GetSize( wide, tall );
 
-	//int iHalfWide = wide/2;
+	int iHalfWide = wide/2;
 	int iFourthWide = wide/4;
 
 	int fadePoint = 220;
@@ -84,8 +84,7 @@ void FlyoutMenu::PaintBackground()
 		// wide at open is hack that pulls the flyout back
 		// but this generally then overlaps text underneath the flyout
 		// so push the opaque region closer to far right edge to obscure overlap
-		//iFourthWide = 0.70f * iHalfWide;
-		iFourthWide = 100;
+		iFourthWide = 0.70f * iHalfWide;
 		fadePoint = 245;
 	}
 
@@ -178,7 +177,11 @@ void FlyoutMenu::OpenMenu( vgui::Panel * flyFrom, vgui::Panel* initialSelection,
 			}
 			if ( button->GetStyle() == BaseModHybridButton::BUTTON_DROPDOWN || button->GetStyle() == BaseModHybridButton::BUTTON_GAMEMODE )
 			{
-				int wideAtOpen = button->GetWideAtOpen();
+				//int wideAtOpen = button->GetWideAtOpen();
+				// workaround for wideatopen not being able to use size variabls
+				int wideAtOpen = ( button->GetWide() - button->GetWideAtOpen() );
+				//int wideAtOpen = ( button->GetWide() - button->GetWideAtOpen() + 1.125 ); // 1920x1080
+				//int wideAtOpen = ( button->GetWide() - button->GetWideAtOpen() + ( vgui::scheme()->GetProportionalScaledValue( 1 ) / 2 ) );
 				if ( wideAtOpen )
 				{
 					wide = wideAtOpen;
@@ -313,8 +316,8 @@ void FlyoutMenu::ApplySchemeSettings( vgui::IScheme* pScheme )
 		if ( bgPanel )
 		{
 			//bgPanel->SetBgColor( pScheme->GetColor( "Flyout.BgColor" , Color( 0, 0, 0, 255 ) ) );
-			bgPanel->SetBgColor( pScheme->GetColor( "Flyout.BgColor" , Color( 64, 64, 64, 128 ) ) );
-			bgPanel->SetBorder( pScheme->GetBorder( "FlyoutBorder" ) );
+			bgPanel->SetBgColor( pScheme->GetColor( "FlyoutMenuButton.BgColor" , Color( 64, 64, 64, 128 ) ) );
+			bgPanel->SetBorder( pScheme->GetBorder( "FlyoutMenuBorder" ) );
 
 			// just use the PnlBackground to set size, not needed for anything else
 			int wide, tall;

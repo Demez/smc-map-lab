@@ -117,7 +117,8 @@ BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *
 	m_iSelectedArrow = -1;
 	m_iUnselectedArrow = -1;
 
-	//m_nWideAtOpen = 0;
+	m_nWideAtOpen = 0;
+	//m_nWideAtOpen = ( GetWide() - GetWideAtOpen() );
 }
 
 BaseModUI::BaseModHybridButton::BaseModHybridButton( Panel *parent, const char *panelName, const wchar_t *text, Panel *pActionSignalTarget, const char *pCmd )
@@ -329,10 +330,10 @@ void BaseModHybridButton::SetHelpText( const char* tooltip, bool enabled )
 	}
 
 	// if we have the focus update the footer
-	if ( HasFocus() )
+	/*if ( HasFocus() )
 	{
 		UpdateFooterHelpText();
-	}
+	}*/
 }
 
 // 0 = Deprecated CA buttons
@@ -363,7 +364,9 @@ void BaseModHybridButton::PaintButtonEx()
 
 	if ( ( m_nStyle == BUTTON_DROPDOWN || m_nStyle == BUTTON_GAMEMODE ) && GetCurrentState() == Open && m_nWideAtOpen )
 	{
-		wide = m_nWideAtOpen;
+		//wide = m_nWideAtOpen;
+		wide = ( GetWide() - m_nWideAtOpen );
+		//wide = ( GetWide() - m_nWideAtOpen + ( vgui::scheme()->GetProportionalScaledValue( 1 ) / 2 ) );
 	}
 
 	bool bAnimateGlow = false;
@@ -403,20 +406,20 @@ void BaseModHybridButton::PaintButtonEx()
 		case FocusDisabled:
 			col.SetColor( 182, 189, 194, 255 );
 			bDrawText = false;
-			bDrawGlow = true;
+			bDrawGlow = false; //true;
 			break;
 		case Open:
 			// flyout menu is attached
 			//col.SetColor( 200, 200, 200, 255 );
 			col.SetColor( 169, 213, 255, 255 );
-			bDrawGlow = true;
+			bDrawGlow = false; //true;
 			bDrawCursor = true;
 			break;
 		case Focus:
 			// active item
 			col.SetColor( 255, 255, 255, 255 );
-			bDrawGlow = true;
-			bAnimateGlow = true;
+			bDrawGlow = false; //true;
+			bAnimateGlow = false; //true;
 			if ( m_nStyle == BUTTON_SIMPLE ||
 				 m_nStyle == BUTTON_DROPDOWN ||
 				 m_nStyle == BUTTON_DIALOG ||
@@ -443,6 +446,14 @@ void BaseModHybridButton::PaintButtonEx()
 		// dialog buttons are centered
 		textInsetX = ( wide - textWide ) / 2;
 	}*/
+
+	/*if ( m_nStyle == BUTTON_FLYOUTITEM && ".TextCenter" )
+	{
+		// i HATE that this is forced
+		textInsetX = ( wide - textWide ) / 2;
+	}*/
+
+	//( GetWide() / 2 )
 
 	if ( FlyoutMenu::GetActiveMenu() && FlyoutMenu::GetActiveMenu()->GetNavFrom() != this )
 	{
@@ -509,6 +520,8 @@ void BaseModHybridButton::PaintButtonEx()
 	if ( bDrawText )
 	{
 		int availableWidth = GetWide() - x - textInsetX;
+		//int centerWidth = GetWide() - x - textInsetX;
+		//int centerX = true;
 
 		if ( m_bShowDropDownIndicator )
 		{
@@ -547,8 +560,8 @@ void BaseModHybridButton::PaintButtonEx()
 
 		// controls the text on a drop down menu, and everywhere else?
 		vgui::surface()->DrawSetTextFont( m_hTextFont );
-		//vgui::surface()->DrawSetTextPos( x + textInsetX, y + m_textInsetY  );
-		vgui::surface()->DrawSetTextPos( x + textInsetX, y + m_textInsetY  );
+		// bad hack to align the button on the flyout menu and on the drop down menu
+		vgui::surface()->DrawSetTextPos( x + textInsetX, y + m_textInsetY - vgui::scheme()->GetProportionalScaledValue( 0.5 ) );
 		vgui::surface()->DrawSetTextColor( col );
 
 		if ( textWide > availableWidth )
@@ -648,7 +661,7 @@ void BaseModHybridButton::PaintButtonEx()
 		// horizontal right justify
 		int xx = wide - textWide - textInsetX;
 		// vertical center within
-		int yy = ( tall - textTall )/2;
+		int yy = ( tall - textTall ) / 2;
 
 		// draw the drop down selection text
 		vgui::surface()->DrawSetTextFont( m_hSelectionFont );
@@ -722,6 +735,7 @@ void BaseModHybridButton::ApplySettings( KeyValues * inResourceData )
 	}
 
 	// this is a total bypass of the CA look
+	// this is all hardcoded. why.
 	m_nStyle = BUTTON_SIMPLE;
 	V_snprintf( keyString, sizeof( keyString ), "%s.Style", style );
 	const char *pFormatString = scheme->GetResourceString( keyString );
@@ -843,6 +857,52 @@ void BaseModHybridButton::ApplySettings( KeyValues * inResourceData )
 		m_textInsetY = vgui::scheme()->GetProportionalScaledValueEx( GetScheme(), m_textInsetY );
 	}
 
+	// align the text to the middle of the panel along the x axis
+	V_snprintf( keyString, sizeof( keyString ), "%s.%s", style, "TextCenterX" );
+	result = scheme->GetResourceString( keyString );
+	if( atoi( result ) != 0 )
+	{
+		wchar_t szUnicode[512];
+		GetText( szUnicode, sizeof( szUnicode ) );
+		
+		int textWide, textTall;
+		surface()->GetTextSize( m_hTextFont, szUnicode, textWide, textTall );
+		
+		m_textInsetX = ( GetWide() - textWide ) / 2;
+	}
+
+	// align the text to the middle of the panel along the y axis
+	V_snprintf( keyString, sizeof( keyString ), "%s.%s", style, "TextCenterY" );
+	result = scheme->GetResourceString( keyString );
+	if( atoi( result ) != 0 )
+	{
+		// half the panel height - half the font height
+		// actually this is not correct
+		//m_textInsetY = ( ( GetTall() / 2 ) - ( vgui::surface()->GetFontTall( m_hTextFont ) / 2 ) );
+
+		wchar_t szUnicode[512];
+		GetText( szUnicode, sizeof( szUnicode ) );
+		int textWide, textTall;
+		surface()->GetTextSize( m_hTextFont, szUnicode, textWide, textTall );
+
+		// vertical center within
+		m_textInsetY = ( GetTall() - textTall ) / 2;
+	}
+
+	V_snprintf( keyString, sizeof( keyString ), "%s.%s", style, "TextAlignment" );
+	const char *result2 = scheme->GetResourceString( keyString );
+	//if( atoi( result ) != 0 )
+	if( strcmp ( result2, "east" ) == 0 )
+	{
+		wchar_t szUnicode[512];
+		GetText( szUnicode, sizeof( szUnicode ) );
+		
+		int textWide, textTall;
+		surface()->GetTextSize( m_hTextFont, szUnicode, textWide, textTall );
+
+		m_textInsetX = ( GetWide() - textWide ) - m_textInsetX;
+	}
+	
 	//0 = press and release
 	//1 = press
 	//2 = release

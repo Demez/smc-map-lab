@@ -26,8 +26,7 @@ BaseClass( parent, panelName )
 	m_openCallback = 0;
 	m_SelectedTextEnabled = true;
 
-	//SetConsoleStylePanel( true );
-	SetConsoleStylePanel( false );
+	SetConsoleStylePanel( true );
 
 	LoadControlSettings( "Resource/UI/BaseModUI/DropDownMenu.res" );
 }

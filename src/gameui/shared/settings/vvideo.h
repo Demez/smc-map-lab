@@ -84,19 +84,23 @@ private:
 	DropDownMenu		*m_drpAspectRatio;
 	DropDownMenu		*m_drpResolution;
 	DropDownMenu		*m_drpDisplayMode;
-	DropDownMenu		*m_drpLockMouse;
-	SliderControl		*m_sldFilmGrain;
+	//DropDownMenu		*m_drpLockMouse;
+	//SliderControl		*m_sldFilmGrain;
 
 	BaseModHybridButton	*m_btnAdvanced;
 
 	DropDownMenu		*m_drpModelDetail;
-	//DropDownMenu		*m_drpPagedPoolMem;
+	DropDownMenu		*m_drpLOD;
+	DropDownMenu		*m_drpTextureDetail;
+	DropDownMenu		*m_drpWaterDetail;
 	DropDownMenu		*m_drpAntialias;
 	DropDownMenu		*m_drpFiltering;
 	DropDownMenu		*m_drpVSync;
 	DropDownMenu		*m_drpQueuedMode;
 	DropDownMenu		*m_drpShaderDetail;
-	DropDownMenu		*m_drpCPUDetail;
+	DropDownMenu		*m_drpShadowDetail;
+	DropDownMenu		*m_drpDXLevel;
+	DropDownMenu		*m_drpHDRLevel;
 
 	CNB_Header_Footer *m_pHeaderFooter;
 
@@ -120,8 +124,11 @@ private:
 	//int		m_iPagedPoolMem;
 
 	int		m_iModelDetail;
+	int		m_iLOD;
 	int		m_iTextureDetail;
-
+	int		m_iWaterDetail;
+	int		m_iShaderDetail;
+	int		m_iShadowDetail;
 	int		m_iAntiAlias;
 	int		m_iFiltering;
 	int		m_nAASamples;
@@ -132,6 +139,8 @@ private:
 	//int		m_iGPUDetail;
 	//int		m_iCPUDetail;
 	//int		m_flFilmGrain;
+	int		m_iDXLevel;
+	int		m_iHDRLevel;
 	//bool	m_bLockMouse;
 
 	//float	m_flFilmGrainInitialValue;

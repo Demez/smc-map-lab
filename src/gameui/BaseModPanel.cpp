@@ -520,11 +520,10 @@ CBaseModPanel::CBaseModPanel(): BaseClass(0, "CBaseModPanel"),
 	Assert(m_CFactoryBasePanel == 0);
 	m_CFactoryBasePanel = this;
 
-	g_pVGuiLocalize->AddFile( "Resource/l4d360ui_%language%.txt");
-	g_pVGuiLocalize->AddFile( "Resource/ep2_%language%.txt");
-	//g_pVGuiLocalize->AddFile( "Resource/hl2ce_%language%.txt"); // get rid of this
-
-	//g_pVGuiLocalize->AddFile( "Resource/maplab_%language%.txt");
+	g_pVGuiLocalize->AddFile( "resource/lang/%language%_l4d360ui.txt");
+	g_pVGuiLocalize->AddFile( "resource/lang/%language%_gameui.txt"); // replace l4d360ui with this eventually?
+	g_pVGuiLocalize->AddFile( "resource/lang/%language%_ep2.txt");
+	g_pVGuiLocalize->AddFile( "resource/lang/%language%_maplab.txt");
 
 	m_LevelLoading = false;
 	
@@ -537,7 +536,9 @@ CBaseModPanel::CBaseModPanel(): BaseClass(0, "CBaseModPanel"),
 	// needed to allow engine to exec startup commands (background map signal is 1 frame behind) 
 	m_DelayActivation = 3;
 
-	m_UIScheme = vgui::scheme()->LoadSchemeFromFileEx( 0, "resource/menuscheme.res", "SwarmScheme" );
+	// maybe in the future add a menu for selecting scheme files, for themes and stuff maybe
+	//m_UIScheme = vgui::scheme()->LoadSchemeFromFileEx( 0, "resource/scheme/gameuischeme.res", "GameUIScheme" );
+	m_UIScheme = vgui::scheme()->LoadSchemeFromFileEx( 0, "resource/gameuischeme.res", "SwarmScheme" );
 	//m_UIScheme = vgui::scheme()->LoadSchemeFromFileEx( 0, "resource/sourcescheme.res", "SwarmScheme" );
 
 	SetScheme( m_UIScheme );
@@ -611,7 +612,7 @@ CBaseModPanel::CBaseModPanel(): BaseClass(0, "CBaseModPanel"),
 CBaseModPanel::~CBaseModPanel()
 {
 	// Game crashes on this
-	//ReleaseStartupGraphic();
+	ReleaseStartupGraphic();
 
 	if ( m_FooterPanel )
 	{
@@ -1211,7 +1212,7 @@ void CBaseModPanel::OnGameUIActivated()
 		default:
 			break;
 		case WT_NONE:
-		case WT_INGAMEMAINMENU:
+		case WT_MAINMENU: //case WT_INGAMEMAINMENU:
 		case WT_GENERICCONFIRMATION:
 			// bForceReturnToFrontScreen = !g_pMatchFramework->GetMatchmaking()->ShouldPreventOpenFrontScreen();
 			bForceReturnToFrontScreen = true; // this used to be some magic about mid-disconnecting-states on PC...

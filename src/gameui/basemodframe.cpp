@@ -55,7 +55,7 @@ CUtlVector< IBaseModFrameListener * > CBaseModFrame::m_FrameListeners;
 
 bool CBaseModFrame::m_DrawTitleSafeBorder = false;
 
-ConVar ui_gameui_modal( "ui_gameui_modal", "1", FCVAR_NONE, "If set, the game UI pages will take modal input focus." );
+ConVar ui_gameui_modal( "ui_gameui_modal", "0", FCVAR_NONE, "If set, the game UI pages will take modal input focus." );
 
 //=============================================================================
 CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool okButtonEnabled, 
@@ -72,8 +72,8 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 {
 	m_TitleInsetX = 6;
 	m_TitleInsetY = 4;
-	//m_bIsFullScreen = false;
-	m_bIsFullScreen = true;
+	m_bIsFullScreen = false;
+	//m_bIsFullScreen = true;
 	m_bLayoutLoaded = false;
 	m_bDelayPushModalInputFocus = false;
 
@@ -84,7 +84,7 @@ CBaseModFrame::CBaseModFrame( vgui::Panel *parent, const char *panelName, bool o
 	Frame::SetTitle("", false);
 	m_LblTitle = new Label(this, "LblTitle", "");
 
-	Q_snprintf(m_ResourceName, sizeof( m_ResourceName ), "Resource/UI/BaseModUI/%s.res", panelName);
+	Q_snprintf(m_ResourceName, sizeof( m_ResourceName ), "resource/ui/basemodui/%s.res", panelName);
 
 #ifdef _X360
 	m_PassUnhandledInput = false;

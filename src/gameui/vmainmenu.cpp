@@ -99,6 +99,8 @@ MainMenu::MainMenu( Panel *parent, const char *panelName ):
 
 	// what is this
 	SetConsoleStylePanel( true );
+
+	//vgui::Button SetUseCaptureMouse( true );
 }
 
 //=============================================================================
