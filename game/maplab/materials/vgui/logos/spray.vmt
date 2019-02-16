@@ -1,7 +1,7 @@
-LightmappedGeneric
+"LightmappedGeneric"
 {
-	"$basetexture"	"vgui\logos\Spray_lambda"
-	"$translucent" "1"
-	"$decal" "1"
-	"$decalscale" "0.250"
+	$basetexture "vgui\logos\spray_headshot"
+	$translucent "1"
+	$decal "1"
+	$decalscale "0.250"
 }

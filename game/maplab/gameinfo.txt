@@ -2,7 +2,7 @@
 {
 	game 		"Map Labs"
 	title 		"Map Labs"
-	title2 		"master branch"
+	title2 		"gameui branch"
 	supportsvr	0
 
 	type		singleplayer_only
@@ -39,9 +39,16 @@
 			// hacky mount for episodic content, requires sp and mp to be in same location
 			// will not need this once the steam version releases, so this is fine for now
 			game				"../Source SDK Base 2013 Singleplayer/ep2/ep2_english.vpk"		
-			game				"../Source SDK Base 2013 Singleplayer/ep2/ep2_pak.vpk"
+			//game				"../Source SDK Base 2013 Singleplayer/ep2/ep2_pak.vpk"
 			game				"../Source SDK Base 2013 Singleplayer/episodic/ep1_english.vpk"
-			game				"../Source SDK Base 2013 Singleplayer/episodic/ep1_pak.vpk"
+			//game				"../Source SDK Base 2013 Singleplayer/episodic/ep1_pak.vpk"
+			
+			// temp mount for me so i can use maps other than sdk_vehicles for working on this
+			game				"../Half-Life 2/ep2"
+			game				"../Half-Life 2/ep2/ep2_pak.vpk"
+			game				"../Half-Life 2/episodic"
+			game				"../Half-Life 2/episodic/ep1_pak.vpk"
+			game				"../Half-Life 2/hl2"
 			
 			game				|all_source_engine_paths|hl2/hl2_english.vpk
 			game				|all_source_engine_paths|hl2/hl2_pak.vpk
