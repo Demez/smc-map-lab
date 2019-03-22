@@ -228,9 +228,15 @@ public:
 	
 	int GetChildCount();
 	Panel *GetChild(int index);
+	//Panel *newPointerFromFieldName(const char *childName);
 	virtual CUtlVector< VPANEL > &GetChildren();
+	int FindChildIndexByControl( const char *controlName );
 	int FindChildIndexByName( const char *childName );
+	const char *FindChildNameByIndex(int panelIndex);
+	const char *GetChildName();
 	Panel *FindChildByName(const char *childName, bool recurseDown = false);
+	//Panel *FindControlFieldName(const char *controlName, KeyValues *inResourceData, bool recurseDown = false);
+	Panel *FindChildByControl(const char *controlName, bool recurseDown = false);
 	Panel *FindSiblingByName(const char *siblingName);
 	void CallParentFunction(KeyValues *message);
 

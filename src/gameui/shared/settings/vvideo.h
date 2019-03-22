@@ -57,6 +57,7 @@ public:
 
 protected:
 	virtual void Activate( bool bRecommendedSettings = false );
+	//virtual void OnThink();
 	virtual void OnThink();
 	virtual void PaintBackground();
 	virtual void ApplySchemeSettings( vgui::IScheme* pScheme );
@@ -101,6 +102,8 @@ private:
 	DropDownMenu		*m_drpShadowDetail;
 	DropDownMenu		*m_drpDXLevel;
 	DropDownMenu		*m_drpHDRLevel;
+
+	DropDownMenu		*m_drpCurrent;
 
 	CNB_Header_Footer *m_pHeaderFooter;
 

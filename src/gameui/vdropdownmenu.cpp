@@ -28,7 +28,7 @@ BaseClass( parent, panelName )
 
 	SetConsoleStylePanel( true );
 
-	LoadControlSettings( "Resource/UI/BaseModUI/DropDownMenu.res" );
+	LoadControlSettings( "resource/ui/core/DropDownMenu.res" );
 }
 
 DropDownMenu::~DropDownMenu()

@@ -62,7 +62,7 @@ $Configuration
 }
 
 // TODO: Replace this with the UI from HL2R
-$Project "GameUI"
+$Project
 {
 	$Folder	"Source Files"
 	{

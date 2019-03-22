@@ -34,7 +34,7 @@
 		"labelText"				"#GameUI_Video_HDRLevel2"
 		"tooltiptext"			"#L4D_model_texture_tip"
 		"style"					"FlyoutMenuButton"
-		"command"				"HDRLevel2"
+		"command"				"engine mat_hdr_level 2"
 		"OnlyActiveUser"		"1"
 	}
 	
@@ -57,7 +57,7 @@
 		"labelText"				"#GameUI_Video_HDRLevel1"
 		"tooltiptext"			"#L4D_model_texture_tip"
 		"style"					"FlyoutMenuButton"
-		"command"				"HDRLevel1"
+		"command"				"engine mat_hdr_level 1"
 		"OnlyActiveUser"		"1"
 	}
 	
@@ -80,7 +80,7 @@
 		"labelText"				"#GameUI_Video_HDRLevel0"
 		"tooltiptext"			"#L4D_model_texture_tip"
 		"style"					"FlyoutMenuButton"
-		"command"				"HDRLevel0"
+		"command"				"engine mat_hdr_level 0"
 		"OnlyActiveUser"		"1"
 	}
 }

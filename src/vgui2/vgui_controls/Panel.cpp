@@ -1568,6 +1568,37 @@ bool Panel::HasParent(VPANEL potentialParent)
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: Finds a child panel by it's fieldName
+// Output : Panel * - NULL if no panel of that name is found
+//-----------------------------------------------------------------------------
+/*Panel *Panel::newPointerFromFieldName( const char *childName )
+{
+	Panel *newPointer = dynamic_cast< Panel* >( childName );
+	return newPointer;
+}*/
+
+//-----------------------------------------------------------------------------
+// Purpose: Finds the index of a child panel by it's ControlName
+// Output : int - -1 if no panel of that name is found
+//-----------------------------------------------------------------------------
+int Panel::FindChildIndexByControl(const char *controlName)
+{
+	for (int i = 0; i < GetChildCount(); i++)
+	{
+		Panel *pChild = GetChild(i);
+		if (!pChild)
+			continue;
+
+		if (!stricmp(pChild->GetClassName(), controlName))
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+//-----------------------------------------------------------------------------
 // Purpose: Finds the index of a child panel by string name
 // Output : int - -1 if no panel of that name is found
 //-----------------------------------------------------------------------------
@@ -1589,7 +1620,55 @@ int Panel::FindChildIndexByName(const char *childName)
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Finds a child panel by string name
+// Purpose: Finds a child panel's string name
+// Output : Panel * - NULL if no panel of that name is found
+//-----------------------------------------------------------------------------
+const char *Panel::GetChildName()
+{
+	for (int i = 0; i < GetChildCount(); i++)
+	{
+		Panel *pChild = GetChild(i);
+		if (!pChild)
+			continue;
+
+		if ( V_stricmp( pChild->GetName(), "" ) )
+		{
+			const char *fieldName = pChild->GetName();
+			return fieldName;
+		}
+
+		/*if (recurseDown)
+		{
+			Panel *panel = pChild->GetChildName(recurseDown);
+			if ( panel )
+			{
+				return panel;
+			}
+		}*/
+	}
+
+	//inResourceData->GetString( "fieldName", "" );
+
+	return NULL;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Finds a child panel by it's ControlName, and then returns it's fieldName
+// Output : Panel * - NULL if no panel of that control name is found
+//-----------------------------------------------------------------------------
+//Panel *Panel::FindControlFieldName(const char *controlName, KeyValues *inResourceData, bool recurseDown)
+const char *Panel::FindChildNameByIndex(int panelIndex)
+{
+	Panel *pChild = GetChild(panelIndex);
+
+	const char *fieldName = pChild->GetName();
+				return fieldName;
+
+	return NULL;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Finds a child panel by it's fieldName
 // Output : Panel * - NULL if no panel of that name is found
 //-----------------------------------------------------------------------------
 Panel *Panel::FindChildByName(const char *childName, bool recurseDown)
@@ -1608,6 +1687,36 @@ Panel *Panel::FindChildByName(const char *childName, bool recurseDown)
 		if (recurseDown)
 		{
 			Panel *panel = pChild->FindChildByName(childName, recurseDown);
+			if ( panel )
+			{
+				return panel;
+			}
+		}
+	}
+
+	return NULL;
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Finds a child panel by it's ControlName
+// Output : Panel * - NULL if no panel of that ControlName is found
+//-----------------------------------------------------------------------------
+Panel *Panel::FindChildByControl(const char *controlName, bool recurseDown)
+{
+	for (int i = 0; i < GetChildCount(); i++)
+	{
+		Panel *pChild = GetChild(i);
+		if (!pChild)
+			continue;
+
+		if (!V_stricmp(pChild->GetClassName(), controlName))
+		{
+			return pChild;
+		}
+
+		if (recurseDown)
+		{
+			Panel *panel = pChild->FindChildByControl(controlName, recurseDown);
 			if ( panel )
 			{
 				return panel;

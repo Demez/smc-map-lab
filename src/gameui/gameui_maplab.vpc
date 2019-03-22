@@ -7,3 +7,11 @@
 $Macro GAMENAME 	"maplab"
 
 $include "GameUI.vpc"	[$WIN32]//[$WIN32||$LINUX]
+
+$Project "GameUI (MapLab)"
+{
+	$Folder	"Game_MapLab"
+	{
+		$File	"maplab\ui_defines.h"
+	}
+}

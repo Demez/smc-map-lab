@@ -880,7 +880,7 @@
 		"wide"				"f0"
 		"tall"				"24"
 		"visible"			"1"
-		"enabled"			"1"
+		"enabled"			"0"
 		"usetitlesafe"		"0"
 		"tabPosition"			"0"
 		"navUp"				"DrpQueuedMode"

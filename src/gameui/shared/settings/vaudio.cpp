@@ -875,7 +875,7 @@ void Audio::OnCommand(const char *command)
 		OpenThirdPartySoundCreditsDialog();
 		FlyoutMenu::CloseActiveMenu();
 	}
-	/*else if (Q_stricmp(command, "engine "))
+	else if (Q_stricmp(command, "engine "))
 	{
 		const char *engineCMD = strstr(command, "engine ") + strlen("engine ");
 		if (strlen(engineCMD) > 0) // crashes here sometimes, idk why
@@ -883,7 +883,7 @@ void Audio::OnCommand(const char *command)
 			//engine->ClientCmd_Unrestricted(command);
 			engine->ClientCmd_Unrestricted( const_cast<char *> (engineCMD));
 		}
-	}*/
+	}
 	else
 	{
 		BaseClass::OnCommand( command );

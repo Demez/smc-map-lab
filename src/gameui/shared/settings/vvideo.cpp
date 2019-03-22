@@ -107,6 +107,8 @@ BaseClass(parent, panelName)
 	m_drpShaderDetail = NULL;
 	m_drpShadowDetail = NULL;
 	m_drpDXLevel = NULL;
+
+	m_drpCurrent = NULL;
 	m_drpHDRLevel = NULL;
 
 
@@ -231,7 +233,8 @@ void Video::SetupActivateData( void )
 	m_iDXLevel = mat_dxlevel.GetInt();
 
 	CGameUIConVarRef mat_hdr_level( "mat_hdr_level" );
-	m_iHDRLevel = mat_hdr_level.GetInt();
+	mat_hdr_level.SetValue( mat_hdr_level.GetInt() );
+	//m_iHDRLevel = mat_hdr_level.GetInt();
 }
 
 //=============================================================================
@@ -292,7 +295,7 @@ bool Video::SetupRecommendedActivateData( void )
 	//m_flFilmGrain = pConfigKeys->GetFloat( "setting.mat_grain_scale_override", 1.0f );
 	m_iQueuedMode = pConfigKeys->GetInt( "setting.mat_queue_mode", -1 );
 	m_iDXLevel = pConfigKeys->GetInt( "setting.mat_dxlevel", 95 );
-	m_iHDRLevel = pConfigKeys->GetInt( "setting.mat_hdr_level", 2 );
+	//m_iHDRLevel = pConfigKeys->GetInt( "setting.mat_hdr_level", 2 );
 
 	pConfigKeys->deleteThis();
 
@@ -810,21 +813,18 @@ void Video::Activate( bool bRecommendedSettings )
 			pFlyout->SetListener( this );
 		}
 	}
-
+	
+	// replace this with auto grabbing the fieldName somehow
 	if ( m_drpHDRLevel )
 	{
-		switch ( m_iHDRLevel )
-		{
-		case 0: // remove?
-			m_drpHDRLevel->SetCurrentSelection( "HDRLevel0" );
-			break;
-		case 1:
-			m_drpHDRLevel->SetCurrentSelection( "HDRLevel1" );
-			break;
-		case 2:
-			m_drpHDRLevel->SetCurrentSelection( "HDRLevel2" );
-			break;
-		}
+		char command[256]; // length of command
+		CGameUIConVarRef mat_hdr_level( "mat_hdr_level" );
+		V_snprintf( command, 256, "engine mat_hdr_level %i", mat_hdr_level.GetInt() );
+
+		m_drpHDRLevel->SetCurrentSelection( command );
+
+		// somehow grab the command from the OnCommand Function, and use that command in this maybe
+		// or find a different way to grab the command
 
 		FlyoutMenu *pFlyout = m_drpHDRLevel->GetCurrentFlyout();
 		if ( pFlyout )
@@ -973,12 +973,66 @@ void Video::OnThink()
 		m_drpDXLevel = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpDXLevel" ) );
 		needsActivate = true;
 	}
-
+	
 	if( !m_drpHDRLevel )
 	{
 		m_drpHDRLevel = dynamic_cast< DropDownMenu* >( FindChildByName( "DrpHDRLevel" ) );
+
 		needsActivate = true;
 	}
+
+	/*if( FindChildByControl( "DropDownMenu" ) )
+	{
+		for ( int i = 0; i < GetChildCount(); i++ )
+		{
+			// ALWAYS returns the same value, need to fix that
+			//int index = FindChildIndexByControl( "DropDownMenu" );
+
+			Panel *pChild = GetChild(i);
+			if (!pChild)
+				continue;
+			
+			const char *selectedPanel = FindFieldName( i );
+
+			// supposed to grab the fieldName and make it into a pointer for DropDownMenu
+			// somehow use the panel id and make that into a new DropDownMenu object
+			new DropDownMenu* [i];
+			const DropDownMenu* test[i] = reinterpret_cast< DropDownMenu* >( i );
+
+			// static_cast is const void, not char
+
+			drpCurrent = dynamic_cast< DropDownMenu* >( FindChildByName( selectedPanel ) );
+
+			if ( !V_stricmp( FindFieldName( i ), selectedPanel ) )
+			{
+				// get index of drop down panel?
+				drpCurrent = dynamic_cast< DropDownMenu* >( FindChildByName( selectedPanel ) );
+			}
+
+			// add something here to pause the for loop when i is equal to GetChildCount()
+		}*/
+
+
+			/*if ( V_stricmp( FindFieldName( FindChildIndexByControl( "DropDownMenu" ) ), "DrpHDRLevel" ) )
+			{
+				const char *selectedPanel = FindFieldName( FindChildIndexByControl( "DropDownMenu" ) );
+
+				// get index of drop down panel?
+				m_drpHDRLevel = dynamic_cast< DropDownMenu* >( FindChildByName( selectedPanel ) );
+			}*/
+			//KeyValues *inResourceData;
+
+			//inResourceData->GetString( "fieldName", "" );
+
+			//const char *fieldName = inResourceData->GetString( "fieldName", "" );
+			
+			//vgui::Panel *panel = m_drpCurrent->FindChildByName( selectedPanel );
+			//m_drpCurrent = FindChildByName( selectedPanel );
+
+			//m_drpHDRLevel = dynamic_cast< DropDownMenu* >( FindChildByName( selectedPanel ) );
+		//}
+		//needsActivate = true;
+	//}
 
 	if( !m_btnUseRecommended )
 	{
@@ -1373,7 +1427,7 @@ void Video::OnCommand(const char *command)
 		m_iHDRLevel = 3;
 		m_bDirtyValues = true;
 	}*/
-	else if ( !Q_strcmp( command, "HDRLevel2" ) )
+	/*else if ( !Q_strcmp( command, "HDRLevel2" ) )
 	{
 		m_iHDRLevel = 2;
 		m_bDirtyValues = true;
@@ -1387,7 +1441,7 @@ void Video::OnCommand(const char *command)
 	{
 		m_iHDRLevel = 2;
 		m_bDirtyValues = true;
-	}
+	}*/
 
 	else if( Q_stricmp( "UseRecommended", command ) == 0 )
 	{
@@ -1415,6 +1469,15 @@ void Video::OnCommand(const char *command)
 	{
 		OpenThirdPartyVideoCreditsDialog();
 		FlyoutMenu::CloseActiveMenu();
+	}
+	else if (Q_stricmp(command, "engine "))
+	{
+		const char *engineCMD = strstr(command, "engine ") + strlen("engine ");
+		if (strlen(engineCMD) > 0)
+		{
+			//engine->ClientCmd_Unrestricted(command);
+			engine->ClientCmd_Unrestricted( const_cast<char *> (engineCMD));
+		}
 	}
 	else
 	{
@@ -1794,7 +1857,7 @@ void Video::ApplyChanges()
 	mat_dxlevel.SetValue( m_iDXLevel );
 
 	CGameUIConVarRef mat_hdr_level( "mat_hdr_level" );
-	mat_hdr_level.SetValue( m_iHDRLevel );
+	mat_hdr_level.SetValue( mat_hdr_level.GetInt() );
 
 	// apply changes
 	engine->ClientCmd_Unrestricted( "mat_savechanges\n" );
